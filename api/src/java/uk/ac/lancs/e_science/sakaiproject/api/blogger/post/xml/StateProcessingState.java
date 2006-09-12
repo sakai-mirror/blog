@@ -50,12 +50,12 @@ public class StateProcessingState implements XMLPostContentHandleState {
             return this;
         }
         if (localName.equals("readOnly")){
-            _stateUnderConstruction.setReadOnly(Boolean.parseBoolean(_currentText));
+            _stateUnderConstruction.setReadOnly(parseBoolean(_currentText));
             _currentText = new String();
             return this;
         }
         if (localName.equals("allowComments")){
-            _stateUnderConstruction.setAllowComments(Boolean.parseBoolean(_currentText));
+            _stateUnderConstruction.setAllowComments(parseBoolean(_currentText));
             _currentText = new String();
             return this;
         }
@@ -68,5 +68,19 @@ public class StateProcessingState implements XMLPostContentHandleState {
             _currentText+=new String(ch,start, length);
         }
         return this;
+    }
+
+    private boolean parseBoolean(String parseString) {
+
+      if("true".equals(parseString)) {
+
+        return true;
+
+      } else {
+
+        return false;
+
+      } 
+
     }
 }

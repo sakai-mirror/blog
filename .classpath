@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="tool/src/java"/>
+	<classpathentry kind="src" path="api/src/java"/>
+	<classpathentry kind="src" path="api-impl/src/java"/>
+	<classpathentry kind="src" path="fileUpload/src/java"/>
+	<classpathentry kind="src" path="jsfComponent/src/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/commons-beanutils/jars/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/commons-digester/jars/commons-digester-1.6.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/jsf/jars/jsf-impl-1.1.01.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/jsf/jars/jsf-api-1.1.01.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/jstl/jars/jstl-1.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/xerces/jars/xercesImpl-2.6.2.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/servletapi/jars/servletapi-2.3.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/commons-fileupload/jars/commons-fileupload-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/commons-logging/jars/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/myfaces/jars/tomahawk-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-blogger-api-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-jsf-app-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-jsf-tool-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-jsf-widgets-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-jsf-widgets-sun-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-user-api-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-tool-api-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-util-api-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-entity-api-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-component-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/miguel/.maven/repository/sakaiproject/jars/sakai-db-api-2.2.1.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

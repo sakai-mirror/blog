@@ -65,7 +65,7 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
 
 	<managed-bean>
   		<managed-bean-name>query</managed-bean-name>
-    	<managed-bean-class>uk.ac.lancs.e_science.sakaiproject.service.blogger.searcher.QueryBean</managed-bean-class>
+    	<managed-bean-class>uk.ac.lancs.e_science.sakaiproject.api.blogger.searcher.QueryBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 

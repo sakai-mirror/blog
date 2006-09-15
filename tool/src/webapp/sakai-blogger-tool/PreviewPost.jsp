@@ -35,6 +35,7 @@
 			<sakai:view_content>
 				<sakai:messages />
 				<blogger:ouputPost post="#{previewPostController.post}">
+
 				</blogger:ouputPost>
 	            <sakai:button_bar>
                     <sakai:button_bar_item action="#{previewPostController.doBack}" value="Back"/>
@@ -44,4 +45,6 @@
 		</h:form>
 	</sakai:view_container>
 </f:view>
+
+
 

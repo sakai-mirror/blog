@@ -16,24 +16,23 @@
  *************************************************************************************/
 package uk.ac.lancs.e_science.sakai.tools.blogger.cacheForImages;
 
-import java.util.Date;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Image;
 
 public class CacheForImagesEntry {
-	private Date lastAccess;
+	private long lastAccess;
 	private Image image;
 	
 	public CacheForImagesEntry(Image image){
 		this.image = image;
-		lastAccess=new Date();
+		lastAccess= System.currentTimeMillis();
 	}
 	
 	public void updateLastAccess(){
-		lastAccess=new Date();
+		lastAccess=System.currentTimeMillis();
 	}
 	public long getMilliseconds(){
-		return lastAccess.getTime();
+		return lastAccess;
 	}
 	public Image getImage(){
 		return image;

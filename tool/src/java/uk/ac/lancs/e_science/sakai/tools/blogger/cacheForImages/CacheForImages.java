@@ -30,7 +30,8 @@ public class CacheForImages {
 	private CacheForImages(){
 		tableImages = new Hashtable();
 		timer = new Timer(true); //as daemon
-		timer.scheduleAtFixedRate(new DeadReferencesRecolector(this),0,10*60*1000); //each 10 minutes
+		long delay = 1000*60; //60 seconds delay 
+		timer.scheduleAtFixedRate(new DeadReferencesRecolector(this),delay,10*60*1000); //each 1 minutes
 	}
 	public synchronized static CacheForImages getInstance(){
 		if (imageCache==null)
@@ -44,7 +45,7 @@ public class CacheForImages {
 	public Image getImage(String id){
 		if (tableImages.get(id)==null){ //TODO:improve this
 			tableImages.remove(id);
-			//System.out.println("ERROR: CacheForImages is trying to access a non existing reference:"+id);
+			System.out.println("ERROR: CacheForImages is trying to access a non existing reference:"+id);
 			return null;
 		}
 		((CacheForImagesEntry)tableImages.get(id)).updateLastAccess();

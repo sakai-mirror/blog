@@ -17,7 +17,6 @@
 package uk.ac.lancs.e_science.sakai.tools.blogger.cacheForImages;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -30,13 +29,13 @@ public class DeadReferencesRecolector extends TimerTask{
 		this.cache = cache;
 	}
 	public void run(){
-		long currentMilliseconds = new Date().getTime();
+		long currentMilliseconds = System.currentTimeMillis();
 		Hashtable table = cache.getTable();
 		Enumeration elements = table.elements();
 		ArrayList toDeleting = new ArrayList();
 		while (elements.hasMoreElements()){
 			CacheForImagesEntry entry = (CacheForImagesEntry)elements.nextElement();
-			if (currentMilliseconds-entry.getMilliseconds()<TIME)
+			if (currentMilliseconds-entry.getMilliseconds()>TIME)
 				toDeleting.add(entry);
 		}
 		Iterator it = toDeleting.iterator();

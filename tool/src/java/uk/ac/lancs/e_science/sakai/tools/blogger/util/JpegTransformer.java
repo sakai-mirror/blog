@@ -202,7 +202,7 @@ public class JpegTransformer {
 		    BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 			
 		    Graphics2D graphics2D = newImage.createGraphics();
-		    graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		    graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		    graphics2D.drawImage(image, 0, 0, width, height, null);	
 		   
 		    ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -228,7 +228,7 @@ public class JpegTransformer {
 		    BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 			
 		    Graphics2D graphics2D = newImage.createGraphics();
-		    graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		    graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		    graphics2D.drawImage(image, 0, 0, width, height, null);	
 		   
 		    OutputStream out = new FileOutputStream( targetFile);

@@ -198,9 +198,7 @@ public class UIEditPost extends UIOutput{
 		writer.startElement("table",this);
 		writer.startElement("tr",this);
 		writer.startElement("td",this);
-		writer.startElement("img",this);
-		writer.writeAttribute("src",contextPath+"/servletForImages?idImage="+image.getIdImage()+"&size=thumbnail",null);
-		writer.endElement("img");
+		writer.write("<img src='"+contextPath+"/servletForImages?idImage="+image.getIdImage()+"&size=thumbnail'"+"/>"); //we dont use writeAtrribute because it will transform the & to &amp;
 		writer.endElement("td");
 		writer.startElement("td",this);
 		writer.write(image.getDescription());

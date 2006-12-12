@@ -47,15 +47,15 @@ public class PostEditionAbstractController extends BloggerController implements 
 	protected Post post;
 	protected Blogger blogger;
 	
-    protected String editingText=null;
-    protected Image editingImage = null;
+    protected String editedText=null;
+    protected Image editedImage = null;
     protected String imageDescription=null;
     
-    protected File editingFile=null;
+    protected File editedFile=null;
     protected String fileDescription=null;
 
-    protected String editingLinkExpression=null;
-    protected String editingLinkDescription=null;
+    protected String editedLinkExpression=null;
+    protected String editedLinkDescription=null;
     
     protected int currentElementIndex=-1;
     protected String elementTypeUnderEdition = null;
@@ -160,14 +160,16 @@ public class PostEditionAbstractController extends BloggerController implements 
 	    	try{
 	    		if (content!=null){
 	    			if (content.length<4*1024*1024){ //TODO put that 4 Mb in a property
-		    			editingImage = new Image(fileItem.getName(),content);
+		    			editedImage = new Image(fileItem.getName(),content);
 		    			imageDescription = fileItem.getName();
+			    		if (imageDescription.indexOf(":\\")==1) //we assume that is a windows file comming from ie
+			    			imageDescription = imageDescription.substring(imageDescription.lastIndexOf("\\")+1);		    			
 		    			JpegTransformer transformer = new JpegTransformer(content);
-		    			editingImage.setDescription(imageDescription);
-		    			editingImage.setThumbnail(transformer.transformJpegFixingLongestDimension(125,0.8f));
-		    			editingImage.setWebsize(transformer.transformJpegFixingLongestDimension(300,0.8f));
+		    			editedImage.setDescription(imageDescription);
+		    			editedImage.setThumbnail(transformer.transformJpegFixingLongestDimension(125,0.8f));
+		    			editedImage.setWebsize(transformer.transformJpegFixingLongestDimension(300,0.8f));
 	    			}else{
-	    	    		editingImage = null;
+	    	    		editedImage = null;
 	    	    		imageDescription="";
 	    	    		setFile(fileItem.getName(),content);
 	    	        	treatingImageAsFile=true;
@@ -175,7 +177,7 @@ public class PostEditionAbstractController extends BloggerController implements 
 	    		}
 	    	} catch (Exception e){
 	    		//if we can not treat the Image because of the format, it will be treat as a file
-	    		editingImage = null;
+	    		editedImage = null;
 	    		imageDescription="";
 	    		setFile(fileItem.getName(),content);
 	        	treatingImageAsFile=true;
@@ -189,9 +191,9 @@ public class PostEditionAbstractController extends BloggerController implements 
     	}
     	else{
 	    	resetCurrentElementIndex();
-			post.addElement(editingImage);
+			post.addElement(editedImage);
 			CacheForImages imageCache = CacheForImages.getInstance();
-			imageCache.addImage(editingImage);
+			imageCache.addImage(editedImage);
 	    	deactivateModifiyButtons();
 	    	resetFields();
 	    	isChanged = true;
@@ -201,11 +203,11 @@ public class PostEditionAbstractController extends BloggerController implements 
     
     public String modifyImage(){
 		CacheForImages imageCache = CacheForImages.getInstance();
-    	if (editingImage!=null){
+    	if (editedImage!=null){
     		imageCache.removeImage(((Image)post.getElements()[currentElementIndex]).getIdImage());
-    		post.replaceElement(editingImage,currentElementIndex);
-    		imageCache.addImage(editingImage);
-    		editingImage=null;
+    		post.replaceElement(editedImage,currentElementIndex);
+    		imageCache.addImage(editedImage);
+    		editedImage=null;
     	}
     	deactivateModifiyButtons();
     	isChanged = true;
@@ -226,7 +228,10 @@ public class PostEditionAbstractController extends BloggerController implements 
     	if (i!=null && i.get()!=null && i.get().length>0){
 	    	try{
 	    		byte[] content = i.get();
-	    		setFile(i.getName(),content);
+	    		String name = i.getName();
+	    		if (name.indexOf(":\\")==1) //we assume that is a windows file comming from ie
+	    			name = name.substring(name.lastIndexOf("\\")+1);
+	    		setFile(name,content);
 	    	} catch (Exception e){
 	    		e.printStackTrace();
 	    	}
@@ -235,15 +240,15 @@ public class PostEditionAbstractController extends BloggerController implements 
     
     private void setFile(String fileName, byte[] content){
     	if (content!=null){
-    		editingFile = new File(fileName,content);
+    		editedFile = new File(fileName,content);
     	}
 		fileDescription = fileName;
-		editingFile.setDescription(fileDescription);
+		editedFile.setDescription(fileDescription);
     }
     
     public String addFile(){
     	resetCurrentElementIndex();
-		post.addElement(editingFile);
+		post.addElement(editedFile);
     	deactivateModifiyButtons();
     	resetFields();
     	isChanged = true;
@@ -251,9 +256,9 @@ public class PostEditionAbstractController extends BloggerController implements 
     }
     
     public String modifyFile(){
-    	if (editingFile!=null){
-    		post.replaceElement(editingFile,currentElementIndex);
-    		editingFile=null;
+    	if (editedFile!=null){
+    		post.replaceElement(editedFile,currentElementIndex);
+    		editedFile=null;
     	}
     	deactivateModifiyButtons();
     	isChanged = true;
@@ -273,20 +278,20 @@ public class PostEditionAbstractController extends BloggerController implements 
     	panel.setSelectedIndex(INDEX_LINK);    	
 
     	resetCurrentElementIndex();
-    	if (editingLinkDescription!=null && editingLinkExpression!=null){
-    		post.addElement(new LinkRule(editingLinkDescription,editingLinkExpression));
-    		editingLinkDescription=null;
-    		editingLinkExpression=null;
+    	if (editedLinkDescription!=null && editedLinkExpression!=null){
+    		post.addElement(new LinkRule(editedLinkDescription,editedLinkExpression));
+    		editedLinkDescription=null;
+    		editedLinkExpression=null;
     	}
     	deactivateModifiyButtons();
     	isChanged = true;
     	return "";  	
     }
     public String modifyLink(){
-    	if (editingLinkDescription!=null && editingLinkExpression!=null){
-    		post.replaceElement(new LinkRule(editingLinkDescription,editingLinkExpression),currentElementIndex);
-    		editingLinkDescription=null;
-    		editingLinkExpression=null;
+    	if (editedLinkDescription!=null && editedLinkExpression!=null){
+    		post.replaceElement(new LinkRule(editedLinkDescription,editedLinkExpression),currentElementIndex);
+    		editedLinkDescription=null;
+    		editedLinkExpression=null;
     	}
     	isChanged = true;
     	deactivateModifiyButtons();
@@ -295,7 +300,7 @@ public class PostEditionAbstractController extends BloggerController implements 
     
     
     public String getLinkDescription(){
-    	return editingLinkDescription;
+    	return editedLinkDescription;
     }
 
     public void setLinkDescription(String linkDescription ){
@@ -303,11 +308,11 @@ public class PostEditionAbstractController extends BloggerController implements 
     		desactivateSetEditingLinkDecription = false;
     		return;
     	}
-    	editingLinkDescription=linkDescription;
+    	editedLinkDescription=linkDescription;
     }
     
     public String getLinkExpression(){
-    	return editingLinkExpression;
+    	return editedLinkExpression;
     }
     
     public void setLinkExpression(String linkExpression ){
@@ -315,7 +320,7 @@ public class PostEditionAbstractController extends BloggerController implements 
     		desactivateSetEditingLinkExpression=false;
     		return;
     	}
-    	editingLinkExpression = linkExpression;
+    	editedLinkExpression = linkExpression;
     }    
     //-----------------------------------------------------------------
     //---------- SHORT TEXT OR ABSTRACT--------------------------------
@@ -333,18 +338,18 @@ public class PostEditionAbstractController extends BloggerController implements 
 
     public String addParagraph(){
     	resetCurrentElementIndex();
-    	if (editingText!=null && !editingText.trim().equals(""))
-    		post.addElement(new Paragraph(editingText));
-    	editingText="";
+    	if (editedText!=null && !editedText.trim().equals(""))
+    		post.addElement(new Paragraph(editedText));
+    	editedText="";
     	deactivateModifiyButtons();
     	isChanged = true;
     	return "";
     }
     
     public String modifyParagraph(){
-    	if (editingText!=null && !editingText.trim().equals(""))
-    		post.replaceElement(new Paragraph(editingText),currentElementIndex);
-    	editingText="";
+    	if (editedText!=null && !editedText.trim().equals(""))
+    		post.replaceElement(new Paragraph(editedText),currentElementIndex);
+    	editedText="";
     	deactivateModifiyButtons();
     	isChanged = true;
     	return "";
@@ -353,11 +358,11 @@ public class PostEditionAbstractController extends BloggerController implements 
 		if (desactivateSetEditingText)
 			desactivateSetEditingText=false;
 		else{
-			this.editingText = editingText.trim();
+			this.editedText = editingText.trim();
 		}
     }
     public String getEditingText(){
-    	return editingText;
+    	return editedText;
     }
     //-----------------------------------------------------------------
     //-----------------------------------------------------------------
@@ -373,31 +378,31 @@ public class PostEditionAbstractController extends BloggerController implements 
 			deactivateModifiyButtons();
 			PostElement element = post.getElements()[currentElementIndex];
 			if (element instanceof Paragraph){
-				editingText = ((Paragraph)element).getText();
+				editedText = ((Paragraph)element).getText();
 				showModifyParagraphButton = true;
-				editingImage=null;
+				editedImage=null;
 		    	panel.setSelectedIndex(INDEX_TEXT);    	
 			}
 			if (element instanceof Image){
-				editingImage = (Image) element;
-				imageDescription = editingImage.getDescription();
+				editedImage = (Image) element;
+				imageDescription = editedImage.getDescription();
 				showModifyImageButton=true;
-				editingText="";
+				editedText="";
 		    	panel.setSelectedIndex(INDEX_IMG);    	
 			}
 			if (element instanceof LinkRule){
-				editingLinkDescription = ((LinkRule) element).getDescription();
-				editingLinkExpression = ((LinkRule) element).getLinkExpression();
+				editedLinkDescription = ((LinkRule) element).getDescription();
+				editedLinkExpression = ((LinkRule) element).getLinkExpression();
 				showModifyLinkButton = true;
-				editingText="";
+				editedText="";
 		    	panel.setSelectedIndex(INDEX_LINK);    	
 				
 			}
 			if (element instanceof File){
-				editingFile = (File) element;
-			    fileDescription=editingFile.getDescription();
+				editedFile = (File) element;
+			    fileDescription=editedFile.getDescription();
 				showModifyFileButton = true;
-				editingText="";
+				editedText="";
 		    	panel.setSelectedIndex(INDEX_FILE);    	
 			}
 		}
@@ -475,11 +480,11 @@ public class PostEditionAbstractController extends BloggerController implements 
 		this.currentElementIndex = -1;
 	}
 	protected void resetFields(){
-		editingText="";
-		editingImage=null;
-		editingLinkDescription = null;
-		editingLinkExpression = null;
-		editingFile=null;
+		editedText="";
+		editedImage=null;
+		editedLinkDescription = null;
+		editedLinkExpression = null;
+		editedFile=null;
 		fileDescription=null;
 	}	
 	

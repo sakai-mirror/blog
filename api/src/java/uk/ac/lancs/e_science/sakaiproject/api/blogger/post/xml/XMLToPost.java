@@ -30,7 +30,7 @@ import java.io.IOException;
 public class XMLToPost {
     public Post convertXMLInPost(String xml){
 
-        String parserClass = "org.apache.xerces.parsers.SAXParser";
+        String parserClass = "com.sun.org.apache.xerces.internal.parsers.SAXParser";
         try{
             XMLReader reader = XMLReaderFactory.createXMLReader(parserClass);
             XMLPostContentHandler ch = new XMLPostContentHandler();

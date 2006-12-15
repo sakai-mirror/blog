@@ -11,7 +11,6 @@
 	<classpathentry kind="var" path="MAVEN_REPO/jsf/jars/jsf-impl-1.1.01.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/jsf/jars/jsf-api-1.1.01.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/jstl/jars/jstl-1.1.2.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/xerces/jars/xercesImpl-2.6.2.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/servletapi/jars/servletapi-2.4.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-fileupload/jars/commons-fileupload-1.0.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-logging/jars/commons-logging-1.0.4.jar"/>

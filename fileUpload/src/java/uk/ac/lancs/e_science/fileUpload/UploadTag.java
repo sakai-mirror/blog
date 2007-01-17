@@ -20,7 +20,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.webapp.UIComponentTag;
 
 
-public class UploadTag extends UIComponentTag { 
+public class UploadTag extends UIComponentTag{ 
    private String value;
    private String target;
    

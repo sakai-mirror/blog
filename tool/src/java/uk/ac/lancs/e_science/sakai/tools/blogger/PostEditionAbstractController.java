@@ -166,8 +166,8 @@ public class PostEditionAbstractController extends BloggerController implements 
 			    			imageDescription = imageDescription.substring(imageDescription.lastIndexOf("\\")+1);		    			
 		    			JpegTransformer transformer = new JpegTransformer(content);
 		    			editedImage.setDescription(imageDescription);
-		    			editedImage.setThumbnail(transformer.transformJpegFixingLongestDimension(125,0.8f));
-		    			editedImage.setWebsize(transformer.transformJpegFixingLongestDimension(300,0.8f));
+		    			editedImage.setImageContentWithThumbnailSize(transformer.transformJpegFixingLongestDimension(125,0.8f));
+		    			editedImage.setImageContentWithWebSize(transformer.transformJpegFixingLongestDimension(300,0.8f));
 	    			}else{
 	    	    		editedImage = null;
 	    	    		imageDescription="";

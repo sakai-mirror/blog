@@ -34,7 +34,7 @@ public class Image extends PostElement{
 		this.content = content;
 	}
 	public void setIdImage(String idImage){
-		this.idImage = idImage;
+		this.idImage = idImage.trim();
 		
 	}
 	public String getIdImage(){
@@ -46,16 +46,16 @@ public class Image extends PostElement{
 	public byte[] getContent(){
 		return content;
 	}
-	public void setThumbnail(byte[] thumbnail){
+	public void setImageContentWithThumbnailSize(byte[] thumbnail){
 		this.thumbnail = thumbnail;
 	}
-	public byte[] getThumbnail(){
+	public byte[] getImageContentWithThumbnailSize(){
 		return thumbnail;
 	}	
-	public void setWebsize(byte[] websize){
+	public void setImageContentWithWebSize(byte[] websize){
 		this.websize = websize;
 	}
-	public byte[] getWebsize(){
+	public byte[] getImageContentWithWebSize(){
 		return websize;
 	}	
 	public void setDescription(String description){

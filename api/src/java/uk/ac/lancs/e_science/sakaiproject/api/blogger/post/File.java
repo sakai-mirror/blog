@@ -34,7 +34,7 @@ public class File extends PostElement{
 		this.content = content;
 	}
 	public void setIdFile(String idFile){
-		this.idFile = idFile;
+		this.idFile = idFile.trim();
 		
 	}
 	public String getIdFile(){

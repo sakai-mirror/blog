@@ -183,7 +183,7 @@ public class Post {
     	Image[] images = this.getImages();
     	
     	for (int i=0;i<images.length;i++){
-    		if (images[i].getIdImage().equals(imageId))
+    		if (images[i].getIdImage().equals(imageId.trim()))
     			return true;
     	}
     	return false;
@@ -193,7 +193,7 @@ public class Post {
     		return false;
     	File[] files= this.getFiles();
     	for (int i=0;i<files.length;i++){
-    		if (files[i].getIdFile().equals(fileId))
+    		if (files[i].getIdFile().equals(fileId.trim()))
     			return true;
     	}
     	return false;

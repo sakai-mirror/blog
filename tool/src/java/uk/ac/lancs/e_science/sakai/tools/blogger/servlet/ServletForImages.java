@@ -71,9 +71,9 @@ public class ServletForImages extends HttpServlet {
 		if (size!=null && size.equals("original"))
 			bimage = ImageIO.read(new ByteArrayInputStream(image.getContent()));
 		else if (size!=null && size.equals("thumbnail"))
-			bimage = ImageIO.read(new ByteArrayInputStream(image.getThumbnail()));
+			bimage = ImageIO.read(new ByteArrayInputStream(image.getImageContentWithThumbnailSize()));
 		else
-			bimage = ImageIO.read(new ByteArrayInputStream(image.getWebsize()));
+			bimage = ImageIO.read(new ByteArrayInputStream(image.getImageContentWithWebSize()));
 		
 		if (bimage!=null){
 			OutputStream out = response.getOutputStream();

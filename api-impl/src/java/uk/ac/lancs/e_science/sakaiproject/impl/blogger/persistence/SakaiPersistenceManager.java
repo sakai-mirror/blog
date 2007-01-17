@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
+import java.io.ByteArrayInputStream;
 import java.sql.*;
 
 import org.sakaiproject.db.api.SqlService;
@@ -88,12 +89,12 @@ public class SakaiPersistenceManager{
             			executeSQL(sqlGenerator.getDeleteStatementForImage(imageId),connection);
             	}
             	if (post.getImages()!=null){
-	        		ArrayList imagesToInserting = new ArrayList();
+	        		ArrayList imagesToInsert = new ArrayList();
 	            	for (int i=0;i<post.getImages().length;i++){
 	            		if (!imagesIdInDb.contains(post.getImages()[i].getIdImage()))
-	            			imagesToInserting.add(post.getImages()[i]);
+	            			imagesToInsert.add(post.getImages()[i]);
 	            	}
-	        		executeSQL(sqlGenerator.getInsertStatementsForImages((Image[])imagesToInserting.toArray(new Image[0]),post.getOID(),connection),connection);
+	        		executeSQL(sqlGenerator.getInsertStatementsForImages((Image[])imagesToInsert.toArray(new Image[0]),post.getOID(),connection),connection);
             	}
                 //Now... Files ... We need be more efficient.
             	Collection filesIdInDb = getIdFiles(post);
@@ -104,12 +105,12 @@ public class SakaiPersistenceManager{
             			executeSQL(sqlGenerator.getDeleteStatementForFile(fileId),connection);
             	}
             	if (post.getFiles()!=null){
-            		ArrayList filesToInserting = new ArrayList();
+            		ArrayList filesToInsert = new ArrayList();
             		for (int i=0;i<post.getFiles().length;i++){
             			if (!filesIdInDb.contains(post.getFiles()[i].getIdFile()))
-            				filesToInserting.add(post.getFiles()[i]);
+            				filesToInsert.add(post.getFiles()[i]);
             		}           	
-            		executeSQL(sqlGenerator.getInsertStatementsForFiles((File[])filesToInserting.toArray(new File[0]),post.getOID(),connection),connection);
+            		executeSQL(sqlGenerator.getInsertStatementsForFiles((File[])filesToInsert.toArray(new File[0]),post.getOID(),connection),connection);
             	}
             }
         } catch (SQLException e){
@@ -201,7 +202,7 @@ public class SakaiPersistenceManager{
             try{
                 ResultSet rs = executeQuerySQL(sqlGenerator.getSelectIdImagesFromPost(post), connection);
                 while (rs.next()){
-                	result.add(rs.getString(1));
+                	result.add(rs.getString(1).trim());
                 }
                 return result;
             } catch (SQLException e){
@@ -224,12 +225,24 @@ public class SakaiPersistenceManager{
                 if (!rs.next())
                 	return null;
                 //we only need recover the content
-                if (size==Blogger.ORIGINAL||size==Blogger.ALL)
-                	image.setContent(rs.getBytes(3));
-                if (size==Blogger.THUMBNAIL||size==Blogger.ALL)
-                	image.setThumbnail(rs.getBytes(4));
-                if (size==Blogger.WEB||size==Blogger.ALL)
-                	image.setWebsize(rs.getBytes(5));
+                if (size==Blogger.ORIGINAL||size==Blogger.ALL){ 
+                	Blob blob = rs.getBlob(ISQLGenerator.IMAGE_CONTENT);
+                	int length = (int)blob.length();
+                	byte[] b = blob.getBytes(1,length);
+                	image.setContent(b);
+                }
+                if (size==Blogger.THUMBNAIL||size==Blogger.ALL){
+                	Blob blob = rs.getBlob(ISQLGenerator.THUMBNAIL_IMAGE);
+                	int length = (int)blob.length();
+                	byte[] b = blob.getBytes(1,length);
+                	image.setImageContentWithThumbnailSize(b);
+                }
+                if (size==Blogger.WEB||size==Blogger.ALL){
+                	Blob blob = rs.getBlob(ISQLGenerator.WEBSIZE_IMAGE);
+                	int length = (int)blob.length();
+                	byte[] b = blob.getBytes(1,length);
+                	image.setImageContentWithWebSize(b);
+            	}
                 return image;
             } catch (SQLException e){
                 throw new PersistenceException();
@@ -252,7 +265,7 @@ public class SakaiPersistenceManager{
             try{
                 ResultSet rs = executeQuerySQL(sqlGenerator.getSelectIdFilesFromPost(post), connection);
                 while (rs.next()){
-                	result.add(rs.getString(1));
+                	result.add(rs.getString(1).trim());
                 }
                 return result;
             } catch (SQLException e){
@@ -275,7 +288,8 @@ public class SakaiPersistenceManager{
                 if (!rs.next())
                 	return null;
                 //we only need recover the content
-                file.setContent(rs.getBytes(3));
+                Blob blob = rs.getBlob(3);
+                file.setContent(blob.getBytes(1,(int)blob.length()));
                 return file;
             } catch (SQLException e){
                 throw new PersistenceException();
@@ -320,7 +334,7 @@ public class SakaiPersistenceManager{
             	} else if (sentence instanceof PreparedStatement){ 
             		try{
             			PreparedStatement statement = (PreparedStatement)sentence;
-            			//we use preparede statements to insert or update data with BLOB
+            			//we use prepared statements to insert or update data with BLOB
             			connection.setAutoCommit(true); 
             			statement.executeUpdate();
             			connection.setAutoCommit(autocommit);

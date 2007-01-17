@@ -310,8 +310,8 @@ public class SQLGenerator implements ISQLGenerator{
 	       	statement.setString(1,id);
 	       	statement.setString(2,postOID);
 	       	statement.setBytes(3,images[i].getContent());
-        	statement.setBytes(4,images[i].getThumbnail());
-        	statement.setBytes(5,images[i].getWebsize());
+        	statement.setBytes(4,images[i].getImageContentWithThumbnailSize());
+        	statement.setBytes(5,images[i].getImageContentWithWebSize());
 	       	result.add(statement);
 	    }
 	    return result;

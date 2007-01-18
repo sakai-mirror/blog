@@ -253,6 +253,16 @@
            	<version>2.4</version>
            	<type>jar</type>
        	</dependency>	
+       	
+		<dependency>
+        	<groupId>commons-io</groupId>
+           	<artifactId>commons-io</artifactId>
+           	<version>1.2</version>
+           	<type>jar</type>
+           	<properties>
+               <war.bundle>true</war.bundle>
+           	</properties>           	
+       	</dependency>	       	
        	       	
     </dependencies>
     

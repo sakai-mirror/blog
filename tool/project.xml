@@ -235,7 +235,17 @@
            <properties>
                <war.bundle>true</war.bundle>
            </properties>           	
-       	</dependency>		
+       	</dependency>	
+       	
+		<dependency>
+        	<groupId>commons-io</groupId>
+           	<artifactId>commons-io</artifactId>
+           	<version>1.2</version>
+           	<type>jar</type>
+           	<properties>
+               <war.bundle>true</war.bundle>
+           	</properties>           	
+       	</dependency>	       		
 		
 		<dependency>
         	<groupId>servletapi</groupId>

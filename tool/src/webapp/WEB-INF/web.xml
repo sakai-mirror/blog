@@ -84,7 +84,7 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
 	</filter> 
 	<filter>
 		<filter-name>MyFacesExtensionsFilter</filter-name>
-		<filter-class>org.apache.myfaces.component.html.util.ExtensionsFilter</filter-class>
+		<filter-class>org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
 	</filter>
 	  
 	

@@ -19,6 +19,7 @@ package uk.ac.lancs.e_science.sakai.tools.blogger;
 
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Comment;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.BloggerManager;
@@ -49,7 +50,7 @@ public class AddCommentController extends BloggerController{
     }
     public String doSaveComment(){
         Comment comment = new Comment(commentText);
-        blogger.addCommentToPost(comment, post.getOID(),getCurretUserId(), getCurrentSiteId());
+        blogger.addCommentToPost(comment, post.getOID(),SakaiProxy.getCurretUserEid(), SakaiProxy.getCurrentSiteId());
         return "viewPost";
 
     }

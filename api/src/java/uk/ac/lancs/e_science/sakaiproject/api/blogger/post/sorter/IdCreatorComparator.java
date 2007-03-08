@@ -26,7 +26,7 @@ public class IdCreatorComparator implements Comparator{
     public int compare(Object o, Object o1) {
         Post post1 = (Post) o;
         Post post2 = (Post) o1;
-        return post1.getCreator().getId().compareTo(post2.getCreator().getId());
+        return post1.getCreator().getDisplayName().compareTo(post2.getCreator().getDisplayName());
       }
 }
 

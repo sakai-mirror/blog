@@ -18,6 +18,8 @@ package uk.ac.lancs.e_science.jsf.components.blogger;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Locale;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIOutput;
@@ -41,15 +43,24 @@ public class UIEditPost extends UIOutput{
 	private static final String UP_CAPTION="Up";
 	private static final String DOWN_CAPTION="Down";
 	
+	
 	private Post post = null;
 	private IBloggerJSFEditionController controller = null;
 	private String contextPath=null;
+	private ResourceBundle messages;
+	
 	public void encodeBegin(FacesContext context) throws IOException{
 		ResponseWriter writer = context.getResponseWriter();
 		writer.startElement("div",this);
 		post = (Post)getAttributes().get("post");
 		controller = (IBloggerJSFEditionController)getAttributes().get("controller");
 		HttpServletRequest req =((HttpServletRequest)context.getExternalContext().getRequest());
+		
+	    Application application = context.getApplication( );
+        String messageBundleName = application.getMessageBundle( );
+
+        Locale locale = context.getViewRoot( ).getLocale( );
+        messages = ResourceBundle.getBundle(messageBundleName, locale);
 		contextPath = req.getContextPath();
 		if (post!=null){
 			writePost(writer, post);
@@ -125,17 +136,17 @@ public class UIEditPost extends UIOutput{
 		
 		writer.startElement("td",this);
 		writer.writeAttribute("class","tdHeader tdH1",null);
-		writer.write("Index");
+		writer.write(messages.getString("index"));
 		writer.endElement("td");
 
 		writer.startElement("td",this);
 		writer.writeAttribute("class","tdHeader tdH2",null);
-		writer.write("Element");
+		writer.write(messages.getString("element"));
 		writer.endElement("td");
 		
 		writer.startElement("td",this);
 		writer.writeAttribute("class","tdHeader tdH3",null);
-		writer.write("Commands");
+		writer.write(messages.getString("commands"));
 		writer.endElement("td");
 
 		writer.endElement("td");
@@ -153,11 +164,11 @@ public class UIEditPost extends UIOutput{
 		writer.startElement("tr",null); //------------------------- 1
 		
 		writer.startElement("td",this); //------------------------- 2
-		renderButton(writer,"Edit","Edit",elementIndex);
+		renderButton(writer,"Edit",messages.getString("edit"),elementIndex);
 		writer.endElement("td"); //-------------------------------- 2#
 		
 		writer.startElement("td",this); //------------------------- 3
-		renderButton(writer,"Delete","Delete",elementIndex);
+		renderButton(writer,"Delete",messages.getString("delete"),elementIndex);
 		writer.endElement("td"); //-------------------------------- 3#
 		
 		writer.startElement("td",this); //------------------------- 4
@@ -213,7 +224,7 @@ public class UIEditPost extends UIOutput{
 		writer.startElement("table",this);
 		writer.startElement("tr",this);
 		writer.startElement("td",this);
-		writer.write("Link description:");
+		writer.write(messages.getString("linkDescription")+":");
 		writer.endElement("td");
 		writer.startElement("td",this);
 		writer.write(link.getDescription());
@@ -221,7 +232,7 @@ public class UIEditPost extends UIOutput{
 		writer.endElement("tr");
 		writer.startElement("tr",this);
 		writer.startElement("td",this);
-		writer.write("Link URL:");
+		writer.write(messages.getString("linkURL")+":");
 		writer.endElement("td");
 		writer.startElement("td",this);
 		writer.write(link.getLinkExpression());

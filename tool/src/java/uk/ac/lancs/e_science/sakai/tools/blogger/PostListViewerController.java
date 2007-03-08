@@ -24,6 +24,7 @@ import javax.faces.model.SelectItem;
 import javax.servlet.ServletRequest;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.State;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.sorter.DateComparator;
@@ -87,7 +88,7 @@ public class PostListViewerController extends BloggerController{
 
     public void loadAllPost(){
     	
-    	Post[] posts = blogger.getPosts(getCurrentSiteId(),getCurretUserId());
+    	Post[] posts = blogger.getPosts(SakaiProxy.getCurrentSiteId(),SakaiProxy.getCurretUserEid());
     	if (posts!=null)
     		postList = Arrays.asList(posts);
     	else
@@ -127,7 +128,7 @@ public class PostListViewerController extends BloggerController{
     }
     
     public Post[] getLastPosts(){
-    	Post[] posts = blogger.getPosts(getCurrentSiteId(),getCurretUserId());
+    	Post[] posts = blogger.getPosts(SakaiProxy.getCurrentSiteId(),SakaiProxy.getCurretUserEid());
     	if (posts==null)
     		return new Post[0];
     	if (posts!=null && posts.length>=20){
@@ -143,7 +144,7 @@ public class PostListViewerController extends BloggerController{
     public String doSearch(){
 
         QueryBean query = (QueryBean) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("query");
-        Post[] result = blogger.searchPosts(query, getCurrentSiteId(), getCurretUserId());
+        Post[] result = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurretUserEid());
         if (result==null)
         	postList = new ArrayList(); //empty list
         else

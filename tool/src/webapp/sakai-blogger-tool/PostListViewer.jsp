@@ -97,7 +97,7 @@
                             <h:outputText value="#{msgs.postCreator}"/>
                         </h:commandLink>
                     </f:facet>
-                    <h:outputText value="#{post.creator.id}">
+                    <h:outputText value="#{post.creator.displayName}">
                     </h:outputText>
                 </h:column>
                  <h:column>

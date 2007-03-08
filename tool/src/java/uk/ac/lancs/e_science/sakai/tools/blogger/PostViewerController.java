@@ -24,6 +24,7 @@ import javax.faces.el.ValueBinding;
 import javax.servlet.ServletRequest;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.BloggerManager;
 
@@ -46,7 +47,7 @@ public class PostViewerController extends BloggerController{
         if (post!=null){
         	//we have to recover the post from database, because is possible that it would be changed in other controller.
         	//for example, if somebody has change the post or has added a comment, the post in the database is different than memory one 
-        	post = blogger.getPost(post.getOID(),getCurretUserId());
+        	post = blogger.getPost(post.getOID(),SakaiProxy.getCurretUserEid());
         }
         return post;
     }
@@ -77,7 +78,7 @@ public class PostViewerController extends BloggerController{
     }
     public String doDeletePost(){
     	if (post!=null){
-    		blogger.deletePost(post.getOID(), getCurretUserId());
+    		blogger.deletePost(post.getOID(), SakaiProxy.getCurretUserEid());
     	}
 		ValueBinding binding =  Util.getValueBinding("#{postListViewerController}");
 		PostListViewerController controller = (PostListViewerController)binding.getValue(FacesContext.getCurrentInstance());
@@ -100,17 +101,17 @@ public class PostViewerController extends BloggerController{
     }
     
     public boolean getActivetAddCommentCommand(){
-    	if (getCurretUserId().equals(post.getCreator().getId()))
+    	if (SakaiProxy.getCurretUserEid().equals(post.getCreator().getId()))
     		return true; //the autor can add comments
     	return post.getState().getAllowComments();
     }
     public boolean getActivateEditCommand(){
-    	if (getCurretUserId().equals(post.getCreator().getId()))
+    	if (SakaiProxy.getCurretUserEid().equals(post.getCreator().getId()))
     		return true; //the creator can always modify the post
     	return !post.getState().getReadOnly(); //depending the flag
     }
     public boolean getActivateDeleteCommand(){
-    	if (getCurretUserId().equals(post.getCreator().getId()))
+    	if (SakaiProxy.getCurretUserEid().equals(post.getCreator().getId()))
     		return true; //only the creator can delete the post
     	return false; 
     }

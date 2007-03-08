@@ -92,9 +92,9 @@ td.td2{
 	                <h:panelGrid columns="2"  columnClasses="td1,td2">
 		                <h:outputText value="#{msgs.postTitle} *:"/>
 			            <h:inputText id="idTitle" value="#{postCreateController.post.title}" size="71" required="true" onkeypress="javascript:isChanged=true;" />
-	        	        <h:outputText value="Keywords:"/>
+	        	        <h:outputText value="#{msgs.keywords}:"/>
 	            	    <h:inputText size="71" value="#{postCreateController.keywords}" style="color:#CCCCCC" onkeyup="javascript:checkInputOnKeyUp(this,'#{postCreateController.keywordsMessage}');" onkeypress="javascript:checkInputOnKeyPress(this,'#{postCreateController.keywordsMessage}');isChanged=true;"/>
-		                <h:outputText value="Abstract:"/>
+		                <h:outputText value="#{msgs.abstract}:"/>
 	    	            <blogger:rich_text_area  onChange="functionOnChangeInAbstract" onSubmit="functionOnSubmitForTextArea" height="50" width="448" value="#{postCreateController.shortText}" toolbarButtonRows="0"/>
 	                </h:panelGrid>                
 	                <h:panelGrid columns="2">
@@ -114,19 +114,19 @@ td.td2{
 	               
                 
 				<t:panelTabbedPane id="tabbedPane" bgcolor="#DDDFE4" tabContentStyleClass="tabStyle" >
-					<t:panelTab id="tab0" label="Text">
+					<t:panelTab id="tab0" label="#{msgs.text}">
                			<blogger:rich_text_area onChange="functionOnChangeInText"  onSubmit="functionOnSubmitForTextArea" rows="15" columns="92" value="#{postCreateController.editingText}" toolbarButtonRows="1"/>
 		                <sakai:button_bar>
-        		            <h:commandButton action="#{postCreateController.addParagraph}" value="Add to document" onclick="javascript:desactivateVerify=true;"/>
-	            	        <h:commandButton action="#{postCreateController.modifyParagraph}" value="Modifiy in document (index: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyParagraphButton}"  onclick="javascript:desactivateVerify=true;"/>
-		                    <h:commandButton action="" value="Reset editor" immediate="true"  onclick="javascript:desactivateVerify=true;"/>
+        		            <h:commandButton action="#{postCreateController.addParagraph}" value="#{msgs.addToDocument}" onclick="javascript:desactivateVerify=true;"/>
+	            	        <h:commandButton action="#{postCreateController.modifyParagraph}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyParagraphButton}"  onclick="javascript:desactivateVerify=true;"/>
+		                    <h:commandButton action="" value="#{msgs.resetEditor}" immediate="true"  onclick="javascript:desactivateVerify=true;"/>
 		                </sakai:button_bar>
 					</t:panelTab>
-					<t:panelTab id="tab1" label="Images" style="vertical-align:top">
+					<t:panelTab id="tab1" label="#{msgs.images}" style="vertical-align:top">
 						<h:panelGrid columns="2">
-							<h:outputText value="Image name:"  rendered="#{postCreateController.showModifyImageButton}"></h:outputText>
+							<h:outputText value="#{msgs.imageName}:"  rendered="#{postCreateController.showModifyImageButton}"></h:outputText>
 		                	<h:outputText value="#{postCreateController.imageDescription}"  rendered="#{postCreateController.showModifyImageButton}"/>
-							<h:outputText value="Image:"></h:outputText>
+							<h:outputText value="#{msgs.image}:"></h:outputText>
 			        		<corejsf:upload target="image.jpg" value="#{postCreateController.image}"></corejsf:upload>
 							<h:outputText value="#{msgs.note}:"></h:outputText>
 							<h:outputText value="#{msgs.noteImages}"></h:outputText>
@@ -134,13 +134,13 @@ td.td2{
 							<h:outputText value="#{msgs.maxFileSize}"></h:outputText>
 			        	</h:panelGrid>
 		                <sakai:button_bar>
-		                    <h:commandButton action="#{postCreateController.addImage}" value="Add to document"  onclick="javascript:desactivateVerify=true;"/>
-		                    <h:commandButton action="#{postCreateController.modifyImage}" value="Modifiy in document (index: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyImageButton}"  onclick="javascript:desactivateVerify=true;"/>
+		                    <h:commandButton action="#{postCreateController.addImage}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
+		                    <h:commandButton action="#{postCreateController.modifyImage}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyImageButton}"  onclick="javascript:desactivateVerify=true;"/>
 		                </sakai:button_bar>
 					</t:panelTab>
-					<t:panelTab id="tab2" label="Links">
+					<t:panelTab id="tab2" label="#{msgs.links}">
 						<h:panelGrid columns="2">
-							<h:outputText value="Description:"></h:outputText>
+							<h:outputText value="#{msgs.description}:"></h:outputText>
 			    	        <h:panelGrid columns="2">
 			                	<h:inputText id="idLinkDescription" value="#{postCreateController.linkDescription}" size="50" onkeypress="javascript: tabContentIsChanged=true;"/>
 			    	            <h:outputText value=""></h:outputText>
@@ -152,21 +152,21 @@ td.td2{
 			    	        </h:panelGrid>
 		                </h:panelGrid>
 		                <sakai:button_bar>
-		                    <h:commandButton action="#{postCreateController.addLink}" value="Add to document"  onclick="javascript:desactivateVerify=true;"/>
-		                    <h:commandButton action="#{postCreateController.modifyLink}" value="Modifiy in document (index: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyLinkButton}"  onclick="javascript:desactivateVerify=true;"/>
+		                    <h:commandButton action="#{postCreateController.addLink}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
+		                    <h:commandButton action="#{postCreateController.modifyLink}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyLinkButton}"  onclick="javascript:desactivateVerify=true;"/>
 		                </sakai:button_bar>
 					</t:panelTab>
-					<t:panelTab id="tab3" label="Files">
+					<t:panelTab id="tab3" label="#{msgs.files}">
 						<h:panelGrid columns="2">
-							<h:outputText value="File name:"  rendered="#{postCreateController.showModifyFileButton}"></h:outputText>
+							<h:outputText value="#{msgs.fileName}:"  rendered="#{postCreateController.showModifyFileButton}"></h:outputText>
 		                	<h:outputText value="#{postCreateController.fileDescription}"  rendered="#{postCreateController.showModifyFileButton}"></h:outputText>
 							<h:outputText value="URL:"></h:outputText>
 			        		<corejsf:upload target="image.jpg" value="#{postCreateController.file}"></corejsf:upload>
 							<h:outputText value="#{msgs.note}:"></h:outputText>
 							<h:outputText value="#{msgs.maxFileSize}"></h:outputText>		                </h:panelGrid>
 		                <sakai:button_bar>
-		                    <h:commandButton action="#{postCreateController.addFile}" value="Add to document"  onclick="javascript:desactivateVerify=true;"/>
-		                    <h:commandButton action="#{postCreateController.modifyFile}" value="Modifiy in document (index: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyFileButton}"  onclick="javascript:desactivateVerify=true;"/>
+		                    <h:commandButton action="#{postCreateController.addFile}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
+		                    <h:commandButton action="#{postCreateController.modifyFile}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyFileButton}"  onclick="javascript:desactivateVerify=true;"/>
 		                </sakai:button_bar>
 					
 					</t:panelTab>
@@ -178,7 +178,7 @@ td.td2{
                     <h:commandButton action="#{postCreateController.doSave}" value="#{msgs.save}" onclick="javascript:buttonPressed='SAVE';"/>
                     <h:commandButton action="main" value="#{msgs.cancel}" immediate="true" onclick="javascript:buttonPressed='CANCEL';"/>
                 </sakai:button_bar>
-			    <sakai:group_box title="Current structure:">
+			    <sakai:group_box title="#{msgs.currentStructure}:">
 					<blogger:editPost post="#{postCreateController.post}" controller="#{postCreateController}"></blogger:editPost>
 				</sakai:group_box>	    
 	    </h:form>

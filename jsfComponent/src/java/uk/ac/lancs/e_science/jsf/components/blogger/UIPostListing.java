@@ -87,7 +87,7 @@ public class UIPostListing extends UICommand {
 			
 			writer.startElement("td",this);
 			writer.writeAttribute("class","tdAuthorHeader",null);
-			writer.write(post.getCreator().getId());
+			writer.write(post.getCreator().getDisplayName());
 			writer.endElement("td");
 			
 			writer.startElement("td",this);

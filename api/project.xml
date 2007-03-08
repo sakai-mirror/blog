@@ -34,6 +34,50 @@
            <version>${sakai.version}</version>
            <type>jar</type>
        </dependency>		
+      	<dependency>
+           <groupId>sakaiproject</groupId>
+           <artifactId>sakai-user-api</artifactId>
+           <version>${sakai.version}</version>
+           <type>jar</type>
+       	</dependency>      
+       	 		
+  		<dependency>
+        	<groupId>sakaiproject</groupId>
+           	<artifactId>sakai-site-api</artifactId>
+           	<version>${sakai.version}</version>
+           	<type>jar</type>
+       	</dependency> 
+       	<dependency>
+           <groupId>sakaiproject</groupId>
+           <artifactId>sakai-authz-api</artifactId>
+           <version>${sakai.version}</version>
+           <type>jar</type>
+       	</dependency>	
+       	
+       	<dependency>
+           <groupId>sakaiproject</groupId>
+           <artifactId>sakai-entity-api</artifactId>
+           <version>${sakai.version}</version>
+           <type>jar</type>
+       	</dependency>	
+       	
+   
+       	<dependency>
+           <groupId>sakaiproject</groupId>
+           <artifactId>sakai-tool-api</artifactId>
+           <version>${sakai.version}</version>
+           <type>jar</type>
+       	</dependency>
+       	
+       	<dependency>
+           <groupId>sakaiproject</groupId>
+           <artifactId>sakai-util</artifactId>
+           <version>${sakai.version}</version>
+           <type>jar</type>
+           <properties>
+               <war.bundle>true</war.bundle>
+            </properties>            
+       	</dependency>       	       	       
        <dependency>
            <groupId>commons-lang</groupId>
            <artifactId>commons-lang</artifactId>

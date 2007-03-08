@@ -23,6 +23,7 @@ import javax.servlet.ServletRequest;
 
 import uk.ac.lancs.e_science.sakai.tools.blogger.cacheForImages.CacheForImages;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Image;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.BloggerManager;
@@ -37,7 +38,7 @@ public class PreviewPostController extends BloggerController{
     }
     
     public String doSave(){
-        blogger.storePost(post,getCurretUserId(), getCurrentSiteId());
+        blogger.storePost(post,SakaiProxy.getCurretUserEid(), SakaiProxy.getCurrentSiteId());
         //we have to remove the images from cache
         if (post.getElements()!=null){
         	for (int i=0;i<post.getElements().length;i++){

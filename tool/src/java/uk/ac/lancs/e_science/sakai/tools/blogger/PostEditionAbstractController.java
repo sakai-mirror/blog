@@ -32,6 +32,7 @@ import org.apache.myfaces.custom.tabbedpane.HtmlPanelTabbedPane;
 import uk.ac.lancs.e_science.sakai.tools.blogger.cacheForImages.CacheForImages;
 import uk.ac.lancs.e_science.sakai.tools.blogger.util.JpegTransformer;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.File;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Image;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.LinkRule;
@@ -79,7 +80,7 @@ public class PostEditionAbstractController extends BloggerController implements 
     protected static int INDEX_FILE=3;
     
     public String doSave(){
-        blogger.storePost(post,getCurretUserId(), getCurrentSiteId());
+        blogger.storePost(post,SakaiProxy.getCurretUserEid(),SakaiProxy.getCurrentSiteId());
     	resetFields();
         //we have to remove the images from cache
         if (post.getElements()!=null){

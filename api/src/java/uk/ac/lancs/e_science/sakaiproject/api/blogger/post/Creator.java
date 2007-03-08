@@ -17,6 +17,8 @@
 
 package uk.ac.lancs.e_science.sakaiproject.api.blogger.post;
 
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
+
 public class Creator {
     String _id;
     String _description;
@@ -37,6 +39,10 @@ public class Creator {
     }
     public String getId(){
         return _id;
+    }
+    
+    public String getDisplayName(){
+    	return SakaiProxy.getDiplayNameForTheUser(_id);
     }
     public void setDescription(String description){
         _description = description;

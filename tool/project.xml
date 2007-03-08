@@ -77,14 +77,14 @@
            </properties>           	
        	</dependency>		
        	   	
-
-   
        	<dependency>
            <groupId>sakaiproject</groupId>
            <artifactId>sakai-tool-api</artifactId>
            <version>${sakai.version}</version>
            <type>jar</type>
-       	</dependency>		
+       	</dependency>
+       	
+		
 
        	<dependency>
            <groupId>sakaiproject</groupId>

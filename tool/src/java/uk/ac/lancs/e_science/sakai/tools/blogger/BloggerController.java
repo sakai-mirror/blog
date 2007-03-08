@@ -17,25 +17,14 @@
 
 package uk.ac.lancs.e_science.sakai.tools.blogger;
 
-import org.sakaiproject.tool.api.ToolManager;
-import org.sakaiproject.tool.api.SessionManager;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 
 public abstract class BloggerController {
-    private ToolManager toolManager;
-    private SessionManager sessionManager;
     
     public BloggerController(){
-    	sessionManager = org.sakaiproject.tool.cover.SessionManager.getInstance();
-    	toolManager = org.sakaiproject.tool.cover.ToolManager.getInstance();
     }
-    public String getCurrentSiteId(){
-        return toolManager.getCurrentPlacement().getContext(); //equivalent to PortalService.getCurrentSiteId();
-    }
-    public String getCurretUserId(){
-    	return sessionManager.getCurrentSession().getUserEid();
-    }
+
     public Post getPost(){ return null;}
     public void setPost(Post post){}
 

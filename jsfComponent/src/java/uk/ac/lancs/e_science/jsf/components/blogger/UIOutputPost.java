@@ -19,8 +19,11 @@ package uk.ac.lancs.e_science.jsf.components.blogger;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.faces.FactoryFinder;
+import javax.faces.application.Application;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -39,10 +42,18 @@ import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.PostElement;
 
 public class UIOutputPost extends UIOutput {
 	private String contextPath="";
+	private ResourceBundle messages;
 	public void encodeBegin(FacesContext context) throws IOException{
 		ResponseWriter writer = context.getResponseWriter();
 		Post post = (Post)getAttributes().get("post");
 		HttpServletRequest req =((HttpServletRequest)context.getExternalContext().getRequest());
+		
+	    Application application = context.getApplication( );
+        String messageBundleName = application.getMessageBundle( );
+
+        Locale locale = context.getViewRoot( ).getLocale( );
+        messages = ResourceBundle.getBundle(messageBundleName, locale);
+        
 		contextPath = req.getContextPath();
 		if (post!=null){
 			writePost(writer, post);
@@ -86,7 +97,7 @@ public class UIOutputPost extends UIOutput {
 		if (post.getKeywords()!=null && post.getKeywords().length!=0){
 			writer.startElement("tr",this);
 			writer.startElement("td",this);
-			writer.write("Keywords:");
+			writer.write(messages.getString("keywords")+":");
 			StringBuffer sb = new StringBuffer();
 			for (int i=0;i<post.getKeywords().length;i++){
 				sb.append(post.getKeywords()[i]).append(", ");
@@ -133,7 +144,7 @@ public class UIOutputPost extends UIOutput {
 		if (creator!=null){
 			writer.startElement("span",this);
 			writer.writeAttribute("style","font-size:12px; font-family:Verdana, Arial, Helvetica, sans-serif",null);
-			writer.write(post.getCreator().getId());
+			writer.write(post.getCreator().getDisplayName());
 			Date date = new Date(post.getDate());
 			writer.write(" ("+DateFormat.getDateInstance(DateFormat.SHORT).format(date)+")");
 			writer.endElement("span");
@@ -263,7 +274,7 @@ public class UIOutputPost extends UIOutput {
 		writer.startElement("td",this);
 		writer.writeAttribute("class","tdCommentHeader",null);
 		writer.writeAttribute("colspan","2",null);
-		writer.write("Comments");
+		writer.write(messages.getString("postComments"));
 		writer.endElement("td");
 		writer.startElement("td",this);
 		writer.writeAttribute("class","tdCommentHeader",null);
@@ -277,7 +288,7 @@ public class UIOutputPost extends UIOutput {
 			writer.startElement("td",this);
 			writer.writeAttribute("width","100px",null);
 			writer.writeAttribute("class","tdComment tdComment1",null);
-			writer.write(comment.getCreator().getId());
+			writer.write(comment.getCreator().getDisplayName());
 			writer.write("<br/>");
 			Date date = new Date(comment.getDate());
 			writer.write(" ("+DateFormat.getDateInstance(DateFormat.SHORT).format(date)+")");

@@ -110,7 +110,7 @@ public class PostListViewerController extends BloggerController{
     }
     
     //this method is used when the action comes from a PostListing jsf component
-    public String showPostFromPostListingJSFComponent(){
+    public String showPostFromListOfPostsJSFComponent(){
     	Post post = (Post) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("post");
         
     	ValueBinding binding =  Util.getValueBinding("#{postViewerController}");

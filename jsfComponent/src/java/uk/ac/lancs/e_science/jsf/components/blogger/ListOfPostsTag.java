@@ -27,15 +27,15 @@ import javax.faces.webapp.UIComponentTag;
 import com.sun.faces.util.ConstantMethodBinding;
 import com.sun.faces.util.Util;
 
-public class PostListingTag extends UIComponentTag {
+public class ListOfPostsTag extends UIComponentTag {
 
-	private String postListing;
+	private String posts;
 	private String action;
 	/**
 	 * @return the symbolic name of the component type. We will define the clas for this tape latter in the faces.config file
 	 */
 	public String getComponentType() {
-		return "uk.ac.lancs.e_science.jsf.components.blogger.PostListing";
+		return "uk.ac.lancs.e_science.jsf.components.blogger.ListOfPosts";
 	}
 	/**
 	 * @return the symbolic name of the renderer. If null, it means that the renderer name is not defined and the component will render it by itself
@@ -50,7 +50,7 @@ public class PostListingTag extends UIComponentTag {
 	public void realease(){
 		//the super class method should be called
 		super.release();
-		postListing = null;
+		posts = null;
 		action = null;
 	}
 	
@@ -66,12 +66,12 @@ public class PostListingTag extends UIComponentTag {
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application app = context.getApplication();
 		
-		if (postListing!=null){
-			if (isValueReference(postListing)){
-				ValueBinding vb = app.createValueBinding(postListing);
-				component.setValueBinding("postListing",vb);
+		if (posts!=null){
+			if (isValueReference(posts)){
+				ValueBinding vb = app.createValueBinding(posts);
+				component.setValueBinding("posts",vb);
 			}else{
-				component.getAttributes().put("postListing",postListing);
+				component.getAttributes().put("posts",posts);
 			}
 		}
 	    if (action != null) {
@@ -87,12 +87,12 @@ public class PostListingTag extends UIComponentTag {
 
 	}
 	
-	public void setPostListing(String value){
-		this.postListing = value;
+	public void setPosts(String value){
+		this.posts = value;
 	}
 	
-	public String getPostListing(){
-		return postListing;
+	public String getPosts(){
+		return posts;
 	}
 	public void setAction(String action) {
 	    this.action = action;

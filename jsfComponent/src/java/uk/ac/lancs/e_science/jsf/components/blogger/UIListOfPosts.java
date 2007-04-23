@@ -32,13 +32,13 @@ import javax.faces.event.ActionEvent;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.PostUtilities;
 
-public class UIPostListing extends UICommand {
+public class UIListOfPosts extends UICommand {
 
-	public UIPostListing(){
+	public UIListOfPosts(){
 		super();
 	}
 	public void encodeBegin(FacesContext context) throws IOException{
-		Post[] postListing = (Post[])getAttributes().get("postListing");
+		Post[] postListing = (Post[])getAttributes().get("posts");
 		this.getParent();
 		if (postListing!=null){
 			writePosts(postListing,context);
@@ -174,7 +174,7 @@ public class UIPostListing extends UICommand {
 			return;
 		String postOID=(String)requestMap.get("idSelectedPost");
 
-		Post[] postListing = (Post[])getAttributes().get("postListing");
+		Post[] postListing = (Post[])getAttributes().get("posts");
 		
 		for (int i=0;i<postListing.length;i++){
 			if (postListing[i].getOID().equals(postOID)){

@@ -40,6 +40,7 @@ public class UIEditPost extends UIOutput{
 	private static final int UP=3;
 	private static final int DOWN=4;
 	private static final String INDEX_ID="INDEX_ID";
+	private static final String ACTION_ID="ACTION_ID";
 	private static final String UP_CAPTION="Up";
 	private static final String DOWN_CAPTION="Down";
 	
@@ -72,6 +73,7 @@ public class UIEditPost extends UIOutput{
 	}
 	private void writePost(ResponseWriter writer, Post post) throws IOException{
 		renderHiddenElementForIndexId(writer);
+		renderHiddenElementForAction(writer);
 		PostElement[] elements = post.getElements();
 		if (elements!=null){
 			writer.write(getStyleDefinition());
@@ -252,17 +254,18 @@ public class UIEditPost extends UIOutput{
 		if (!requestMap.containsKey(INDEX_ID))
 			return;
 		int index=Integer.parseInt((String)requestMap.get(INDEX_ID));
+		String strAction = (String)requestMap.get(ACTION_ID);
 		
-		if (requestMap.containsKey("Edit")){
+		if (strAction.equals("Edit")){
 			action=EDIT;
 		}
-		if (requestMap.containsKey("Delete")){
+		if (strAction.equals("Delete")){
 			action=DELETE;
 		}
-		if (requestMap.containsKey(UP_CAPTION)){
+		if (strAction.equals("Up")){
 			action=UP;
 		}
-		if (requestMap.containsKey(DOWN_CAPTION)){
+		if (strAction.equals("Down")){
 			action=DOWN;
 		}
 		if (action==EDIT)
@@ -282,24 +285,35 @@ public class UIEditPost extends UIOutput{
 		writer.writeAttribute("type","submit",null);
 		writer.writeAttribute("value",value,null);
 		writer.writeAttribute("name",name,null);
-		writer.writeAttribute("onClick","javascript:document.getElementById('"+INDEX_ID+"').value='"+index+"';",null);
+		writer.writeAttribute("onClick","javascript:document.getElementById('"+INDEX_ID+"').value='"+index+"';document.getElementById('"+ACTION_ID+"').value='"+name+"';",null);
 		writer.endElement("input");
 	}
 	private void renderUpDownButton(ResponseWriter writer,int type,String name, String value,int index) throws IOException{
 		writer.startElement("input",this);
 		writer.writeAttribute("type","image",null);
+		String action="";
 		if (type==UP){
 			writer.writeAttribute("src",contextPath+"/img/up.gif",null);
 			writer.writeAttribute("alt","Up",null);
+			action = "Up";
 		} if (type==DOWN){
 			writer.writeAttribute("src",contextPath+"/img/down.gif",null);
 			writer.writeAttribute("alt","Down",null);
+			action = "Down";
 		}
 		writer.writeAttribute("value",value,null);
 		writer.writeAttribute("name",name,null);
-		writer.writeAttribute("onClick","javascript:document.getElementById('"+INDEX_ID+"').value='"+index+"';",null);
+		writer.writeAttribute("onClick","javascript:document.getElementById('"+INDEX_ID+"').value='"+index+"';document.getElementById('"+ACTION_ID+"').value='"+action+"';",null);
 		writer.endElement("input");
 	}	
+	private void renderHiddenElementForAction(ResponseWriter writer) throws IOException{
+		writer.startElement("input",this);
+		writer.writeAttribute("type","hidden",null);
+		writer.writeAttribute("id",ACTION_ID,null);
+		writer.writeAttribute("name",ACTION_ID,null);
+		writer.writeAttribute("value","",null);
+		writer.endElement("input");		
+	}
 	private void renderHiddenElementForIndexId(ResponseWriter writer) throws IOException{
 		writer.startElement("input",this);
 		writer.writeAttribute("type","hidden",null);

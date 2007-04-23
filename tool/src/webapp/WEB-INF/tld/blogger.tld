@@ -41,11 +41,11 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
 		</attribute>		
 	</tag>	
 	<tag>
-		<name>postListing</name>
-		<tag-class>uk.ac.lancs.e_science.jsf.components.blogger.PostListingTag</tag-class>
+		<name>listOfPosts</name>
+		<tag-class>uk.ac.lancs.e_science.jsf.components.blogger.ListOfPostsTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
-			<name>postListing</name>
+			<name>posts</name>
 			<required>true</required>
 		</attribute>
 		<attribute>

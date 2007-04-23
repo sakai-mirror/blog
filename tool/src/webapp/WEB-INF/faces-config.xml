@@ -108,14 +108,14 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
         <from-view-id>*</from-view-id>
         <navigation-case>
             <from-outcome>newPost</from-outcome>
-            <to-view-id>/sakai-blogger-tool/PostCreateView.jsp</to-view-id>
+            <to-view-id>/sakai-blogger-tool/CreatePostView.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>*</from-view-id>
         <navigation-case>
             <from-outcome>refreshNewPost</from-outcome>
-            <to-view-id>/sakai-blogger-tool/PostCreateView.jsp</to-view-id>
+            <to-view-id>/sakai-blogger-tool/CreatePostView.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>    
 
@@ -123,7 +123,7 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
         <from-view-id>*</from-view-id>
         <navigation-case>
             <from-outcome>viewPost</from-outcome>
-            <to-view-id>/sakai-blogger-tool/PostViewer.jsp</to-view-id>
+            <to-view-id>/sakai-blogger-tool/ViewPost.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
 
@@ -139,7 +139,7 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
         <from-view-id>*</from-view-id>
         <navigation-case>
             <from-outcome>viewPostList</from-outcome>
-            <to-view-id>/sakai-blogger-tool/PostListViewer.jsp</to-view-id>
+            <to-view-id>/sakai-blogger-tool/ListOfPostsViewer.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
 
@@ -147,7 +147,7 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
         <from-view-id>*</from-view-id>
         <navigation-case>
             <from-outcome>editPost</from-outcome>
-            <to-view-id>/sakai-blogger-tool/PostEditView.jsp</to-view-id>
+            <to-view-id>/sakai-blogger-tool/EditPostView.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
     
@@ -198,8 +198,8 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
    		<component-class>uk.ac.lancs.e_science.jsf.components.blogger.UIEditPost</component-class>
 	</component>		
 	<component>
-   		<component-type>uk.ac.lancs.e_science.jsf.components.blogger.PostListing</component-type>
-   		<component-class>uk.ac.lancs.e_science.jsf.components.blogger.UIPostListing</component-class>
+   		<component-type>uk.ac.lancs.e_science.jsf.components.blogger.ListOfPosts</component-type>
+   		<component-class>uk.ac.lancs.e_science.jsf.components.blogger.UIListOfPosts</component-class>
 	</component>			     
 	<component>
    		<component-type>RichTextEditArea</component-type>

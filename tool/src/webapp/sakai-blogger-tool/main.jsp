@@ -37,7 +37,7 @@
                <jsp:include page="Toolbar.jsp"></jsp:include>
            </f:subview>
            <sakai:instruction_message value="#{msgs.lastEntries}"/>
-		<blogger:postListing postListing="#{postListViewerController.lastPosts}"  action="#{postListViewerController.showPostFromPostListingJSFComponent}"></blogger:postListing>
+		<blogger:listOfPosts posts="#{postListViewerController.lastPosts}"  action="#{postListViewerController.showPostFromListOfPostsJSFComponent}"></blogger:listOfPosts>
     </h:form>
 </sakai:view>
 </f:view>

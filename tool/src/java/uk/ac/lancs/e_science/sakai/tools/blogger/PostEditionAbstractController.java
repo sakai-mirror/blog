@@ -20,6 +20,8 @@ package uk.ac.lancs.e_science.sakai.tools.blogger;
 import uk.ac.lancs.e_science.jsf.components.blogger.IBloggerJSFEditionController;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.StringTokenizer; 
 
 import javax.faces.context.FacesContext;
@@ -42,8 +44,6 @@ import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.PostElement;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.State;
 
 public class PostEditionAbstractController extends BloggerController implements IBloggerJSFEditionController {
-	
-	protected static final String KEYWORDS_MESSAGE="Introduce keywords separated by comma";
 	
 	protected Post post;
 	protected Blogger blogger;
@@ -121,17 +121,18 @@ public class PostEditionAbstractController extends BloggerController implements 
     //-----------------------------------------------------------------
     
     public String getKeywords(){
-    	//TODO: internationalitation of KEYWORDS_MESSAGE
     	StringBuffer sb = new StringBuffer("");
+    	
     	if (post==null || post.getKeywords()== null || post.getKeywords().length==0)
-    		return KEYWORDS_MESSAGE;
+    		return getKeywordsMessage();
     	for (int i=0;i<post.getKeywords().length;i++){
     		sb.append(post.getKeywords()[i]).append(", ");
     	}
     	return sb.toString().substring(0,sb.toString().lastIndexOf(", "));
     }
+    
     public void setKeywords(String keywords){
-    	if (keywords.trim().equals("") || (keywords.trim().equals(KEYWORDS_MESSAGE)))
+    	if (keywords.trim().equals("") || (keywords.trim().equals(getKeywordsMessage())))
     		post.setKeywords(null);
     	else{
     		post.setKeywords(null); //to start a new list of keywords
@@ -142,8 +143,25 @@ public class PostEditionAbstractController extends BloggerController implements 
     		}
     	}
     }
+    
 	public String getKeywordsMessage(){
-		return KEYWORDS_MESSAGE;
+    	String keywordsMessage = null;
+		
+		ResourceBundle bundle = 
+				ResourceBundle.getBundle(FacesContext.getCurrentInstance().getApplication().getMessageBundle(),FacesContext.getCurrentInstance().getViewRoot().getLocale()); 
+		
+		String key = "keywords_instruction";
+		
+		try
+		{
+			keywordsMessage = bundle.getString(key);
+		}
+		catch(MissingResourceException e)
+		{
+			keywordsMessage = "?? key '" + key + "' not found ??";
+		}
+		
+		return keywordsMessage;
 	}   
     
     //-----------------------------------------------------------------

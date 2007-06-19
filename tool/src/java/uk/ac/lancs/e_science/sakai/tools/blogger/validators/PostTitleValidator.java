@@ -16,6 +16,8 @@
  *************************************************************************************/
 package uk.ac.lancs.e_science.sakai.tools.blogger.validators;
 
+import java.util.ResourceBundle;
+
 import com.sun.faces.util.MessageFactory;
 
 import javax.faces.validator.Validator;
@@ -31,14 +33,15 @@ public class PostTitleValidator implements Validator
 		if ((facesContext == null) || (uiComponent == null)) throw new IllegalArgumentException(facesContext == null ? "facesContext" : "uiComponent" + " cannot be null");
 
 		String val = (String) o;
+        ResourceBundle messages = ResourceBundle.getBundle(facesContext.getApplication().getMessageBundle(), facesContext.getViewRoot( ).getLocale());
 
 		if (val.trim().length() == 0)
 		{
 			FacesMessage message = new FacesMessage();
-		       message.setDetail("Post title not valid");
-		       message.setSummary("Post title not valid");
-		       message.setSeverity(FacesMessage.SEVERITY_ERROR);
-		       throw new ValidatorException(message);
+		    message.setDetail(messages.getString("invalid_post_title"));
+		    message.setSummary(messages.getString("invalid_post_title"));
+		    message.setSeverity(FacesMessage.SEVERITY_ERROR);
+		    throw new ValidatorException(message);
 		}
 	}
 }

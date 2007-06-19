@@ -91,7 +91,9 @@ td.td2{
                 <h:panelGrid columns="2">
 	                <h:panelGrid columns="2"  columnClasses="td1,td2">
 		                <h:outputText value="#{msgs.postTitle} *:"/>
-			            <h:inputText id="idTitle" value="#{postCreateController.post.title}" size="71" required="true" onkeypress="javascript:isChanged=true;" />
+			            <h:inputText id="idTitle" value="#{postCreateController.post.title}" size="71" required="true" onkeypress="javascript:isChanged=true;">
+			            	<f:validateLength minimum="1"/>
+			            </h:inputText>
 	        	        <h:outputText value="#{msgs.keywords}:"/>
 	            	    <h:inputText size="71" value="#{postCreateController.keywords}" style="color:#CCCCCC" onkeyup="javascript:checkInputOnKeyUp(this,'#{postCreateController.keywordsMessage}');" onkeypress="javascript:checkInputOnKeyPress(this,'#{postCreateController.keywordsMessage}');isChanged=true;"/>
 		                <h:outputText value="#{msgs.abstract}:"/>

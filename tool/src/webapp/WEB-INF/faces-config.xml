@@ -95,6 +95,12 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
         <validator-id>DateValidator</validator-id>
         <validator-class>uk.ac.lancs.e_science.sakai.tools.blogger.validators.DateValidator</validator-class>
     </validator>
+    
+    <validator>
+        <description>A validator for post titles</description>
+        <validator-id>PostTitleValidator</validator-id>
+        <validator-class>uk.ac.lancs.e_science.sakai.tools.blogger.validators.PostTitleValidator</validator-class>
+    </validator>
 
     <!-- navigation rules -->
      <navigation-rule>

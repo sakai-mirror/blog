@@ -38,6 +38,15 @@
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
+
+	<dependency>
+      	<groupId>sakaiproject</groupId>
+       	<artifactId>sakai-blogger-api-impl</artifactId>
+       	<version>${sakai.version}</version>
+       	<type>jar</type>
+	    <scope>provided</scope>
+   	</dependency>
+
     <dependency>
       
       <groupId>jsf</groupId>

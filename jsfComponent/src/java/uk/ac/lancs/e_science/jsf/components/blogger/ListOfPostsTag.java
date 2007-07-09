@@ -25,12 +25,15 @@ import javax.faces.el.ValueBinding;
 import javax.faces.webapp.UIComponentTag;
 
 import com.sun.faces.util.ConstantMethodBinding;
-import com.sun.faces.util.Util;
+
 
 public class ListOfPostsTag extends UIComponentTag {
 
 	private String posts;
 	private String action;
+	private String showComments;
+	private String showFullContent;
+	private String showCreator;
 	/**
 	 * @return the symbolic name of the component type. We will define the clas for this tape latter in the faces.config file
 	 */
@@ -84,6 +87,31 @@ public class ListOfPostsTag extends UIComponentTag {
 	    	command.setAction(actionBinding);
 	    		
 	    }
+		if (showComments!=null){
+			if (isValueReference(showComments)){
+				ValueBinding vb = app.createValueBinding(showComments);
+				component.setValueBinding("showComments",vb);
+			}else{
+				component.getAttributes().put("showComments",new Boolean(showComments));
+			}			
+		}	   
+		if (showFullContent!=null){
+			if (isValueReference(showFullContent)){
+				ValueBinding vb = app.createValueBinding(showFullContent);
+				component.setValueBinding("showFullContent",vb);
+			}else{
+				component.getAttributes().put("showFullContent",new Boolean(showFullContent));
+			}			
+		}	
+		if (showCreator!=null){
+			if (isValueReference(showCreator)){
+				ValueBinding vb = app.createValueBinding(showCreator);
+				component.setValueBinding("showCreator",vb);
+			}else{
+				component.getAttributes().put("showCreator",new Boolean(showCreator));
+			}			
+		}		
+   
 
 	}
 	
@@ -97,4 +125,13 @@ public class ListOfPostsTag extends UIComponentTag {
 	public void setAction(String action) {
 	    this.action = action;
 	}
+	public void setShowComments(String s){
+		this.showComments =s;
+	}
+	public void setShowFullContent(String s){
+		this.showFullContent=s;
+	}
+	public void setShowCreator(String s){
+		this.showCreator=s;
+	}	
 }

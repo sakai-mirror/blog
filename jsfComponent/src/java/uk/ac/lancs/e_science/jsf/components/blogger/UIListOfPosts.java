@@ -17,44 +17,76 @@
 package uk.ac.lancs.e_science.jsf.components.blogger;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Map;
 
+import java.util.Collection;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import javax.faces.application.Application;
 import javax.faces.component.UICommand;
-import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionEvent;
 
+
+
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
-import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.PostUtilities;
 
 public class UIListOfPosts extends UICommand {
-
+	private ResourceBundle messages;
+	
 	public UIListOfPosts(){
 		super();
 	}
 	public void encodeBegin(FacesContext context) throws IOException{
-		Post[] postListing = (Post[])getAttributes().get("posts");
-		this.getParent();
-		if (postListing!=null){
-			writePosts(postListing,context);
+		
+		
+	    Application application = context.getApplication( );
+        String messageBundleName = application.getMessageBundle( );
+
+        Locale locale = context.getViewRoot( ).getLocale( );
+        messages = ResourceBundle.getBundle(messageBundleName, locale);		
+		
+		Collection listOfPost = (Collection)getAttributes().get("posts");
+		Boolean showComments= (Boolean)getAttributes().get("showComments");
+		Boolean showFullContent = (Boolean)getAttributes().get("showFullContent");
+		Boolean showCreator= (Boolean)getAttributes().get("showCreator");
+				
+		
+		
+		if (showComments==null)
+			showComments = new Boolean(false);
+		if (showFullContent==null)
+			showFullContent = new Boolean(false);
+		if (showCreator==null)
+			showCreator = new Boolean(true);
+
+		if (listOfPost == null || listOfPost.size()==0){
+			ResponseWriter writer = context.getResponseWriter();
+			writer.write("<br/><br/><br/>");
+			writer.write("<span class='spanEmtpyBlogger'>"+messages.getString("emptyBlogger")+"</span>");
+		
+		} else{
+			writePosts(listOfPost,context, showComments.booleanValue(), showFullContent.booleanValue(),showCreator.booleanValue());
+			
+			
 		}
 	}
 	public void endodeEnd(FacesContext context) throws IOException{
 		
 	}
 	
-	private void writePosts(Post[] listOfPosts, FacesContext context) throws IOException{
+	private void writePosts(Collection<Post> listOfPosts, FacesContext context, boolean showComments, boolean showFullContent, boolean showCreator) throws IOException{
 		
 		ResponseWriter writer = context.getResponseWriter();
 
-		String formClientId = getFormClientId(this, context);
+		
+		PostWriter postWriter = new PostWriter(context,this);
+
+
 		writer.write("<br/>");
-		writer.write(getStyleDefinition());
 		
 		writer.startElement("input",this);
 		writer.writeAttribute("type","hidden",null);
@@ -64,139 +96,50 @@ public class UIListOfPosts extends UICommand {
 		
 		writer.startElement("table",this);
 		writer.writeAttribute("class","tableHeader",null);
-		for (int i=0;i<listOfPosts.length;i++){
-			Post post = listOfPosts[i];
-			writer.startElement("tr",this);
-			writer.startElement("td",this);
-			writer.writeAttribute("class","tdTitleHeader",null);
-			
-			writer.startElement("span",null);
-			writer.writeAttribute("class","spanRaquoHeader",null);
-			writer.write("&raquo;&nbsp;");
-			writer.endElement("span");
-			
-			writer.startElement("a",this);
-			writer.writeAttribute("href","#",null);
-			writer.writeAttribute("class","aTitleHeader",null);
-			writer.writeAttribute("onClick","javascript:document.getElementById('idSelectedPost').value='"+post.getOID()+"';document.forms['"+formClientId+"'].submit();",null);
-			writer.writeAttribute("class","spanTitleHeader",null);
-			writer.write(post.getTitle());
-			writer.endElement("a");
-			writer.endElement("td");
 
-			
-			writer.startElement("td",this);
-			writer.writeAttribute("class","tdAuthorHeader",null);
-			writer.write(post.getCreator().getDisplayName());
-			writer.endElement("td");
-			
-			writer.startElement("td",this);
-			writer.writeAttribute("class","tdDateHeader",null);
-			Date date = new Date(post.getDate());
-			writer.write(DateFormat.getDateInstance(DateFormat.SHORT).format(date));
-			writer.endElement("td");
-			
-			writer.endElement("tr");
-			
-			writer.startElement("tr",this);
-			writer.startElement("td",this);
-			writer.writeAttribute("colspan","3",null);
-			if (post.getShortText()!=null && !(post.getShortText().equals("")))
-				writer.write(post.getShortText());
-			else {
-				PostUtilities util = new PostUtilities();
-				String text =util.getFirstParagraphOrNFirstCharacters(post,400);
-				writer.write(text);
-			}
+		for (Post post: listOfPosts){
+			writer.startElement("tr", this);
+			writer.startElement("td", this);
+			if (showFullContent)
+				postWriter.printFullContent(post, showComments,true,showCreator);
+			else
+				postWriter.printShortContent(post, showComments,showCreator);
 			writer.endElement("td");
 			writer.endElement("tr");
-			
-			writer.startElement("tr",this);
-			writer.startElement("td",this);
-			writer.writeAttribute("class","tdGap",null);
-			writer.writeAttribute("colspan","3",null);
-			writer.write("&nbsp;");
+			writer.startElement("tr", this);
+			writer.startElement("td", this);
+			writer.writeAttribute("class","tdGapWithLine",null);
 			writer.endElement("td");
 			writer.endElement("tr");
 		}
+		writer.write("<tr><td>");
+		LegendWriter lw = new LegendWriter(context,this);
+		lw.writeLegend();
+		writer.write("</td></tr>");
 		writer.endElement("table");
 	}
-	
 
-	private String getStyleDefinition(){
-		StringBuffer sb = new StringBuffer();
-		sb.append("<style title=\"css\">");
-		sb.append("span.spanRaquoHeader{");
-		sb.append(" 	font-size:16px;");
-		sb.append(" 	color:#084A87;");
-		sb.append(" 	font-weight:bold;");
-		sb.append("}");		
-		sb.append("a.aTitleHeader{");
-		sb.append(" 	font-size:16px;");
-		sb.append(" 	color:#084A87;");
-		sb.append(" 	font-weight:bold;");
-		sb.append("}");
-		sb.append("table.tableHeader{");
-		sb.append(" 	width:100%;");
-		sb.append("}");
-		sb.append("td.tdTitleHeader{");
-		sb.append("		width:100%;");
-		sb.append(" 	padding-right:15px;");
-		sb.append(" 	padding-bottom:10px;");
-		sb.append("}");
-		sb.append("td.tdAuthorHeader{");
-		sb.append("		width:150px;");
-		sb.append(" 	vertical-align:top;");
-		sb.append(" 	padding-bottom:10px;");
-		sb.append(" 	color:#084A87;");
-		sb.append("}");
-		sb.append("td.tdDateHeader{");
-		sb.append("		width:150px;");
-		sb.append(" 	vertical-align:top;");
-		sb.append(" 	padding-bottom:10px;");
-		sb.append(" 	color:#084A87;");
-		sb.append("}");
-		sb.append("td.tdGap{");
-		sb.append("		border-style:solid;");
-		sb.append("		border-width:1px;");
-		sb.append("		border-left:none;");
-		sb.append("		border-top:none;");
-		sb.append("		border-right:none;");
-		sb.append("		border-color:#DDDFE4;");
-		sb.append("}");		
-		sb.append("</style>");
-		return sb.toString();
-	}
 	public void decode(FacesContext context){
 		Map requestMap = context.getExternalContext().getRequestParameterMap();
 
 		if (!requestMap.containsKey("idSelectedPost"))
 			return;
 		String postOID=(String)requestMap.get("idSelectedPost");
+		if (postOID.equals("")) //this happens when clicking in the pager
+			return;
 
-		Post[] postListing = (Post[])getAttributes().get("posts");
+		Collection<Post> listOfPost = (Collection)getAttributes().get("posts");
 		
-		for (int i=0;i<postListing.length;i++){
-			if (postListing[i].getOID().equals(postOID)){
-				context.getExternalContext().getSessionMap().put("post",postListing[i]);
+		for (Post post: listOfPost){
+			if (post.getOID().equals(postOID)){
+				context.getExternalContext().getSessionMap().put("post",post);
 			}
 		}
 
 		queueEvent(new ActionEvent(this));
 		
 	}
-	private String getFormClientId(UIComponent component,FacesContext context){
-		if (component==null)
-			return null;
-		UIComponent parent = component.getParent();
-		if (parent == null)
-			return null;
-		if (parent instanceof HtmlForm)
-			return parent.getClientId(context);
-		return getFormClientId(parent,context);
-			
 
-	}
 	public MethodBinding getAction() {
 		return super.getAction();
 	}
@@ -212,6 +155,6 @@ public class UIListOfPosts extends UICommand {
 		super.setActionListener(actionListener);
 	}	
 	
-	
+		
 }
 

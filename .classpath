@@ -5,6 +5,7 @@
 	<classpathentry kind="src" path="api-impl/src/java"/>
 	<classpathentry kind="src" path="fileUpload/src/java"/>
 	<classpathentry kind="src" path="jsfComponent/src/java"/>
+	<classpathentry kind="src" path="tool/src/webapp"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/commons-beanutils/jars/commons-beanutils-1.7.0.jar"/>
 	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/commons-digester/jars/commons-digester-1.6.jar"/>

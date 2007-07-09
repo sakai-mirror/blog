@@ -42,6 +42,7 @@
            <type>jar</type>
        </dependency>
 
+
        <dependency>
             <groupId>sakaiproject</groupId>
             <artifactId>sakai</artifactId>

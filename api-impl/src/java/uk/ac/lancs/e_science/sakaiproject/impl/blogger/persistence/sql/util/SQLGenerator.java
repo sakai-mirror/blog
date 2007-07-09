@@ -97,7 +97,10 @@ public class SQLGenerator implements ISQLGenerator{
         if (query.queryByInitDate())
             statement.append(DATE).append(">='").append(query.getInitDate()).append("' AND ");
         if (query.queryByEndDate())
-            statement.append(DATE).append("<=").append(query.getEndDate()).append("' AND ");
+            statement.append(DATE).append("<='").append(query.getEndDate()).append("' AND ");
+        if (!query.getUser().trim().equals(""))
+            statement.append(IDCREATOR).append("='").append(query.getUser()).append("' AND ");
+        
 
         //in this point, we know that there is a AND at the end of the statement. Remove it.
         statement =new StringBuffer(statement.toString().substring(0,statement.length()-4)); //4 is the length of AND with the last space
@@ -157,6 +160,8 @@ public class SQLGenerator implements ISQLGenerator{
     public String getSelectPost(String OID){
         return "SELECT * FROM "+DEFAULT_PREFIX+TABLE_POST +" WHERE "+POST_ID +"='"+OID+"'";
     }
+    
+
     
     /* (non-Javadoc)
 	 * @see uk.ac.lancs.e_science.sakaiproject.component.blogger.persistence.sql.util.ISQLGenerator#getSelectImage(java.lang.String)

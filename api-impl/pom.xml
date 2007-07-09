@@ -38,7 +38,8 @@
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
-    <dependency>
+    
+	<dependency>
       
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blogger-api</artifactId>

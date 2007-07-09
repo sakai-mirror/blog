@@ -24,13 +24,11 @@ import javax.faces.model.SelectItem;
 import javax.servlet.ServletRequest;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.Member;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.State;
-import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.sorter.DateComparator;
-import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.sorter.IdCreatorComparator;
-import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.sorter.TitleComparator;
-import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.sorter.VisibilityComparator;
+
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.searcher.QueryBean;
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.BloggerManager;
 
@@ -39,27 +37,39 @@ import java.util.*;
 
 import com.sun.faces.util.Util;
 
-public class PostListViewerController extends BloggerController{
+public class PostListViewerController extends BloggerController {
 
     private Blogger blogger;	
     private List postList;
     private List filteredPostList;
 
-    //we will this values: 0 no sorter by this field. 1: descendant sort. 2: ascendant sort
-    private int sortByDate;
-    private int sortByTitle;
-    private int sortByVisibility;
-    private int sortByIdCreator;
+
     private int pagerNumItems = 10;
     private int pagerFirstItem;
     private int pagerTotalItems;
     private int currentVisibilityFilter;
+    
+    private boolean showComments;
+    private boolean showFullContent;
+    
+    private String lastView = "main";
+    
+    
+    private Member selectedMember;
+    
+    /*  these variables are used as part of a trick
+     * because of we want to process the page mainAccess when the checkbox for showcomment and showFullContent we had put 'this.form.submit' in the javascript event onchange.
+     * when submit is executed, because is part of javascript and not jsf, the behavior is not the one we spect. The system will call the only action present in the page (ShowPostFromListOfPostsJSFComponent) but we don't want to
+     * do anything with that action. With these flag we can know when this action has been invoked correctly or as part of the this.form.submit process.
+    */
+    private boolean showCommentsHasChanged=false; 
+    private boolean showFullContentHasChanged=false; 
+    
+    private boolean firstLoad = true;
 
     public PostListViewerController(){
     	blogger = BloggerManager.getBlogger();
-    	
-        restetSortState();
-        resetFilters();
+
     }
     public Collection getPostList(){
         List listInUse = null;
@@ -86,7 +96,14 @@ public class PostListViewerController extends BloggerController{
     }
 
 
-    public void loadAllPost(){
+    public void reloadPosts(){
+    	if (lastView.equals("main"))
+    		loadAllPost();
+    	else
+    		loadAllPostsOfTheSelectedMember();
+    }
+    
+    private void loadAllPost(){
     	
     	Post[] posts = blogger.getPosts(SakaiProxy.getCurrentSiteId(),SakaiProxy.getCurretUserEid());
     	if (posts!=null)
@@ -96,12 +113,30 @@ public class PostListViewerController extends BloggerController{
     	
         updatePagerValues();
     }
+    
+    private void loadAllPostsOfTheSelectedMember(){
+    	String userEid;
+    	
+   		userEid = selectedMember.getUserEid();
+   		QueryBean query = new QueryBean();
+   		query.setUser(selectedMember.getUserEid());
+   		
+   		Post[] posts = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurretUserEid());
+    	if (posts!=null)
+    		postList = Arrays.asList(posts);
+    	else
+    		postList = new ArrayList();
+    	
+        updatePagerValues();  	
+
+    } 
 
     //this method is used when the action comes from a standar jsf component, like a table
     public String doShowPost(){
       ServletRequest request = (ServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
       Post post = (Post) request.getAttribute("post");
 
+      // The lookup key needs to be specified in faces-config ie: postViewerController.
       ValueBinding binding =  Util.getValueBinding("#{postViewerController}");
       PostViewerController postViewerController = (PostViewerController)binding.getValue(FacesContext.getCurrentInstance());
       postViewerController.setPost(post);
@@ -109,10 +144,28 @@ public class PostListViewerController extends BloggerController{
       return "viewPost";
     }
     
+    public String doShowPostOfMember(){
+        ServletRequest request = (ServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        selectedMember = (Member) request.getAttribute("member");
+        lastView = "userBlog";
+        reloadPosts();
+        return "userBlog";
+    }     
+    public String doShowMyBlogger(){
+        selectedMember = new Member();
+        selectedMember.setUserEid(SakaiProxy.getCurretUserEid());
+        selectedMember.setUserDisplayId(SakaiProxy.getDiplayNameForTheUser(SakaiProxy.getCurretUserEid()));
+        lastView = "userBlog";
+        reloadPosts();
+        return "userBlog";
+    }
+    
     //this method is used when the action comes from a PostListing jsf component
     public String showPostFromListOfPostsJSFComponent(){
     	Post post = (Post) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("post");
-        
+    	if (showCommentsHasChanged || showFullContentHasChanged)
+    		return "";
+       
     	ValueBinding binding =  Util.getValueBinding("#{postViewerController}");
     	PostViewerController postViewerController = (PostViewerController)binding.getValue(FacesContext.getCurrentInstance());
     	postViewerController.setPost(post);
@@ -121,26 +174,12 @@ public class PostListViewerController extends BloggerController{
     }
     public String doShowAll(){
         loadAllPost();
-        resetFilters();
         updatePagerValues();
-        restetSortState();
-        return "viewPostList";
+        lastView = "main";
+        return "main";
     }
-    
-    public Post[] getLastPosts(){
-    	Post[] posts = blogger.getPosts(SakaiProxy.getCurrentSiteId(),SakaiProxy.getCurretUserEid());
-    	if (posts==null)
-    		return new Post[0];
-    	if (posts!=null && posts.length>=20){
-        	ArrayList postsAsList = new ArrayList(20);
-        	for (int i=0;i<20;i++){
-        		postsAsList.add(posts[i]);
-        	}
-    		return (Post[])postsAsList.toArray(new Post[20]);
-    	}
-    	return posts;
-    }    
 
+     
     public String doSearch(){
 
         QueryBean query = (QueryBean) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("query");
@@ -149,72 +188,26 @@ public class PostListViewerController extends BloggerController{
         	postList = new ArrayList(); //empty list
         else
         	postList = Arrays.asList(result);
-        resetFilters();
         updatePagerValues();
-        restetSortState();
-        return "viewPostList";
+        lastView = "main";
+        return "main";
     }
-    public String doSortByTitle(){
-        if (sortByTitle==0 || sortByTitle==2){
-            Collections.sort(postList,new TitleComparator());
-            sortByTitle=1;
-        } else{
-            Collections.reverse(postList);
-            sortByTitle=2;
-        }
-        sortByDate=0;
-        sortByIdCreator=0;
-        sortByVisibility=0;
+    
+    public String doSearchInMemberBlog(){
 
-        return "viewPostList";
+        QueryBean query = (QueryBean) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("query");
+        query.setUser(selectedMember.getUserEid());
+        Post[] result = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurretUserEid());
+        if (result==null)
+        	postList = new ArrayList(); //empty list
+        else
+        	postList = Arrays.asList(result);
+        updatePagerValues();
+        lastView = "userBlog";
+        return "userBlog";
     }
-    public String doSortByDate(){
-        if (sortByDate==0 || sortByDate==2){
-            Collections.sort(postList,new DateComparator());
-            sortByDate=1;
-        } else{
-            Collections.reverse(postList);
-            sortByDate=2;
-        }
-        sortByTitle=0;
-        sortByIdCreator=0;
-        sortByVisibility=0;
+ 
 
-        return "viewPostList";
-    }
-    public String doSortByCreator(){
-        if (sortByIdCreator==0 || sortByIdCreator==2){
-            Collections.sort(postList,new IdCreatorComparator());
-            sortByIdCreator=1;
-        } else {
-            Collections.reverse(postList);
-            sortByIdCreator=2;
-        }
-        sortByDate=0;
-        sortByTitle=0;
-        sortByVisibility=0;
-        return "viewPostList";
-    }
-    public String doSortByVisibility(){
-        if (sortByVisibility==0 || sortByVisibility==2){
-            Collections.sort(postList,new VisibilityComparator());
-            sortByVisibility=1;
-        } else {
-            Collections.reverse(postList);
-            sortByVisibility=2;
-        }
-        sortByDate=0;
-        sortByTitle=0;
-        sortByIdCreator=0;
-        return "viewPostList";
-    }
-
-    private void restetSortState(){
-        sortByDate=1;
-        sortByTitle=0;
-        sortByIdCreator=0;
-        sortByVisibility=0;
-    }
     //----- METHODS USED BY PAGER ----------------------------
 
     public void setPagerFirstItem(int firstItem){
@@ -226,20 +219,22 @@ public class PostListViewerController extends BloggerController{
     }
     public void setPagerNumItems(int num){
         pagerNumItems = num;
+        reloadPosts();
     }
     public int getPagerNumItems(){
         return pagerNumItems;
     }
     public int getPagerTotalItems(){
+    	if (firstLoad) //this is when the page is loaded. The blogger didn't have the chance of loading the posts. This is because the pager is render before the list of posts
+    		loadAllPost();
+    	firstLoad=false;
         return pagerTotalItems;
     }
     private void updatePagerValues(){
         List listInUse;
-        pagerNumItems = 10;
         if (filteredPostList==null)
             listInUse = postList;
         else{
-        	filteredPostList = applyFilter(postList);
             listInUse = filteredPostList;
         }
 
@@ -266,35 +261,35 @@ public class PostListViewerController extends BloggerController{
         //result.add(new SelectItem(new Integer(State.PUBLIC),"PUBLIC"));
         return result;
     }
-    public void setFilterByVisibility(int filter){
-        currentVisibilityFilter=filter;
+     public void setShowComments(boolean s){
+    	if (s!=showComments)
+    		showCommentsHasChanged=true; //we know that the checkbox has changed. See comment about variable declaration
+    	else 
+    		showCommentsHasChanged=false;
+    	showComments=s;
     }
-    public int getFilterByVisibility(){
-        return currentVisibilityFilter;
+    public boolean getShowComments(){
+    	return showComments;
     }
-    private void resetFilters(){
-        filteredPostList = null;
-        currentVisibilityFilter=4;
+    public void setShowFullContent(boolean s){
+    	if (s!=showFullContent)
+    		showFullContentHasChanged=true; //we know that the checkbox has changed. See comment about variable declaration
+    	else
+    		showFullContentHasChanged=false;
+    	showFullContent = s;
+    	 
     }
-    public String doApplyFilters(){
-        filteredPostList = applyFilter(postList);
-        updatePagerValues();
-        return "viewPostList";
+    public String getSelectedMemberId(){
+    	if (selectedMember!=null)
+    		return selectedMember.getUserDisplayId();
+    	return SakaiProxy.getDiplayNameForTheUser(SakaiProxy.getCurretUserEid());
+    }    
+    public boolean getShowFullContent(){
+    	return showFullContent;
     }
-    private List applyFilter(List originalList){
-        return applyVisibilityFilter(originalList);
+    public String getLastView(){
+    	return lastView;
     }
-    private List applyVisibilityFilter(List originalList){
-        List result = new ArrayList();
-        if (currentVisibilityFilter==4)
-            return originalList;
-        Iterator it = originalList.iterator();
-        while (it.hasNext()){
-            Post post = (Post)it.next();
-            if (post.getState().getVisibility()==currentVisibilityFilter)
-                result.add(post);
-        }
-        return result;
-    }
+
 
 }

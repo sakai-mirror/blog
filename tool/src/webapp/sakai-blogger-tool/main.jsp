@@ -26,18 +26,36 @@
     response.addHeader("Pragma", "no-cache");
 %>
 
-
 <f:loadBundle basename="uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages" var="msgs"/>
 
 <f:view>
-
 <sakai:view title="#{msgs.title}">
+	<link rel="stylesheet" type="text/css" href="css/blogger.css" />
     <h:form>
-           <f:subview id="toolBar">
-               <jsp:include page="Toolbar.jsp"></jsp:include>
-           </f:subview>
-           <sakai:instruction_message value="#{msgs.lastEntries}"/>
-		<blogger:listOfPosts posts="#{postListViewerController.lastPosts}"  action="#{postListViewerController.showPostFromListOfPostsJSFComponent}"></blogger:listOfPosts>
+        <f:subview id="toolBar">
+        	<jsp:include page="Toolbar.jsp"></jsp:include>
+        </f:subview>
+		<f:verbatim><div style="height: 20px;"></div></f:verbatim>
+        <h:outputText styleClass="spanPageTitle" value="#{msgs.home}" />
+        <f:verbatim><div style="height: 20px;"></div></f:verbatim>        
+     	<h:selectBooleanCheckbox value="#{postListViewerController.showComments}" immediate="true" onchange="this.form.submit();" />
+        <h:outputText value="#{msgs.showComments}" /> 
+        <f:verbatim>&nbsp;&nbsp;</f:verbatim>
+        <h:selectBooleanCheckbox value="#{postListViewerController.showFullContent}" immediate="true"  onchange="this.form.submit();"/>
+        <h:outputText value="#{msgs.showFullContent}" />
+        <f:verbatim><div style="height: 10px;"></div></f:verbatim>
+        <sakai:pager 
+                     totalItems="#{postListViewerController.pagerTotalItems}"
+                     firstItem="#{postListViewerController.pagerFirstItem}"
+                     pageSize="#{postListViewerController.pagerNumItems}"
+                     accesskeys="true"
+                     immediate="true" />
+        <sakai:group_box title="#{msgs.search}">
+           	<h:inputText id="idSearch" value="#{query.queryString}" size="30"  />
+  	      	<h:commandButton  action="#{postListViewerController.doSearch}"  value="#{msgs.search}"/>
+      	</sakai:group_box>                    
+		<blogger:listOfPosts posts="#{postListViewerController.postList}"  action="#{postListViewerController.showPostFromListOfPostsJSFComponent}"  showComments="#{postListViewerController.showComments}" showFullContent="#{postListViewerController.showFullContent}"></blogger:listOfPosts>
+
     </h:form>
 </sakai:view>
 </f:view>

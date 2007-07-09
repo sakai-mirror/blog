@@ -35,7 +35,8 @@ import com.sun.faces.util.Util;
 public class PostViewerController extends BloggerController{
     private Post post;
     private Blogger blogger;
-    
+
+  
     public PostViewerController(){
     	blogger = BloggerManager.getBlogger();
     }
@@ -82,9 +83,9 @@ public class PostViewerController extends BloggerController{
     	}
 		ValueBinding binding =  Util.getValueBinding("#{postListViewerController}");
 		PostListViewerController controller = (PostListViewerController)binding.getValue(FacesContext.getCurrentInstance());
-		controller.loadAllPost();
-
-        return "viewPostList";
+		controller.reloadPosts();
+		
+        return controller.getLastView();
     }
     public String doConfirmDeletePost(){
         return "confirmDeletePost";

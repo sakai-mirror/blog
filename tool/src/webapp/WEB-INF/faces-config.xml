@@ -61,6 +61,11 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
     	<managed-bean-class>uk.ac.lancs.e_science.sakai.tools.blogger.AddCommentController</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+	<managed-bean>
+  		<managed-bean-name>sakaiBean</managed-bean-name>
+    	<managed-bean-class>uk.ac.lancs.e_science.sakai.tools.blogger.SakaiBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
 
 
 	<managed-bean>
@@ -140,14 +145,7 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
             <to-view-id>/sakai-blogger-tool/PreviewPost.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
-    
-    <navigation-rule>
-        <from-view-id>*</from-view-id>
-        <navigation-case>
-            <from-outcome>viewPostList</from-outcome>
-            <to-view-id>/sakai-blogger-tool/ListOfPostsViewer.jsp</to-view-id>
-        </navigation-case>
-    </navigation-rule>
+   
 
     <navigation-rule>
         <from-view-id>*</from-view-id>
@@ -173,6 +171,21 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
         </navigation-case>
     </navigation-rule>  
     
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>membersView</from-outcome>
+            <to-view-id>/sakai-blogger-tool/MembersView.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>   
+      
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>userBlog</from-outcome>
+            <to-view-id>/sakai-blogger-tool/UserBlogView.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>        
     
 <!-- COMPONENTS -->
 

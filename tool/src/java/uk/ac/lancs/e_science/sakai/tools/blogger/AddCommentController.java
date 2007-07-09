@@ -49,9 +49,24 @@ public class AddCommentController extends BloggerController{
         return ""; //initially, the comment text is empty.
     }
     public String doSaveComment(){
+    	if (isEmpty(commentText))
+    		return "viewPost"; //ignore the comment
+
         Comment comment = new Comment(commentText);
         blogger.addCommentToPost(comment, post.getOID(),SakaiProxy.getCurretUserEid(), SakaiProxy.getCurrentSiteId());
         return "viewPost";
 
+    }
+    private boolean isEmpty(String str){
+    	str = str.replaceAll("<br />", "");
+    	str = str.replaceAll("&nbsp;", "");
+    	str = str.replaceAll(" ", ""); 
+    	str = str.trim(); 	
+    	for (int i=0;i<str.length();i++){//some estrange characteres come from the htmleditor that are not cleaned by  trim but the debugger shows them as white space
+    		Character ch = new Character(str.charAt(i));
+    		if (!Character.isSpaceChar(str.charAt(i)))
+    			return false;
+    	}
+    	return true;
     }
 }

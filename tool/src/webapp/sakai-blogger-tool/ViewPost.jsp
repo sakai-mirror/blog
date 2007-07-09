@@ -31,6 +31,7 @@
 
 <f:view>
 <sakai:view_container title="#{msgs.title}">
+ 	<link rel="stylesheet" type="text/css" href="css/blogger.css" />
     <STYLE TYPE="text/css">
       table.tableHeader {
         background-color:#FFF8DF;

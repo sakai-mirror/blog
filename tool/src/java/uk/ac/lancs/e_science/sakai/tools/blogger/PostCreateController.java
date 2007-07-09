@@ -40,8 +40,7 @@ public class PostCreateController extends PostEditionAbstractController{
         return "newPost";
     }
     public String doSave(){
-    	super.doSave();
-        return "main";
+    	return super.doSave();
     }   
     public String doPreview(){
         Map sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();

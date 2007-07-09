@@ -53,6 +53,18 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>		
+		<attribute>
+			<name>showComments</name>
+			<required>false</required>
+		</attribute>			
+		<attribute>
+			<name>showFullContent</name>
+			<required>false</required>
+		</attribute>
+		<attribute>
+			<name>showCreator</name>
+			<required>false</required>
+		</attribute>		
 	</tag>	
   <tag>
     <name>rich_text_area</name>

@@ -34,13 +34,7 @@ public class PostEditController extends PostEditionAbstractController{
     }
 
     public String doSave(){
-    	super.doSave();
-/*       
-        ValueBinding binding =  Util.getValueBinding("#{postListViewerController}");
-        PostListViewerController postListViewerController = (PostListViewerController)binding.getValue(FacesContext.getCurrentInstance());
-        postListViewerController.loadAllPost();
-*/
-        return "viewPost";
+    	return super.doSave();
     }
     public String doPreview(){
         Map sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();

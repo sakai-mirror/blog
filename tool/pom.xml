@@ -56,20 +56,30 @@
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-tool-api</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-util</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
+      <scope>provided</scope>
     </dependency>
+
+
+   	<dependency>
+       <groupId>sakaiproject</groupId>
+       <artifactId>sakai-util-api</artifactId>
+       <version>${sakai.version}</version>
+       <type>jar</type>
+       <scope>provided</scope>
+   	</dependency>
+
     <dependency>
       
       <groupId>jsf</groupId>

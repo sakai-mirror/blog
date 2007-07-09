@@ -25,11 +25,14 @@ import java.util.ResourceBundle;
 import java.util.StringTokenizer; 
 
 import javax.faces.context.FacesContext;
+import javax.faces.el.ValueBinding;
 import javax.faces.model.SelectItem;
 import javax.servlet.ServletRequest;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.myfaces.custom.tabbedpane.HtmlPanelTabbedPane;
+
+import com.sun.faces.util.Util;
 
 import uk.ac.lancs.e_science.sakai.tools.blogger.cacheForImages.CacheForImages;
 import uk.ac.lancs.e_science.sakai.tools.blogger.util.JpegTransformer;
@@ -91,14 +94,19 @@ public class PostEditionAbstractController extends BloggerController implements 
         			cache.removeImage(((Image)post.getElements()[i]).getIdImage());
         		}
         	}
-        }    	
-    	return "";
+        }   
+        ValueBinding binding =  Util.getValueBinding("#{postListViewerController}");
+        PostListViewerController postListViewerController = (PostListViewerController)binding.getValue(FacesContext.getCurrentInstance());
+        postListViewerController.reloadPosts();
+		
+        return postListViewerController.getLastView();
     	
     }
     
     public String doPreview(){
         ServletRequest request = (ServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
         request.setAttribute("post",post);
+        
     	return "previewPost";
     }
     

@@ -31,6 +31,8 @@
 
 <f:view>
 	<sakai:view_container title="#{msgs.title}">
+ 	<link rel="stylesheet" type="text/css" href="css/blogger.css" />
+
 		<h:form>
 			<sakai:view_content>
 				<sakai:messages />

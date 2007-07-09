@@ -18,13 +18,19 @@ package uk.ac.lancs.e_science.sakai.tools.blogger.servlet;
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.BloggerManager;
 
 public class ServletForFiles extends HttpServlet { 
@@ -45,16 +51,18 @@ public class ServletForFiles extends HttpServlet {
 		
 		Blogger blogger = BloggerManager.getBlogger();
 		uk.ac.lancs.e_science.sakaiproject.api.blogger.post.File file = blogger.getFile(request.getParameter("fileId"));
-		String fileDescription = request.getParameter("fileDescription");
-		//set the headers into the request. "application/octet-stream means that this is a binary file
-		response.setContentType("application/octet-stream");
-		response.setHeader("Content-Disposition","attachment;filename="+fileDescription);
-		//Write the file to the output stream
-		//TODO: what if file.getContent returns null?
-		response.setContentLength(file.getContent().length);
-		response.getOutputStream().write(file.getContent());
-		response.getOutputStream().flush();
-		response.setHeader("Cache-Control","no-cache");
+		if (file!=null){ 
+			String fileDescription = request.getParameter("fileDescription");
+			//set the headers into the request. "application/octet-stream means that this is a binary file
+			response.setContentType("application/octet-stream");
+			response.setHeader("Content-Disposition","attachment;filename="+fileDescription);
+			//Write the file to the output stream
+			//TODO: what if file.getContent returns null?
+			response.setContentLength(file.getContent().length);
+			response.getOutputStream().write(file.getContent());
+			response.getOutputStream().flush();
+			response.setHeader("Cache-Control","no-cache");
+		}
 	}
 	
 	

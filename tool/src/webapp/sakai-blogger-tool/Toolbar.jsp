@@ -21,9 +21,10 @@
 </head>
 <body>
     <sakai:tool_bar>
-        <sakai:tool_bar_item value="#{msgs.home}" action="main" immediate="true" />
+        <sakai:tool_bar_item value="#{msgs.home}" action="#{postListViewerController.doShowAll}" immediate="true" />
+        <sakai:tool_bar_item value="#{msgs.selectByMember}" action="membersView" immediate="true" />
+        <sakai:tool_bar_item value="#{msgs.myBlogger}" action="#{postListViewerController.doShowMyBlogger}" immediate="true" />
         <sakai:tool_bar_item value="#{msgs.new}" action="#{postCreateController.newPost}" immediate="true" />
-        <sakai:tool_bar_item value="#{msgs.showAll}" action="#{postListViewerController.doShowAll}" immediate="true" />
     </sakai:tool_bar>
 </body>
 </html>

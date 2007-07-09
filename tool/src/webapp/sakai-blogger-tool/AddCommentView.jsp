@@ -31,6 +31,7 @@
 
 <f:view>
 <sakai:view_container title="#{msgs.title}">
+	<link rel="stylesheet" type="text/css" href="css/blogger.css" />
     <h:form>
         <sakai:view_content>
             <f:subview id="toolBar">
@@ -49,7 +50,7 @@
                 <br/>
                 <sakai:button_bar>
                     <sakai:button_bar_item action="#{addCommentController.doSaveComment}" value="#{msgs.save}"/>
-                    <sakai:button_bar_item action="PostViewer" value="#{msgs.cancel}" immediate="true"/>
+                    <sakai:button_bar_item action="viewPost" value="#{msgs.cancel}" immediate="true"/>
                 </sakai:button_bar>
 
         </sakai:view_content>

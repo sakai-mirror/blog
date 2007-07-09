@@ -38,9 +38,9 @@
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
-
+<!-- you need to put org.sakaiproject for the groupId in Maven 2 *not* sakaiproject -->
 	<dependency>
-      	<groupId>sakaiproject</groupId>
+      	<groupId>org.sakaiproject</groupId>
        	<artifactId>sakai-blogger-api-impl</artifactId>
        	<version>${sakai.version}</version>
        	<type>jar</type>

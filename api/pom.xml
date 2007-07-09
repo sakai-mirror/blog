@@ -70,7 +70,7 @@
         </dependency>
 
        	<dependency>
-           <groupId>sakaiproject</groupId>
+           <groupId>org.sakaiproject</groupId>
            <artifactId>sakai-util-api</artifactId>
            <version>${sakai.version}</version>
            <type>jar</type>

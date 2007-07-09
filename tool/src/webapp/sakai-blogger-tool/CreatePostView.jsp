@@ -82,107 +82,111 @@ td.td2{
 </script>
 
 	<sakai:view_content>
+		<link rel="stylesheet" type="text/css" href="css/blogger.css" />
+	
 	    <h:form id="PostForm"  onsubmit="javascript:return verifySave(#{postCreateController.isChanged});" enctype="multipart/form-data">
             <f:subview id="toolBar">
                 <jsp:include page="Toolbar.jsp"></jsp:include>
             </f:subview>
             <sakai:messages />
-            <sakai:instruction_message value="#{msgs.postEditor}"/>
-                <h:panelGrid columns="2">
-	                <h:panelGrid columns="2"  columnClasses="td1,td2">
-		                <h:outputText value="#{msgs.postTitle} *:"/>
-			            <h:inputText id="idTitle" value="#{postCreateController.post.title}" size="71" required="true" onkeypress="javascript:isChanged=true;">
-			            	<f:validator validatorId="PostTitleValidator"/>
-			            </h:inputText>
-	        	        <h:outputText value="#{msgs.keywords}:"/>
-	            	    <h:inputText size="71" value="#{postCreateController.keywords}" style="color:#CCCCCC" onkeyup="javascript:checkInputOnKeyUp(this,'#{postCreateController.keywordsMessage}');" onkeypress="javascript:checkInputOnKeyPress(this,'#{postCreateController.keywordsMessage}');isChanged=true;"/>
-		                <h:outputText value="#{msgs.abstract}:"/>
-	    	            <blogger:rich_text_area  onChange="functionOnChangeInAbstract" onSubmit="functionOnSubmitForTextArea" height="50" width="448" value="#{postCreateController.shortText}" toolbarButtonRows="0"/>
-	                </h:panelGrid>                
-	                <h:panelGrid columns="2">
-			                <h:outputText value="#{msgs.postVisibility}:"/>
-	        		        <h:selectOneMenu id="selectVisibility" value ="#{postCreateController.post.state.visibility}" onchange="javascript: isChanged=true;">
-		            	        <f:selectItems value="#{postCreateController.visibilityList}"/>
-	    	            	    <f:converter converterId="VisibilityCode"/>
-	        		        </h:selectOneMenu>
-
-			                <h:outputText value="#{msgs.readOnly}:"/>
-			                <h:selectBooleanCheckbox id="readOnlyCheckBox" value ="#{postCreateController.post.state.readOnly}"></h:selectBooleanCheckbox>
-
-			                <h:outputText value="#{msgs.allowComments}:" id="allowCommentsLabel"/>
-			                <h:selectBooleanCheckbox id="allowCommentsCheckBox"  value ="#{postCreateController.post.state.allowComments}" ></h:selectBooleanCheckbox>
-	                </h:panelGrid>                
+			<f:verbatim><div style="height: 20px;"></div></f:verbatim>
+            <h:outputText styleClass="spanPageTitle" value="#{msgs.postEditor}" />
+	        <f:verbatim><div style="height: 20px;"></div></f:verbatim>              
+               <h:panelGrid columns="2">
+                <h:panelGrid columns="2"  columnClasses="td1,td2">
+	                <h:outputText value="#{msgs.postTitle} *:"/>
+		            <h:inputText id="idTitle" value="#{postCreateController.post.title}" size="71" required="true" onkeypress="javascript:isChanged=true;">
+		            	<f:validator validatorId="PostTitleValidator"/>
+		            </h:inputText>
+        	        <h:outputText value="#{msgs.keywords}:"/>
+            	    <h:inputText size="71" value="#{postCreateController.keywords}" style="color:#CCCCCC" onkeyup="javascript:checkInputOnKeyUp(this,'#{postCreateController.keywordsMessage}');" onkeypress="javascript:checkInputOnKeyPress(this,'#{postCreateController.keywordsMessage}');isChanged=true;"/>
+	                <h:outputText value="#{msgs.abstract}:"/>
+    	            <blogger:rich_text_area  onChange="functionOnChangeInAbstract" onSubmit="functionOnSubmitForTextArea" height="50" width="448" value="#{postCreateController.shortText}" toolbarButtonRows="0"/>
                 </h:panelGrid>                
-	               
-                
-				<t:panelTabbedPane id="tabbedPane" bgcolor="#DDDFE4" tabContentStyleClass="tabStyle" >
-					<t:panelTab id="tab0" label="#{msgs.text}">
-               			<blogger:rich_text_area onChange="functionOnChangeInText"  onSubmit="functionOnSubmitForTextArea" rows="15" columns="92" value="#{postCreateController.editingText}" toolbarButtonRows="1"/>
-		                <sakai:button_bar>
-        		            <h:commandButton action="#{postCreateController.addParagraph}" value="#{msgs.addToDocument}" onclick="javascript:desactivateVerify=true;"/>
-	            	        <h:commandButton action="#{postCreateController.modifyParagraph}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyParagraphButton}"  onclick="javascript:desactivateVerify=true;"/>
-		                    <h:commandButton action="" value="#{msgs.resetEditor}" immediate="true"  onclick="javascript:desactivateVerify=true;"/>
-		                </sakai:button_bar>
-					</t:panelTab>
-					<t:panelTab id="tab1" label="#{msgs.images}" style="vertical-align:top">
-						<h:panelGrid columns="2">
-							<h:outputText value="#{msgs.imageName}:"  rendered="#{postCreateController.showModifyImageButton}"></h:outputText>
-		                	<h:outputText value="#{postCreateController.imageDescription}"  rendered="#{postCreateController.showModifyImageButton}"/>
-							<h:outputText value="#{msgs.image}:"></h:outputText>
-			        		<corejsf:upload target="image.jpg" value="#{postCreateController.image}"></corejsf:upload>
-							<h:outputText value="#{msgs.note}:"></h:outputText>
-							<h:outputText value="#{msgs.noteImages}"></h:outputText>
-							<h:outputText value=""></h:outputText>
-							<h:outputText value="#{msgs.maxFileSize}"></h:outputText>
-			        	</h:panelGrid>
-		                <sakai:button_bar>
-		                    <h:commandButton action="#{postCreateController.addImage}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
-		                    <h:commandButton action="#{postCreateController.modifyImage}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyImageButton}"  onclick="javascript:desactivateVerify=true;"/>
-		                </sakai:button_bar>
-					</t:panelTab>
-					<t:panelTab id="tab2" label="#{msgs.links}">
-						<h:panelGrid columns="2">
-							<h:outputText value="#{msgs.description}:"></h:outputText>
-			    	        <h:panelGrid columns="2">
-			                	<h:inputText id="idLinkDescription" value="#{postCreateController.linkDescription}" size="50" onkeypress="javascript: tabContentIsChanged=true;"/>
-			    	            <h:outputText value=""></h:outputText>
-			    	        </h:panelGrid>
-			    	        <h:outputText value="URL:"></h:outputText>
-							<h:panelGrid columns="2">
-		    	            	<h:inputText id="idLinkExpression" value="#{postCreateController.linkExpression}" size="50" onkeypress="javascript: tabContentIsChanged=true;"/>
-			    	            <h:outputText value="#{msgs.exampleURL}"></h:outputText>
-			    	        </h:panelGrid>
-		                </h:panelGrid>
-		                <sakai:button_bar>
-		                    <h:commandButton action="#{postCreateController.addLink}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
-		                    <h:commandButton action="#{postCreateController.modifyLink}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyLinkButton}"  onclick="javascript:desactivateVerify=true;"/>
-		                </sakai:button_bar>
-					</t:panelTab>
-					<t:panelTab id="tab3" label="#{msgs.files}">
-						<h:panelGrid columns="2">
-							<h:outputText value="#{msgs.fileName}:"  rendered="#{postCreateController.showModifyFileButton}"></h:outputText>
-		                	<h:outputText value="#{postCreateController.fileDescription}"  rendered="#{postCreateController.showModifyFileButton}"></h:outputText>
-							<h:outputText value="URL:"></h:outputText>
-			        		<corejsf:upload target="image.jpg" value="#{postCreateController.file}"></corejsf:upload>
-							<h:outputText value="#{msgs.note}:"></h:outputText>
-							<h:outputText value="#{msgs.maxFileSize}"></h:outputText>		                </h:panelGrid>
-		                <sakai:button_bar>
-		                    <h:commandButton action="#{postCreateController.addFile}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
-		                    <h:commandButton action="#{postCreateController.modifyFile}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyFileButton}"  onclick="javascript:desactivateVerify=true;"/>
-		                </sakai:button_bar>
-					
-					</t:panelTab>
-				</t:panelTabbedPane>
-				
+                <h:panelGrid columns="2">
+		                <h:outputText value="#{msgs.postVisibility}:"/>
+        		        <h:selectOneMenu id="selectVisibility" value ="#{postCreateController.post.state.visibility}" onchange="javascript: isChanged=true;">
+	            	        <f:selectItems value="#{postCreateController.visibilityList}"/>
+    	            	    <f:converter converterId="VisibilityCode"/>
+        		        </h:selectOneMenu>
 
-                <sakai:button_bar>
-                    <h:commandButton action="#{postCreateController.doPreview}" value="#{msgs.preview}" onclick="javascript:buttonPressed='PREVIEW'; " />
-                    <h:commandButton action="#{postCreateController.doSave}" value="#{msgs.save}" onclick="javascript:buttonPressed='SAVE';"/>
-                    <h:commandButton action="main" value="#{msgs.cancel}" immediate="true" onclick="javascript:buttonPressed='CANCEL';"/>
-                </sakai:button_bar>
-			    <sakai:group_box title="#{msgs.currentStructure}:">
-					<blogger:editPost post="#{postCreateController.post}" controller="#{postCreateController}"></blogger:editPost>
-				</sakai:group_box>	    
+		                <h:outputText value="#{msgs.readOnly}:"/>
+		                <h:selectBooleanCheckbox id="readOnlyCheckBox" value ="#{postCreateController.post.state.readOnly}"></h:selectBooleanCheckbox>
+
+		                <h:outputText value="#{msgs.allowComments}:" id="allowCommentsLabel"/>
+		                <h:selectBooleanCheckbox id="allowCommentsCheckBox"  value ="#{postCreateController.post.state.allowComments}" ></h:selectBooleanCheckbox>
+                </h:panelGrid>                
+               </h:panelGrid>                
+               
+               
+			<t:panelTabbedPane id="tabbedPane" bgcolor="#DDDFE4" tabContentStyleClass="tabStyle" >
+				<t:panelTab id="tab0" label="#{msgs.text}">
+              			<blogger:rich_text_area onChange="functionOnChangeInText"  onSubmit="functionOnSubmitForTextArea" rows="15" columns="92" value="#{postCreateController.editingText}" toolbarButtonRows="1"/>
+	                <sakai:button_bar>
+       		            <h:commandButton action="#{postCreateController.addParagraph}" value="#{msgs.addToDocument}" onclick="javascript:desactivateVerify=true;"/>
+            	        <h:commandButton action="#{postCreateController.modifyParagraph}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyParagraphButton}"  onclick="javascript:desactivateVerify=true;"/>
+	                    <h:commandButton action="" value="#{msgs.resetEditor}" immediate="true"  onclick="javascript:desactivateVerify=true;"/>
+	                </sakai:button_bar>
+				</t:panelTab>
+				<t:panelTab id="tab1" label="#{msgs.images}" style="vertical-align:top">
+					<h:panelGrid columns="2">
+						<h:outputText value="#{msgs.imageName}:"  rendered="#{postCreateController.showModifyImageButton}"></h:outputText>
+	                	<h:outputText value="#{postCreateController.imageDescription}"  rendered="#{postCreateController.showModifyImageButton}"/>
+						<h:outputText value="#{msgs.image}:"></h:outputText>
+		        		<corejsf:upload target="image.jpg" value="#{postCreateController.image}"></corejsf:upload>
+						<h:outputText value="#{msgs.note}:"></h:outputText>
+						<h:outputText value="#{msgs.noteImages}"></h:outputText>
+						<h:outputText value=""></h:outputText>
+						<h:outputText value="#{msgs.maxFileSize}"></h:outputText>
+		        	</h:panelGrid>
+	                <sakai:button_bar>
+	                    <h:commandButton action="#{postCreateController.addImage}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
+	                    <h:commandButton action="#{postCreateController.modifyImage}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyImageButton}"  onclick="javascript:desactivateVerify=true;"/>
+	                </sakai:button_bar>
+				</t:panelTab>
+				<t:panelTab id="tab2" label="#{msgs.links}">
+					<h:panelGrid columns="2">
+						<h:outputText value="#{msgs.description}:"></h:outputText>
+		    	        <h:panelGrid columns="2">
+		                	<h:inputText id="idLinkDescription" value="#{postCreateController.linkDescription}" size="50" onkeypress="javascript: tabContentIsChanged=true;"/>
+		    	            <h:outputText value=""></h:outputText>
+		    	        </h:panelGrid>
+		    	        <h:outputText value="URL:"></h:outputText>
+						<h:panelGrid columns="2">
+	    	            	<h:inputText id="idLinkExpression" value="#{postCreateController.linkExpression}" size="50" onkeypress="javascript: tabContentIsChanged=true;"/>
+		    	            <h:outputText value="#{msgs.exampleURL}"></h:outputText>
+		    	        </h:panelGrid>
+	                </h:panelGrid>
+	                <sakai:button_bar>
+	                    <h:commandButton action="#{postCreateController.addLink}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
+	                    <h:commandButton action="#{postCreateController.modifyLink}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyLinkButton}"  onclick="javascript:desactivateVerify=true;"/>
+	                </sakai:button_bar>
+				</t:panelTab>
+				<t:panelTab id="tab3" label="#{msgs.files}">
+					<h:panelGrid columns="2">
+						<h:outputText value="#{msgs.fileName}:"  rendered="#{postCreateController.showModifyFileButton}"></h:outputText>
+	                	<h:outputText value="#{postCreateController.fileDescription}"  rendered="#{postCreateController.showModifyFileButton}"></h:outputText>
+						<h:outputText value="URL:"></h:outputText>
+		        		<corejsf:upload target="image.jpg" value="#{postCreateController.file}"></corejsf:upload>
+						<h:outputText value="#{msgs.note}:"></h:outputText>
+						<h:outputText value="#{msgs.maxFileSize}"></h:outputText>		                </h:panelGrid>
+	                <sakai:button_bar>
+	                    <h:commandButton action="#{postCreateController.addFile}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
+	                    <h:commandButton action="#{postCreateController.modifyFile}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyFileButton}"  onclick="javascript:desactivateVerify=true;"/>
+	                </sakai:button_bar>
+				
+				</t:panelTab>
+			</t:panelTabbedPane>
+			
+
+               <sakai:button_bar>
+                   <h:commandButton action="#{postCreateController.doPreview}" value="#{msgs.preview}" onclick="javascript:buttonPressed='PREVIEW'; " />
+                   <h:commandButton action="#{postCreateController.doSave}" value="#{msgs.save}" onclick="javascript:buttonPressed='SAVE';"/>
+                   <h:commandButton action="main" value="#{msgs.cancel}" immediate="true" onclick="javascript:buttonPressed='CANCEL';"/>
+               </sakai:button_bar>
+		    <sakai:group_box title="#{msgs.currentStructure}:">
+				<blogger:editPost post="#{postCreateController.post}" controller="#{postCreateController}"></blogger:editPost>
+			</sakai:group_box>	    
 	    </h:form>
     </sakai:view_content>
     

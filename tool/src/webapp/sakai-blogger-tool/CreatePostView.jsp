@@ -125,7 +125,9 @@ td.td2{
 	                <sakai:button_bar>
        		            <h:commandButton action="#{postCreateController.addParagraph}" value="#{msgs.addToDocument}" onclick="javascript:desactivateVerify=true;"/>
             	        <h:commandButton action="#{postCreateController.modifyParagraph}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyParagraphButton}"  onclick="javascript:desactivateVerify=true;"/>
-	                    <h:commandButton action="" value="#{msgs.resetEditor}" immediate="true"  onclick="javascript:desactivateVerify=true;"/>
+            	        <%--
+	                    <h:commandButton action="#{postCreateController.doReset}" value="#{msgs.resetEditor}" immediate="true"  onclick="javascript:desactivateVerify=true;"/>
+	                    --%>
 	                </sakai:button_bar>
 				</t:panelTab>
 				<t:panelTab id="tab1" label="#{msgs.images}" style="vertical-align:top">

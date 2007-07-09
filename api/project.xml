@@ -69,6 +69,14 @@
            <type>jar</type>
        	</dependency>
        	
+		<dependency>
+           <groupId>sakaiproject</groupId>
+           <artifactId>sakai-util-api</artifactId>
+           <version>${sakai.version}</version>
+           <type>jar</type>
+       	</dependency>
+       	
+       	
        	<dependency>
            <groupId>sakaiproject</groupId>
            <artifactId>sakai-util</artifactId>

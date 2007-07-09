@@ -22,11 +22,13 @@ public class QueryBean {
     private int _visibility;
     private long _initDate;
     private long _endDate;
+    private String _user;
 
     public QueryBean(){
         _visibility = -1; //this mean no filter by visibility
         _initDate = -1; //this mean no filter by initDate;
         _endDate = -1; //this mean no filter by endDate
+        _user ="";
     }
 
     public boolean areThereAnyCondition(){
@@ -67,5 +69,11 @@ public class QueryBean {
     }
     public long getEndDate(){
         return _endDate;
+    }
+    public void setUser(String user){
+    	this._user = user;
+    }
+    public String getUser(){
+    	return _user;
     }
 }

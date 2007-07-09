@@ -69,6 +69,13 @@
       <scope>provided</scope>
         </dependency>
 
+       	<dependency>
+           <groupId>sakaiproject</groupId>
+           <artifactId>sakai-util-api</artifactId>
+           <version>${sakai.version}</version>
+           <type>jar</type>
+	      <scope>provided</scope>
+       	</dependency>
 
         <dependency>
            <groupId>org.sakaiproject</groupId>

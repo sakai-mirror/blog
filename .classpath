@@ -7,25 +7,25 @@
 	<classpathentry kind="src" path="jsfComponent/src/java"/>
 	<classpathentry kind="src" path="tool/src/webapp"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/commons-beanutils/jars/commons-beanutils-1.7.0.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/commons-digester/jars/commons-digester-1.6.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/jsf/jars/jsf-impl-1.1.01.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/jsf/jars/jsf-api-1.1.01.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/jstl/jars/jstl-1.1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/xerces/jars/xercesImpl-2.6.2.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/servletapi/jars/servletapi-2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/commons-fileupload/jars/commons-fileupload-1.0.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/commons-logging/jars/commons-logging-1.0.4.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/myfaces/jars/tomahawk-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/jspapi/jars/jsp-api-2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/sakaiproject/jars/sakai-db-api-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/sakaiproject/jars/sakai-util-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/sakaiproject/jars/sakai-authz-api-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/sakaiproject/jars/sakai-entity-api-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/sakaiproject/jars/sakai-tool-api-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/sakaiproject/jars/sakai-component-api-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/sakaiproject/jars/sakai-site-api-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/sakaiproject/jars/sakai-user-api-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Administrator/.maven/repository/sakaiproject/jars/sakai-util-api-2.3.1.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-beanutils/jars/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-digester/jars/commons-digester-1.6.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/jsf/jars/jsf-impl-1.1.01.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/jsf/jars/jsf-api-1.1.01.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/jstl/jars/jstl-1.1.2.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/xerces/jars/xercesImpl-2.6.2.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/servletapi/jars/servletapi-2.4.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/commons-fileupload/jars/commons-fileupload-1.0.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/commons-logging/jars/commons-logging-1.0.4.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/myfaces/jars/tomahawk-1.1.1.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/jspapi/jars/jsp-api-2.0.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/sakaiproject/jars/sakai-db-api-dev.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/sakaiproject/jars/sakai-util-dev.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/sakaiproject/jars/sakai-authz-api-dev.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/sakaiproject/jars/sakai-entity-api-dev.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/sakaiproject/jars/sakai-tool-api-dev.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/sakaiproject/jars/sakai-component-api-dev.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/sakaiproject/jars/sakai-site-api-dev.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/sakaiproject/jars/sakai-user-api-dev.jar"/>
+   	<classpathentry kind="var" path="MAVEN_REPO/sakaiproject/jars/sakai-util-api-dev.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

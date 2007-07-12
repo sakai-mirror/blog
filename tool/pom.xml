@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>master</artifactId>
+    <artifactId>blog-base</artifactId>
     <groupId>org.sakaiproject</groupId>
     <version>M2</version>
-    <relativePath>../../master/pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <name>sakai-blogger-tool</name>
   <artifactId>sakai-blogger-tool</artifactId>
@@ -28,28 +28,24 @@
   <packaging>war</packaging>
   <dependencies>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blogger-api</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blogger-api-impl</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blogger-fileUpload</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blogger-jsf</artifactId>
       <version>${sakai.version}</version>
@@ -60,113 +56,92 @@
       <artifactId>sakai-tool-api</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
-      <scope>provided</scope>
     </dependency>
-
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-util</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
-      <scope>provided</scope>
     </dependency>
-
-
-   	<dependency>
-       <groupId>org.sakaiproject</groupId>
-       <artifactId>sakai-util-api</artifactId>
-       <version>${sakai.version}</version>
-       <type>jar</type>
-       <scope>provided</scope>
-   	</dependency>
-
     <dependency>
-      
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-util-api</artifactId>
+      <version>${sakai.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
       <groupId>jsf</groupId>
       <artifactId>jsf-api</artifactId>
       <version>1.1.01</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>jsf</groupId>
       <artifactId>jsf-impl</artifactId>
       <version>1.1.01</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-component</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-jsf-app</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-jsf-widgets</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-jsf-widgets-sun</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-jsf-widgets</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
       <version>1.1.2</version>
       <type>jar</type>
-      <scope>provided</scope>
     </dependency>
     <dependency>
-      
       <groupId>taglibs</groupId>
       <artifactId>standard</artifactId>
       <version>1.1.2</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-jsf-tool</artifactId>
       <version>${sakai.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>1.7.0</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>commons-digester</groupId>
       <artifactId>commons-digester</artifactId>
       <version>1.6</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
       <version>1.1.1</version>
@@ -179,9 +154,9 @@
       <type>jar</type>
       <exclusions>
         <exclusion>
-            <!-- shared -->
-            <groupId>antlr</groupId>
-            <artifactId>antlr</artifactId>
+<!-- shared -->
+          <groupId>antlr</groupId>
+          <artifactId>antlr</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -190,39 +165,28 @@
       <artifactId>servlet-api</artifactId>
       <version>${sakai.servletapi.version}</version>
       <type>jar</type>
-      <scope>provided</scope>
     </dependency>
- <!-- in shared -->
+<!-- in shared -->
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
       <version>1.0.4</version>
       <type>jar</type>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
       <version>3.1</version>
       <type>jar</type>
-      <scope>provided</scope>
     </dependency>
 <!-- blocking transitive dep -->
- <dependency>
+    <dependency>
       <groupId>xml-apis</groupId>
       <artifactId>xml-apis</artifactId>
       <version>2.0.2</version>
-      <scope>provided</scope>
     </dependency>
-
   </dependencies>
   <build>
-    
-    
-    
-    
-    
-    
     <resources>
       <resource>
         <directory>${basedir}/src/bundle</directory>
@@ -231,7 +195,6 @@
         </includes>
       </resource>
     </resources>
-    
 <!-- other resources for the jar - the message bundles -->
   </build>
 </project>

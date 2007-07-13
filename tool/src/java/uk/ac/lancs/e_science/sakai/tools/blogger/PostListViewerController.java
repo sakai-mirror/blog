@@ -258,6 +258,7 @@ public class PostListViewerController extends BloggerController {
         result.add(new SelectItem(new Integer(4),"ALL"));
         result.add(new SelectItem(new Integer(State.PRIVATE),"PRIVATE"));
         result.add(new SelectItem(new Integer(State.SITE),"SITE"));
+        result.add(new SelectItem(new Integer(State.TUTOR),"TUTOR"));
         //result.add(new SelectItem(new Integer(State.PUBLIC),"PUBLIC"));
         return result;
     }

@@ -23,6 +23,7 @@ public class State {
     public static final int PRIVATE=0;
     public static final int SITE=1;
     public static final int PUBLIC=2;
+    public static final int TUTOR=3;
     
 
     private int visibility;
@@ -41,6 +42,9 @@ public class State {
     }
     public boolean isPublic(){
         return visibility==PUBLIC;
+    }
+    public boolean isTutor(){
+        return visibility==TUTOR;
     }
     public int getVisibility(){
         return visibility;

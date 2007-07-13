@@ -21,16 +21,21 @@ import javax.faces.convert.ConverterException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.State;
+
 public class VisibilityConverter implements Converter{
     public Object getAsObject(FacesContext context, UIComponent component, String target) throws ConverterException{
         if (target==null || target.trim().equals(""))
             throw new ConverterException();
         if (target.equals("PRIVATE"))
-            return new Integer(0);
+            return new Integer(State.PRIVATE);
         if (target.equals("SITE"))
-            return new Integer(1);
+            return new Integer(State.SITE);
         if (target.equals("PUBLIC"))
-            return new Integer(2);
+            return new Integer(State.PUBLIC);
+        if (target.equals("TUTOR"))
+            return new Integer(State.TUTOR);
+        
         throw new ConverterException(); //Unknow target
     }
 
@@ -38,12 +43,15 @@ public class VisibilityConverter implements Converter{
         Integer value = (Integer) target;
         if (value == null)
             throw new ConverterException();
-        if (value.intValue()==0)
+        if (value.intValue()==State.PRIVATE)
             return "PRIVATE";
-        if (value.intValue()==1)
+        if (value.intValue()==State.SITE)
             return "SITE";
-        if (value.intValue()==2)
+        if (value.intValue()==State.PUBLIC)
             return "PUBLIC";
+        if (value.intValue()==State.TUTOR)
+            return "TUTOR";
+        
         return value.toString();
     }
 }

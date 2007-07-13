@@ -530,6 +530,7 @@ public class PostEditionAbstractController extends BloggerController implements 
 
         ArrayList result = new ArrayList();
         result.add(new SelectItem(new Integer(State.PRIVATE),"PRIVATE"));
+        result.add(new SelectItem(new Integer(State.TUTOR),"TUTOR"));
         result.add(new SelectItem(new Integer(State.SITE),"SITE"));
         //result.add(new SelectItem(new Integer(State.PUBLIC),"PUBLIC"));
         return result;

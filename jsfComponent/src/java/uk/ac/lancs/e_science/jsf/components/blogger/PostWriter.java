@@ -165,12 +165,22 @@ public class PostWriter {
 				writer.startElement("span",uicomponent);
 				writer.writeAttribute("style","font-size:12px; font-family:Verdana, Arial, Helvetica, sans-serif",null);
 				writer.write(post.getCreator().getDisplayName());
+				/*
 				Date date = new Date(post.getDate());
 				writer.write(" ("+DateFormat.getDateInstance(DateFormat.SHORT).format(date)+")");
+				*/
 				writer.endElement("span");
 			}
 			writer.endElement("td ");
 		}
+			writer.startElement("td",uicomponent);
+		writer.writeAttribute("align","right", null);
+		writer.startElement("span",uicomponent);
+		Date date = new Date(post.getDate());
+		writer.write(" ("+DateFormat.getDateInstance(DateFormat.SHORT).format(date)+")");
+		writer.endElement("span");
+			writer.endElement("td ");
+		
 		writer.startElement("td",uicomponent);
 		writer.writeAttribute("align","right", null);
 		if (post.getState().isPrivate())

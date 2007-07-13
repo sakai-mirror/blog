@@ -455,6 +455,10 @@ public class PostEditionAbstractController extends BloggerController implements 
 	public boolean getShowModifyParagraphButton() {
 		return showModifyParagraphButton;
 	}
+	
+	public boolean getShowAddParagraphButton() {
+		return !showModifyParagraphButton;
+	}
 
 	public boolean getShowModifyImageButton() {
 		return showModifyImageButton;

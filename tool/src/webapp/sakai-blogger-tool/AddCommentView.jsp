@@ -43,7 +43,8 @@
 
                  <br/>
                  <sakai:group_box title="#{msgs.yourComment}">
-                    <blogger:rich_text_area  rows="5" columns="92" value="#{addCommentController.commentText}" toolbarButtonRows="1"/>
+                    <%--<blogger:rich_text_area  rows="5" columns="92" value="#{addCommentController.commentText}" toolbarButtonRows="1"/>--%>
+			<sakai:inputRichText value="#{addCommentController.commentText}" rows="10" cols="117"/>
                  </sakai:group_box>
                  <br/>
 

@@ -54,6 +54,7 @@ td.td2{
 	doSubmit = false;
 	desactivateVerify=false;
 	function verifySave(otherChanges){
+		tabContentIsChanged = FCKeditorAPI.GetInstance('PostForm:main_text_inputRichText').IsDirty();
 		var result = false;
 		if (!desactivateVerify){
 			if (buttonPressed=='SAVE' && tabContentIsChanged){
@@ -100,7 +101,8 @@ td.td2{
         	        <h:outputText value="#{msgs.keywords}:"/>
             	    <h:inputText size="71" value="#{postEditController.keywords}" style="color:#CCCCCC" onkeyup="javascript:checkInputOnKeyUp(this,'#{postEditController.keywordsMessage}');" onkeypress="javascript:checkInputOnKeyPress(this,'#{postEditController.keywordsMessage}');isChanged=true;"/>
 	                <h:outputText value="#{msgs.abstract}:"/>
-    	            <blogger:rich_text_area  onChange="functionOnChangeInAbstract" onSubmit="functionOnSubmitForTextArea" height="50" width="448" value="#{postEditController.shortText}" toolbarButtonRows="0"/>
+              		<sakai:inputRichText value="#{postEditController.shortText}" rows="3" cols="120" textareaOnly="true"/>
+    	            <%-- <blogger:rich_text_area  onChange="functionOnChangeInAbstract" onSubmit="functionOnSubmitForTextArea" height="50" width="448" value="#{postEditController.shortText}" toolbarButtonRows="0"/> --%>
                 </h:panelGrid>                
                 <h:panelGrid columns="2">
 		                <h:outputText value="#{msgs.postVisibility}:"/>
@@ -119,10 +121,11 @@ td.td2{
 			<t:panelTabbedPane id="tabbedPane" bgcolor="#DDDFE4" tabContentStyleClass="tabStyle" >
 				<t:panelTab id="tab0" label="#{msgs.text}">
 					
-              			<blogger:rich_text_area onChange="functionOnChangeInText"  onSubmit="functionOnSubmitForTextArea"  rows="15" columns="92" value="#{postEditController.editingText}" toolbarButtonRows="1"/>
+              			<sakai:inputRichText id="main_text" value="#{postEditController.editingText}" rows="10" cols="127"/>
+              			<%--<blogger:rich_text_area onChange="functionOnChangeInText" onSubmit="functionOnSubmitForTextArea"  rows="15" columns="92" value="#{postEditController.editingText}" toolbarButtonRows="1"/>--%>
 	                <sakai:button_bar>
-       		            <h:commandButton action="#{postEditController.addParagraph}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
-            	        <h:commandButton action="#{postEditController.modifyParagraph}" value="#{msgs.modifyInDocument}: #{postEditController.currentElementIndex})" rendered="#{postEditController.showModifyParagraphButton}"   onclick="javascript:desactivateVerify=true;"/>
+       		            <h:commandButton action="#{postEditController.addParagraph}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;" rendered="#{postEditController.showAddParagraphButton}"/>
+            	        <h:commandButton action="#{postEditController.modifyParagraph}" value="#{msgs.modifyInDocument}" rendered="#{postEditController.showModifyParagraphButton}"   onclick="javascript:desactivateVerify=true;"/>
             	        <%--
 	                    <h:commandButton action="#{postEditController.doReset}" value="#{msgs.resetEditor}" immediate="true"   onclick="javascript:desactivateVerify=true;"/>
 	                    --%>

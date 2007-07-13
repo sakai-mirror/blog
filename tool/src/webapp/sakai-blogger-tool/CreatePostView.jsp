@@ -52,9 +52,13 @@ td.td2{
 	buttonPressed="";
 	doSubmit = false;
 	desactivateVerify=false;
-	function verifySave(otherChanges){
+	function verifySave(otherChanges)
+	{
+		tabContentIsChanged = FCKeditorAPI.GetInstance('PostForm:main_text_inputRichText').IsDirty();
+		
 		var result = false;
-		if (!desactivateVerify){
+		if (!desactivateVerify)
+		{
 			if (buttonPressed=='SAVE' && tabContentIsChanged){
 				result=window.confirm("You have changed an element but you do not have add or modify it in the document. Press OK to return to the editor. Press Cancel to ignore this message.");
 			}
@@ -101,7 +105,8 @@ td.td2{
         	        <h:outputText value="#{msgs.keywords}:"/>
             	    <h:inputText size="71" value="#{postCreateController.keywords}" style="color:#CCCCCC" onkeyup="javascript:checkInputOnKeyUp(this,'#{postCreateController.keywordsMessage}');" onkeypress="javascript:checkInputOnKeyPress(this,'#{postCreateController.keywordsMessage}');isChanged=true;"/>
 	                <h:outputText value="#{msgs.abstract}:"/>
-    	            <blogger:rich_text_area  onChange="functionOnChangeInAbstract" onSubmit="functionOnSubmitForTextArea" height="50" width="448" value="#{postCreateController.shortText}" toolbarButtonRows="0"/>
+              			<sakai:inputRichText value="#{postCreateController.shortText}" cols="120" rows="3" textareaOnly="true"/>
+    	            <%-- <blogger:rich_text_area  onChange="functionOnChangeInAbstract" onSubmit="functionOnSubmitForTextArea" height="50" width="448" value="#{postCreateController.shortText}" toolbarButtonRows="0"/>--%>
                 </h:panelGrid>                
                 <h:panelGrid columns="2">
 		                <h:outputText value="#{msgs.postVisibility}:"/>
@@ -121,7 +126,8 @@ td.td2{
                
 			<t:panelTabbedPane id="tabbedPane" bgcolor="#DDDFE4" tabContentStyleClass="tabStyle" >
 				<t:panelTab id="tab0" label="#{msgs.text}">
-              			<blogger:rich_text_area onChange="functionOnChangeInText"  onSubmit="functionOnSubmitForTextArea" rows="15" columns="92" value="#{postCreateController.editingText}" toolbarButtonRows="1"/>
+              			<%-- <blogger:rich_text_area onChange="functionOnChangeInText"  onSubmit="functionOnSubmitForTextArea" rows="15" columns="92" value="#{postCreateController.editingText}" toolbarButtonRows="1"/> --%>
+              			<sakai:inputRichText id="main_text" value="#{postCreateController.editingText}" rows="10" cols="127"/>
 	                <sakai:button_bar>
        		            <h:commandButton action="#{postCreateController.addParagraph}" value="#{msgs.addToDocument}" onclick="javascript:desactivateVerify=true;"/>
             	        <h:commandButton action="#{postCreateController.modifyParagraph}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyParagraphButton}"  onclick="javascript:desactivateVerify=true;"/>

@@ -130,7 +130,7 @@ td.td2{
               			<sakai:inputRichText id="main_text" value="#{postCreateController.editingText}" rows="10" cols="127"/>
 	                <sakai:button_bar>
        		            <h:commandButton action="#{postCreateController.addParagraph}" value="#{msgs.addToDocument}" onclick="javascript:desactivateVerify=true;"/>
-            	        <h:commandButton action="#{postCreateController.modifyParagraph}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyParagraphButton}"  onclick="javascript:desactivateVerify=true;"/>
+            	        <h:commandButton action="#{postCreateController.modifyParagraph}" value="#{msgs.modifyInDocument}" rendered="#{postCreateController.showModifyParagraphButton}"  onclick="javascript:desactivateVerify=true;"/>
             	        <%--
 	                    <h:commandButton action="#{postCreateController.doReset}" value="#{msgs.resetEditor}" immediate="true"  onclick="javascript:desactivateVerify=true;"/>
 	                    --%>

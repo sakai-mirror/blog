@@ -13,6 +13,12 @@
         <attainGoal name="sakai:deploy"/>
     </goal>
 
+    <goal name="redeploy">
+        <attainGoal name="sakai:clean"/>
+        <attainGoal name="sakai:build"/>
+        <attainGoal name="sakai:deploy"/>
+    </goal>
+
     <goal name="sakai_clean">
         <attainGoal name="sakai:clean"/>
     </goal>

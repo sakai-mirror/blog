@@ -50,9 +50,9 @@ public class PostWriter {
 	
 	public void printFullContent(Post post, boolean writeComments, boolean linkInTitle, boolean showCreator) throws IOException{
 
-		writer.write("<br/>");
+		//writer.write("<br/>");
 		writeHeaderForFullConent(writer,post, linkInTitle, showCreator);
-		writer.write("<br/>");
+		//writer.write("<br/>");
 		writeElementsForFullContent(writer,post);
 		if (writeComments){
 			writer.write("<br/>");
@@ -60,6 +60,8 @@ public class PostWriter {
 		}
 	}
 	public void printShortContent(Post post, boolean writeComments, boolean showCreator) throws IOException{
+		this.writeHeaderForFullConent(writer, post, true, showCreator);
+		/*
 		writer.startElement("table",uicomponent);
 		writer.writeAttribute("cellpading","0",null);
 		writer.writeAttribute("cellspacing","0",null);
@@ -73,13 +75,22 @@ public class PostWriter {
 		writer.endElement("tr");
 		writer.startElement("tr",uicomponent);
 		writer.startElement("td",uicomponent);
+		*/
 		if (post.getShortText()!=null && !(post.getShortText().equals("")))
+		{
+			/*
+			writer.startElement("span",uicomponent);
+			writer.writeAttribute("class","spanShortText",null);
 			writer.write(post.getShortText());
+			writer.endElement("span");
+			*/
+		}
 		else {
 			PostUtilities util = new PostUtilities();
 			String text =util.getFirstParagraphOrNFirstCharacters(post,400);
 			writer.write(text);
 		}
+		/*
 		writer.endElement("td");
 		writer.endElement("tr");
 		
@@ -90,6 +101,7 @@ public class PostWriter {
 		writer.endElement("td");
 		writer.endElement("tr");
 		writer.endElement("table");
+		*/
 		if (writeComments){
 			writer.write("<br/>");
 			writeComments(writer,post);
@@ -97,6 +109,7 @@ public class PostWriter {
 	}	
 	
 	
+	//private void writeHeaderForFullConent(ResponseWriter writer,Post post, boolean linkInTitle, boolean showCreator) throws IOException{
 	private void writeHeaderForFullConent(ResponseWriter writer,Post post, boolean linkInTitle, boolean showCreator) throws IOException{
 		
 		writer.startElement("table",uicomponent);
@@ -106,18 +119,18 @@ public class PostWriter {
 		
 		writer.startElement("tr",uicomponent);
 		writer.startElement("td",uicomponent);
-		writeTitleAndAuthorAndDate(writer,post,linkInTitle,"aTitleHeader2", showCreator);
+		writeTitleAndAuthorAndDate(writer,post,linkInTitle,"aTitleHeader", showCreator);
 		writer.endElement("td");
 		writer.endElement("tr");
 
 		writer.startElement("tr",uicomponent);
 		writer.startElement("td",uicomponent);
-		writer.write("<br/>");
+		//writer.write("<br/>");
 		writer.endElement("td");
 		writer.endElement("tr");
 		
 		if (post.getShortText()!=null && !(post.getShortText().trim().equals(""))){
-			writeGap(writer);
+			//writeGap(writer);
 			writer.startElement("tr",uicomponent);
 			writer.startElement("td",uicomponent);
 			writer.startElement("span",uicomponent);

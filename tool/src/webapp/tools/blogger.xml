@@ -15,9 +15,9 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
  limitations under the License.
 -->
 <registration>
-   <tool id="blogger"
-       title="Blogger"
-       description="A blogger">
+   <tool id="blog"
+       title="Blog"
+       description="A blog tool">
 
        <category name="course" />
        <category name="project" />

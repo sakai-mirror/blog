@@ -19,8 +19,8 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-    <display-name>blogger</display-name>
-    <description>Blogger</description>
+    <display-name>blog</display-name>
+    <description>Blog</description>
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>server</param-value>
@@ -121,7 +121,7 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
 	 </filter-mapping>
 
     <servlet>
-        <servlet-name>blogger</servlet-name>
+        <servlet-name>blog</servlet-name>
         <servlet-class>org.sakaiproject.jsf.util.JsfTool</servlet-class>
             <init-param>
                 <param-name>default</param-name>

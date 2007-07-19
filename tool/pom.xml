@@ -1,31 +1,38 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
+  
   <parent>
     <artifactId>blog-base</artifactId>
     <groupId>org.sakaiproject</groupId>
     <version>M2</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
+  
   <name>sakai-blogger-tool</name>
   <artifactId>sakai-blogger-tool</artifactId>
   <groupId>org.sakaiproject</groupId>
+  
   <organization>
     <name>Lancaster Centre for e-Science</name>
     <url>http://e-science.lancs.ac.uk</url>
   </organization>
+  
   <inceptionYear>2005</inceptionYear>
+  
   <developers>
-    <developer>
-      <name>Miguel Gonzalez Losa</name>
-      <email>m.gonzalez@lancaster.ac.uk</email>
-    </developer>
     <developer>
       <name>Adrian Fish</name>
       <email>a.fish@lancaster.ac.uk</email>
     </developer>
+    <developer>
+      <name>Miguel Gonzalez Losa</name>
+      <email>m.gonzalez@lancaster.ac.uk</email>
+    </developer>
   </developers>
+  
   <packaging>war</packaging>
+  
   <dependencies>
     <dependency>
       <groupId>org.sakaiproject</groupId>
@@ -174,6 +181,7 @@
       <version>2.0.2</version>
     </dependency>
   </dependencies>
+  
   <build>
     <resources>
       <resource>
@@ -185,4 +193,5 @@
     </resources>
 <!-- other resources for the jar - the message bundles -->
   </build>
+  
 </project>

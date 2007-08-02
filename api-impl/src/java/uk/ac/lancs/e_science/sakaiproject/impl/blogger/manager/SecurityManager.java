@@ -153,9 +153,15 @@ public class SecurityManager
 			{
 
 				case State.PUBLIC:
+				{
 					result.add(post);
+					break;
+				}
 				case State.SITE:
+				{
 					result.add(post);
+					break;
+				}
 				case State.PRIVATE:
 				{
 					if (userId.equals(post.getCreator().getId())) result.add(post);

@@ -275,7 +275,7 @@ public class PostWriter {
 		writer.startElement("td",uicomponent);
 		writer.writeAttribute("style","text-align:center",null);
 		
-		StringBuffer onClick =new StringBuffer();
+		StringBuilder onClick =new StringBuilder();
 		onClick.append("javascript:");
 		onClick.append("var win = window.open('',\"Call\",\"width=500,height=450,status=no,resizable=yes,scrollbars=1\");");
 		onClick.append("var doc = win.document;");
@@ -305,7 +305,7 @@ public class PostWriter {
 		if (fileInDB!=null){
 			String link = contextPath+"/servletForFiles?fileId="+file.getIdFile()+"&fileDescription="+file.getDescription(); 
 			
-			StringBuffer onClick =new StringBuffer();
+			StringBuilder onClick =new StringBuilder();
 			onClick.append("javascript:");
 			onClick.append("var win = window.open('"+link+"',\"File\",\"width=600,height=550,menubar=yes,toolbar=yes,status=yes,scrollbars=yes,location=yes,resizable=yes\");");
 			onClick.append("var doc = win.document;");
@@ -323,7 +323,7 @@ public class PostWriter {
 	}	
 	
 	private void writeLinkRule(ResponseWriter writer, LinkRule link) throws IOException{
-		StringBuffer onClick =new StringBuffer();
+		StringBuilder onClick =new StringBuilder();
 		onClick.append("javascript:");
 		onClick.append("var win = window.open('"+link.getLinkExpression()+"',\"Call\",\"width=600,height=5 50,menubar=yes,toolbar=yes,status=yes,scrollbars=yes,location=yes,resizable=yes\");");
 		onClick.append("var doc = win.document;");

@@ -30,12 +30,12 @@ import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.State;
 
 public class XMLConverter implements PostConverter {
 
-    private StringBuffer _stringBuffer;
+    private StringBuilder _stringBuffer;
     public XMLConverter(){
-        _stringBuffer = new StringBuffer("");
+        _stringBuffer = new StringBuilder("");
     }
     public void reset(){
-        _stringBuffer = new StringBuffer("");
+        _stringBuffer = new StringBuilder("");
     }
 
     public void convertOID(String oid){
@@ -118,7 +118,7 @@ public class XMLConverter implements PostConverter {
 
 
     public String getXML(){
-        StringBuffer result=new StringBuffer("");
+        StringBuilder result=new StringBuilder("");
         result.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         result.append("<post>");
         result.append(_stringBuffer);

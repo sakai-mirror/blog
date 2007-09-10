@@ -41,13 +41,13 @@ public class XMLHelper {
 	public static String aniadeCabecera(String documento){
 		if (documento.indexOf("<?xml version=\"1.0\"")!=-1) //si tiene cabecera ni lo tocamos
 			return documento;
-		return (new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append(documento)).toString();
+		return (new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append(documento)).toString();
 	}
 
-	public static String aniadeCabecera(StringBuffer documento){
+	public static String aniadeCabecera(StringBuilder documento){
 		if (documento.indexOf("<?xml version=\"1.0\"")!=-1) //si tiene cabecera ni lo tocamos
 			return documento.toString();
-		StringBuffer sb = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append(documento);
+		StringBuilder sb = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append(documento);
 		return sb.toString();
 	}
 	
@@ -58,9 +58,9 @@ public class XMLHelper {
 	 * @return documento con el subdocumento a&ntilde;adido.
 	 */
 	public static String aniadeSubdocumento(String subdocumento, String nombreEtiquetaPadre, String documento) {
-		StringBuffer stTmp = new StringBuffer();
+		StringBuilder stTmp = new StringBuilder();
 		stTmp.append("</").append(nombreEtiquetaPadre).append(">");		
-		StringBuffer st= new StringBuffer(documento);
+		StringBuilder st= new StringBuilder(documento);
 		int posicionEtiqueta = documento.indexOf(stTmp.toString());
 		st.insert(posicionEtiqueta, subdocumento);		
 		return st.toString();		
@@ -102,7 +102,7 @@ public class XMLHelper {
 					else
 						posAperturaCierreEtiqueta = documento.indexOf(etiqueta,posCierreAperturaEtiqueta);
 				}
-				StringBuffer texto = new StringBuffer();
+				StringBuilder texto = new StringBuilder();
 				texto.append("<").append(etiqueta).append(">").append(documento.substring(posCierreAperturaEtiqueta+1,posAperturaCierreEtiqueta).trim()).append("</").append(etiqueta).append(">"); //se resta dos para quitar el </
 				return texto.toString();
 			}
@@ -119,9 +119,9 @@ public class XMLHelper {
 	 */
 	public static List dameSubdocumentosDeLaEtiqueta(String etiqueta, String documento){
 		List resultado = new ArrayList();
-		StringBuffer etiquetaApertura = new StringBuffer("<");
+		StringBuilder etiquetaApertura = new StringBuilder("<");
 		etiquetaApertura.append(etiqueta).append(">");
-		StringBuffer etiquetaCierre = new StringBuffer("</");
+		StringBuilder etiquetaCierre = new StringBuilder("</");
 		etiquetaCierre.append(etiqueta).append(">");
 		if (!XMLHelper.tieneCabecera(documento))
 			documento = XMLHelper.aniadeCabecera(documento);
@@ -129,7 +129,7 @@ public class XMLHelper {
 		int posicionEtiquetaCierre=0;
 		while (posicionEtiquetaApertura!=-1){ //hay que encontrarl a etiqueta de apertura
 				posicionEtiquetaCierre = documento.indexOf(etiquetaCierre.toString(),posicionEtiquetaApertura);
-				StringBuffer texto = new StringBuffer();
+				StringBuilder texto = new StringBuilder();
 				texto.append(documento.substring(posicionEtiquetaApertura,posicionEtiquetaCierre).trim()).append(etiquetaCierre); 
 				resultado.add( texto.toString());
 				posicionEtiquetaApertura = documento.indexOf(etiquetaApertura.toString(),posicionEtiquetaCierre);		
@@ -145,16 +145,16 @@ public class XMLHelper {
 	 * @return String Contenido de la etiqueta. En el caso de que la etiqueta no existiera devuelve <code>null</code>
 	 */
 	public static String dameTextoDeLaEtiqueta(String etiqueta,String documento) {
-			StringBuffer sb = new StringBuffer("<");
+			StringBuilder sb = new StringBuilder("<");
 			sb.append(etiqueta).append("/>");
 			if (documento.indexOf(sb.toString())!=-1)
 				return "";
-			sb = new StringBuffer("<");
+			sb = new StringBuilder("<");
 			sb.append(etiqueta).append(">");
 			int posEtiquetaApertura = documento.indexOf(sb.toString());
 			if (posEtiquetaApertura==-1)
 				return null;
-			sb = new StringBuffer("</");
+			sb = new StringBuilder("</");
 			sb.append(etiqueta).append(">");
 			int posEtiquetaCierre = documento.indexOf(sb.toString());
 			return documento.substring(posEtiquetaApertura+etiqueta.length()+2,posEtiquetaCierre);
@@ -167,10 +167,10 @@ public class XMLHelper {
 	 * @return String Contenido de la etiqueta. En el caso de que la etiqueta no existiera devuelve <code>null</code>
 	 */
 	public static String dameTextoDeLaEtiquetaSinComprobaciones(String etiqueta,String documento){
-		StringBuffer sb = new StringBuffer("<");
+		StringBuilder sb = new StringBuilder("<");
 		sb.append(etiqueta).append(">");
 		int posEtiquetaApertura = documento.indexOf(sb.toString());
-		sb = new StringBuffer("</");
+		sb = new StringBuilder("</");
 		sb.append(etiqueta).append(">");
 		int posEtiquetaCierre = documento.indexOf(sb.toString());
 		return documento.substring(posEtiquetaApertura+etiqueta.length()+2,posEtiquetaCierre);
@@ -284,7 +284,7 @@ public class XMLHelper {
 	
 	public static String ponTextosDeLaEtiqueta(String etiqueta, String nuevoContenido, String documento){
 		int posicionEtiqueta = documento.indexOf(etiqueta);
-		StringBuffer st= new StringBuffer(documento);
+		StringBuilder st= new StringBuilder(documento);
 		while (posicionEtiqueta!=-1){
 			if (!esUnaEtiquetaDeAperturaYCierre(etiqueta,posicionEtiqueta,documento)&& esRealmenteUnaEtiquetaDeApertura(etiqueta,posicionEtiqueta,documento)){
 				int posCierreAperturaEtiqueta = documento.indexOf('>',posicionEtiqueta);
@@ -315,14 +315,14 @@ public class XMLHelper {
 	 */
 	public static String ponTextoDeLaEtiquetaSinComprobaciones(String etiqueta, String nuevoContenido, String documento){
 		try{
-			StringBuffer etiquetaCompletaApertura = new StringBuffer("<");
+			StringBuilder etiquetaCompletaApertura = new StringBuilder("<");
 			etiquetaCompletaApertura.append(etiqueta).append(">");
-			StringBuffer etiquetaCompletaCierre = new StringBuffer("</");
+			StringBuilder etiquetaCompletaCierre = new StringBuilder("</");
 			etiquetaCompletaCierre.append(etiqueta).append(">");
 			
 			int posicionAperturaEtiqueta = documento.indexOf(etiquetaCompletaApertura.toString());
 			int posicionCierreEtiqueta = documento.indexOf(etiquetaCompletaCierre.toString());
-			StringBuffer st= new StringBuffer(documento);
+			StringBuilder st= new StringBuilder(documento);
 			st.replace(posicionAperturaEtiqueta+etiquetaCompletaApertura.length(), posicionCierreEtiqueta, nuevoContenido);
 			return st.toString();
 		}catch (Exception e){
@@ -338,7 +338,7 @@ public class XMLHelper {
 	 */   	
 
 	public static String borraEtiqueta(String tag, String contenido, String documento){
-		StringBuffer st = new StringBuffer(documento);
+		StringBuilder st = new StringBuilder(documento);
 		int posBusquedaInicio = 0;
 		int tamanioDocumento = st.length();
 		while (posBusquedaInicio<tamanioDocumento) {
@@ -372,11 +372,11 @@ public class XMLHelper {
 	 * @return String Documento con el contenido reemplazado
 	 */
        public static String reemplazaTextoDeLaEtiqueta(String etiqueta, String contenidoViejo, String contenidoNuevo, String documento) {
-            StringBuffer st = new StringBuffer(documento);
-            String cadenaVieja = (new StringBuffer("<").append(etiqueta).append(">").append(contenidoViejo).append("</").append(etiqueta).append(">")).toString();
+            StringBuilder st = new StringBuilder(documento);
+            String cadenaVieja = (new StringBuilder("<").append(etiqueta).append(">").append(contenidoViejo).append("</").append(etiqueta).append(">")).toString();
             int posIni = documento.indexOf(cadenaVieja);
             while (posIni!=-1){
-                String cadenaNueva = (new StringBuffer("<").append(etiqueta).append(">").append(contenidoNuevo).append("</").append(etiqueta).append(">")).toString();       		
+                String cadenaNueva = (new StringBuilder("<").append(etiqueta).append(">").append(contenidoNuevo).append("</").append(etiqueta).append(">")).toString();       		
                 st.replace(posIni, posIni+cadenaVieja.length(), cadenaNueva);
                 posIni = st.indexOf(cadenaVieja);
                 if (cadenaVieja.equals(cadenaNueva))
@@ -437,7 +437,7 @@ public class XMLHelper {
 		}
 		xml1 = siTieneCabeceraEliminala(xml1);
 		xml2 = siTieneCabeceraEliminala(xml2);
-		StringBuffer resultado = new StringBuffer(xml1);
+		StringBuilder resultado = new StringBuilder(xml1);
 		
 		resultado.insert(xml1.lastIndexOf("<"),xml2);
 	
@@ -456,7 +456,7 @@ public class XMLHelper {
 			throw new XMLHelperException("\n{XMLHelper.concatenaListaDeResultados}[]: La lista a concatenar es null.");
 		}
 	
-		StringBuffer resultado = new StringBuffer("");
+		StringBuilder resultado = new StringBuilder("");
 		if (!listaAConcatenar.isEmpty()) {
 			resultado.append("<").append(nombreDeLaLista).append(">");	
 			Iterator itLista = listaAConcatenar.iterator();
@@ -512,7 +512,7 @@ public class XMLHelper {
 	 * @return
 	 */
 	public static String eliminaSubdocumento(String documento, String etiquetaSubdocumento, String etiquetaDiscriminador, String valorDiscriminador){
-		StringBuffer documentoCapado = new StringBuffer();
+		StringBuilder documentoCapado = new StringBuilder();
 		String etiquetaApertura = "<"+etiquetaSubdocumento+">";
 		String etiquetaCierre = "</"+etiquetaSubdocumento+">";
 		String tagDiscriminador = "<"+etiquetaDiscriminador+">"+valorDiscriminador+"</"+etiquetaDiscriminador+">";
@@ -539,7 +539,7 @@ public class XMLHelper {
 	 * @return
 	 */
 	public static String eliminaSubdocumento(String documento, String etiquetaSubdocumento){
-		StringBuffer documentoCapado = new StringBuffer();
+		StringBuilder documentoCapado = new StringBuilder();
 		String etiquetaApertura = "<"+etiquetaSubdocumento+">";
 		String etiquetaCierre = "</"+etiquetaSubdocumento+">";
 		int posicionEtiquetaApertura = documento.indexOf(etiquetaApertura);
@@ -561,7 +561,7 @@ public class XMLHelper {
 	 * @return
 	 */
 	public static String eliminaSubdocumento(String documento, String etiquetaSubdocumento, List paresDiscriminador){
-		StringBuffer documentoCapado = new StringBuffer();
+		StringBuilder documentoCapado = new StringBuilder();
 		String etiquetaApertura = "<"+etiquetaSubdocumento+">";
 		String etiquetaCierre = "</"+etiquetaSubdocumento+">";
 		int posicionEtiquetaApertura = documento.indexOf(etiquetaApertura);
@@ -600,11 +600,11 @@ public class XMLHelper {
 	 * @return
 	 */
 	public static String ponEtiquetaYTextoDeLaEtiqueta(String nombreEtiqueta,String textoEtiqueta, String nombreEtiquetaPadre, String documento){
-		StringBuffer stTmp = new StringBuffer();
+		StringBuilder stTmp = new StringBuilder();
 		stTmp.append("</").append(nombreEtiquetaPadre).append(">");		
-		StringBuffer stAniadir = new StringBuffer();
+		StringBuilder stAniadir = new StringBuilder();
 		stAniadir.append("<").append(nombreEtiqueta).append(">").append(textoEtiqueta).append("</").append(nombreEtiqueta).append(">");
-		StringBuffer st= new StringBuffer(documento);
+		StringBuilder st= new StringBuilder(documento);
 		
 		int posicionEtiqueta = documento.indexOf(stTmp.toString());
 		st.insert(posicionEtiqueta, stAniadir);		

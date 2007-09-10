@@ -88,7 +88,7 @@ public class SQLGenerator implements ISQLGenerator{
 	 */
     public String getSelectStatementForQuery(String prefix, QueryBean query, String siteId){
 
-        StringBuffer statement = new StringBuffer();
+        StringBuilder statement = new StringBuilder();
         statement.append("SELECT * FROM ").append(prefix).append(TABLE_POST);
         //we know that there are conditions. Build the statement
         statement.append(" WHERE ").append(SITE_ID).append("='").append(siteId).append("' AND ");
@@ -103,14 +103,14 @@ public class SQLGenerator implements ISQLGenerator{
         
 
         //in this point, we know that there is a AND at the end of the statement. Remove it.
-        statement =new StringBuffer(statement.toString().substring(0,statement.length()-4)); //4 is the length of AND with the last space
+        statement =new StringBuilder(statement.toString().substring(0,statement.length()-4)); //4 is the length of AND with the last space
         statement.append(" ORDER BY ").append(DATE).append(" DESC ");
         return statement.toString();
     }
 
 
     protected String doTableForPost(String prefix){
-        StringBuffer statement = new StringBuffer();
+        StringBuilder statement = new StringBuilder();
         statement.append("CREATE TABLE ").append(prefix).append(TABLE_POST);
         statement.append("(");
         statement.append(POST_ID+" CHAR(32),");
@@ -125,7 +125,7 @@ public class SQLGenerator implements ISQLGenerator{
         return statement.toString();
     }
     protected String doTableForImages(String prefix){
-    	StringBuffer statement = new StringBuffer();
+    	StringBuilder statement = new StringBuilder();
     	statement.append("CREATE TABLE ").append(prefix).append(TABLE_IMAGE);
     	statement.append("(");
     	statement.append(IMAGE_ID+" CHAR(32),");
@@ -138,7 +138,7 @@ public class SQLGenerator implements ISQLGenerator{
         return statement.toString();
     }
     protected String doTableForFiles(String prefix){
-    	StringBuffer statement = new StringBuffer();
+    	StringBuilder statement = new StringBuilder();
     	statement.append("CREATE TABLE ").append(prefix).append(TABLE_FILE);
     	statement.append("(");
     	statement.append(FILE_ID+" CHAR(32),");
@@ -218,20 +218,20 @@ public class SQLGenerator implements ISQLGenerator{
 	 */
     public Collection getDeleteStatementsForPost(String postId, String prefix){
         ArrayList result = new ArrayList();
-        StringBuffer statement = new StringBuffer("");
+        StringBuilder statement = new StringBuilder("");
         
         //the order is important
-        statement = new StringBuffer("");
+        statement = new StringBuilder("");
         statement.append("DELETE FROM ").append(prefix).append(TABLE_IMAGE).append(" WHERE ");
         statement.append(POST_ID).append("='").append(postId).append("'");
         result.add(statement.toString());
 
-        statement = new StringBuffer("");
+        statement = new StringBuilder("");
         statement.append("DELETE FROM ").append(prefix).append(TABLE_POST).append(" WHERE ");
         statement.append(POST_ID).append("='").append(postId).append("'");
         result.add(statement.toString());
 
-        statement = new StringBuffer("");
+        statement = new StringBuilder("");
         statement.append("DELETE FROM ").append(prefix).append(TABLE_FILE).append(" WHERE ");
         statement.append(POST_ID).append("='").append(postId).append("'");
         result.add(statement.toString());
@@ -243,7 +243,7 @@ public class SQLGenerator implements ISQLGenerator{
 
 	public Collection getDeleteStatementsForPostExcludingImagesAndFiles(String postId,String prefix){
         ArrayList result = new ArrayList();
-        StringBuffer statement = new StringBuffer("");
+        StringBuilder statement = new StringBuilder("");
         
         statement.append("DELETE FROM ").append(prefix).append(TABLE_POST).append(" WHERE ");
         statement.append(POST_ID).append("='").append(postId).append("'");
@@ -252,13 +252,13 @@ public class SQLGenerator implements ISQLGenerator{
 	}
    
 	public String getDeleteStatementForImage(String imageId){
-        StringBuffer statement = new StringBuffer("");
+        StringBuilder statement = new StringBuilder("");
 		statement.append("DELETE FROM ").append(DEFAULT_PREFIX).append(TABLE_IMAGE).append(" WHERE ");
 		statement.append(IMAGE_ID).append("='").append(imageId).append("'");
 		return statement.toString();		
 	}
 	public String getDeleteStatementForFile(String idFile){
-        StringBuffer statement = new StringBuffer("");
+        StringBuilder statement = new StringBuilder("");
 		statement.append("DELETE FROM ").append(DEFAULT_PREFIX).append(TABLE_FILE).append(" WHERE ");
 		statement.append(FILE_ID).append("='").append(idFile).append("'");
 		return statement.toString();
@@ -270,7 +270,7 @@ public class SQLGenerator implements ISQLGenerator{
         reader.parsePost(post);
         String postAsXML = xmlConverter.getXML();
 
-        StringBuffer statement = new StringBuffer();
+        StringBuilder statement = new StringBuilder();
         statement.append("INSERT INTO ").append(prefix).append(TABLE_POST).append(" (");
         statement.append(POST_ID+",");
         statement.append(TITLE+",");
@@ -300,7 +300,7 @@ public class SQLGenerator implements ISQLGenerator{
      	if (images==null)
 	    	return result;
 	
-    	StringBuffer sqlStatement = new StringBuffer(); 
+    	StringBuilder sqlStatement = new StringBuilder(); 
 	    sqlStatement.append("INSERT INTO ").append(DEFAULT_PREFIX).append(TABLE_IMAGE).append(" (");
 	    sqlStatement.append(IMAGE_ID+",");
 	    sqlStatement.append(POST_ID+",");
@@ -328,7 +328,7 @@ public class SQLGenerator implements ISQLGenerator{
     	if (files==null)
 	    	return result;
 	
-    	StringBuffer sqlStatement = new StringBuffer(); 
+    	StringBuilder sqlStatement = new StringBuilder(); 
 	    sqlStatement.append("INSERT INTO ").append(DEFAULT_PREFIX).append(TABLE_FILE).append(" (");
 	    sqlStatement.append(FILE_ID+",");
 	    sqlStatement.append(POST_ID+",");

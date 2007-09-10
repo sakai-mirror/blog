@@ -326,7 +326,7 @@ public class UIEditPost extends UIOutput{
 		int w1=50;
 		int w2=450;
 		int w3=145;
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("<style title=\"css\">");
 		sb.append("table.mainTable{");
 		sb.append("}");

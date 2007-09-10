@@ -25,7 +25,7 @@ public class PostUtilities {
      * Each paragraph is separed for the previos by a '\n' char
      */
     public String getTextBodyAsPlainText(Post post){
-        StringBuffer result = new StringBuffer("");
+        StringBuilder result = new StringBuilder("");
         PostElement[] elements = post.getElements();
         if (elements==null)
         	return "";
@@ -42,7 +42,7 @@ public class PostUtilities {
     }
 
     public String getFirstParagraphOrNFirstCharacters(Post post,int numberOfCharacters){
-        StringBuffer result = new StringBuffer("");
+        StringBuilder result = new StringBuilder("");
         PostElement[] elements = post.getElements();
         
         if (elements==null)

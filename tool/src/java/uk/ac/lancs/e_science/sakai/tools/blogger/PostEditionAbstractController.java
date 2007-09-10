@@ -129,7 +129,7 @@ public class PostEditionAbstractController extends BloggerController implements 
     //-----------------------------------------------------------------
     
     public String getKeywords(){
-    	StringBuffer sb = new StringBuffer("");
+    	StringBuilder sb = new StringBuilder("");
     	
     	if (post==null || post.getKeywords()== null || post.getKeywords().length==0)
     		return getKeywordsMessage();

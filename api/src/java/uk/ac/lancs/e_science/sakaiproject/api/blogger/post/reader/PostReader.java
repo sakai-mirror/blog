@@ -27,13 +27,11 @@ public class PostReader {
     }
     public void parsePost(Post post){
         _converter.reset();
-        _converter.convertOID(post.getOID());
-        _converter.convertTitle(post.getTitle());
         _converter.convertShortText(post.getShortText());
-        _converter.convertDatePost(post.getDate());
         _converter.convertKeywords(post.getKeywords());
-        if (post.getCreator()!=null)
-            _converter.convertCreator(post.getCreator());
+        
+        //if (post.getCreator()!=null)
+          //  _converter.convertCreator(post.getCreator());
         _converter.convertState(post.getState());
         if (post.getElements()!=null){
         	for (int i=0;i<post.getElements().length;i++){

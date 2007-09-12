@@ -53,7 +53,7 @@ public class AddCommentController extends BloggerController{
     		return "viewPost"; //ignore the comment
 
         Comment comment = new Comment(commentText);
-        blogger.addCommentToPost(comment, post.getOID(),SakaiProxy.getCurretUserEid(), SakaiProxy.getCurrentSiteId());
+        blogger.addCommentToPost(comment, post.getOID(),SakaiProxy.getCurrentUserId(), SakaiProxy.getCurrentSiteId());
         return "viewPost";
 
     }

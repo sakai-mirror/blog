@@ -52,7 +52,7 @@ public class SakaiBean extends BloggerController{
     }    
     
     public String getCurrentUserEid(){
-    	return SakaiProxy.getCurretUserEid();
+    	return SakaiProxy.getCurrentUserId();
     }
     public boolean isCurrentUserMaintainer(){
     	return SakaiProxy.isCurrentUserMaintainer();

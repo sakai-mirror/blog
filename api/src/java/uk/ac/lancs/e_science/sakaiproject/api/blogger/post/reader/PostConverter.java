@@ -19,13 +19,10 @@ package uk.ac.lancs.e_science.sakaiproject.api.blogger.post.reader;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.*;
 
-public interface PostConverter {
+public interface PostConverter
+{
     public void reset();
-    public void convertOID(String oid);
-    public void convertTitle(String title);
     public void convertShortText(String title);
-    public void convertDatePost(long date);
-    public void convertCreator(Creator creator);
     public void convertState(State state);
     public void convertKeywords(String[] keywords);
     public void convertLinkRules(LinkRule linkRules);

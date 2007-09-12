@@ -34,9 +34,6 @@ public class RootProcessingState implements XMLPostContentHandleState {
         _post = post;
     }
     public XMLPostContentHandleState startElement(String uri, String localName, String qName, Attributes atts) throws SAXException{
-        if (localName.equals("creator")){
-            return new CreatorProcessingState(_post,this);
-        }
         if (localName.equals("state")){
             return new StateProcessingState(_post,this);
         }
@@ -76,12 +73,12 @@ public class RootProcessingState implements XMLPostContentHandleState {
             return this;
         }
         if (localName.equals("oid")){
-            _post.setOID(_currentText);
             _currentText = new String();
             return this;
         }
+        // Commented out as we are now starting to use the database column content
+        // instead of the stuff embedded in the xml
         if (localName.equals("title")){
-            _post.setTitle(_currentText);
             _currentText = new String();
             return this;
 
@@ -93,7 +90,6 @@ public class RootProcessingState implements XMLPostContentHandleState {
 
         }        
         if (localName.equals("date")){
-            _post.setDate(Long.parseLong(_currentText));
             _currentText = new String();
             return this;
 

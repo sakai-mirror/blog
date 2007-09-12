@@ -20,7 +20,6 @@ package uk.ac.lancs.e_science.sakaiproject.api.blogger.post.reader;
 
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Comment;
-import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Creator;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.File;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Image;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.LinkRule;
@@ -38,29 +37,12 @@ public class XMLConverter implements PostConverter {
         _stringBuffer = new StringBuilder("");
     }
 
-    public void convertOID(String oid){
-        _stringBuffer.append("<oid>").append(oid).append("</oid>");
-    }
-    public void convertTitle(String title){
-        _stringBuffer.append("<title>").append("<![CDATA[").append(title).append("]]>").append("</title>");
-
-    }
     public void convertShortText(String shortText){
     	if (shortText==null)
     		shortText="";
         _stringBuffer.append("<shortText>").append("<![CDATA[").append(shortText).append("]]>").append("</shortText>");
 
     }    
-    public void convertDatePost(long date){
-        _stringBuffer.append("<date>").append(date).append("</date>");
-
-    }
-    public void convertCreator(Creator creator){
-        _stringBuffer.append("<creator>");
-        _stringBuffer.append("<idCreator>").append(creator.getId()).append("</idCreator>");
-        _stringBuffer.append("<descriptionCreator>").append("<![CDATA[").append(creator.getDescription()).append("]]>").append("</descriptionCreator>");
-        _stringBuffer.append("</creator>");
-    }
     public void convertState(State state){
         _stringBuffer.append("<state>");
         _stringBuffer.append("<visibility>").append(state.getVisibility()).append("</visibility>");

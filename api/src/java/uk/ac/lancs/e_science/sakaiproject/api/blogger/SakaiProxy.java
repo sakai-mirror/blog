@@ -46,18 +46,15 @@ public class SakaiProxy {
     public static String getCurrentSiteId(){
 		return toolManager.getCurrentPlacement().getContext(); //equivalent to PortalService.getCurrentSiteId();
 	}
-	public static String getCurretUserEid(){
-		
-		Session session = sessionManager.getCurrentSession();
-		String userEid = session.getUserEid();
-		return userEid;
+	public static String getCurrentUserId(){
+		return UserDirectoryService.getCurrentUser().getId();
 	}
-    public static String getDiplayNameForTheUser(String userEid){
+    public static String getDiplayNameForTheUser(String userId){
     	try{
-    		User sakaiUser = UserDirectoryService.getInstance().getUserByEid(userEid);
+    		User sakaiUser = UserDirectoryService.getInstance().getUser(userId);
     		return sakaiUser.getDisplayName();
     	} catch (Exception e){
-    		return userEid; //this can happen if the user does not longer exist in the system
+    		return userId; //this can happen if the user does not longer exist in the system
     	}
     }
     public static String getEmailForTheUser(String userEid){
@@ -153,7 +150,7 @@ public class SakaiProxy {
     }
     
     public static boolean isCurrentUserMaintainer(){
-    	return isMaintainer(getCurretUserEid());
+    	return isMaintainer(getCurrentUserId());
     }
     
  

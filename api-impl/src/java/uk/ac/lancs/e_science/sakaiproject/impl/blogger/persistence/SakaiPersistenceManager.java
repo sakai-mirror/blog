@@ -32,6 +32,7 @@ import org.sakaiproject.db.api.SqlService;
 
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Creator;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.File;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Image;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
@@ -362,6 +363,7 @@ public class SakaiPersistenceManager{
             while (rs.next()){
                 String xml = rs.getString(ISQLGenerator.XMLCOLUMN);
                 Post post = xmlToPost.convertXMLInPost(xml.replaceAll(SQLGenerator.APOSTROFE,"'")); 
+                
                 if (post!=null){ //post can be null if was imposible to parse the xml document. This can happend when the xml has a invalid caracter like (0x1a) 
                 	/*
                 	if (loadImages)
@@ -369,6 +371,23 @@ public class SakaiPersistenceManager{
                 	if (loadFiles)
                     	recoverFiles(post);
                 	*/
+                	
+                	String id = rs.getString(ISQLGenerator.POST_ID);
+                	post.setOID(id);
+                	
+                	// We need to override the creator id that was extracted from
+                	// the XML. The creator id in the xml may well be the sakai eid
+                	// which is undesirable. We really want the id from the
+                	// IDCREATOR field.
+                	String creatorId = rs.getString(ISQLGenerator.IDCREATOR);
+                	post.setCreator(new Creator(creatorId));
+                	
+                	String title = rs.getString(ISQLGenerator.TITLE);
+                	post.setTitle(title);
+                	
+                	long date = rs.getLong(ISQLGenerator.DATE);
+                	post.setDate(date);
+                	
                     result.add(post);
                 }
            }

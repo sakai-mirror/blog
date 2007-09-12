@@ -38,7 +38,7 @@ public class PreviewPostController extends BloggerController{
     }
     
     public String doSave(){
-        blogger.storePost(post,SakaiProxy.getCurretUserEid(), SakaiProxy.getCurrentSiteId());
+        blogger.storePost(post,SakaiProxy.getCurrentUserId(), SakaiProxy.getCurrentSiteId());
         //we have to remove the images from cache
         if (post.getElements()!=null){
         	for (int i=0;i<post.getElements().length;i++){

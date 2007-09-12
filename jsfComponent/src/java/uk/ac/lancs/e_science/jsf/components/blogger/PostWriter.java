@@ -177,7 +177,7 @@ public class PostWriter {
 			if (creator!=null){
 				writer.startElement("span",uicomponent);
 				writer.writeAttribute("style","font-size:12px; font-family:Verdana, Arial, Helvetica, sans-serif",null);
-				writer.write(post.getCreator().getDisplayName());
+				writer.write(creator.getDisplayName());
 				/*
 				Date date = new Date(post.getDate());
 				writer.write(" ("+DateFormat.getDateInstance(DateFormat.SHORT).format(date)+")");

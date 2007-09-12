@@ -83,7 +83,7 @@ public class PostEditionAbstractController extends BloggerController implements 
     protected static int INDEX_FILE=3;
     
     public String doSave(){
-        blogger.storePost(post,SakaiProxy.getCurretUserEid(),SakaiProxy.getCurrentSiteId());
+        blogger.storePost(post,SakaiProxy.getCurrentUserId(),SakaiProxy.getCurrentSiteId());
     	resetFields();
         //we have to remove the images from cache
         if (post.getElements()!=null){

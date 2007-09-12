@@ -105,7 +105,7 @@ public class PostListViewerController extends BloggerController {
     
     private void loadAllPost(){
     	
-    	Post[] posts = blogger.getPosts(SakaiProxy.getCurrentSiteId(),SakaiProxy.getCurretUserEid());
+    	Post[] posts = blogger.getPosts(SakaiProxy.getCurrentSiteId(),SakaiProxy.getCurrentUserId());
     	if (posts!=null)
     		postList = Arrays.asList(posts);
     	else
@@ -121,7 +121,7 @@ public class PostListViewerController extends BloggerController {
    		QueryBean query = new QueryBean();
    		query.setUser(selectedMember.getUserEid());
    		
-   		Post[] posts = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurretUserEid());
+   		Post[] posts = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurrentUserId());
     	if (posts!=null)
     		postList = Arrays.asList(posts);
     	else
@@ -153,8 +153,8 @@ public class PostListViewerController extends BloggerController {
     }     
     public String doShowMyBlogger(){
         selectedMember = new Member();
-        selectedMember.setUserEid(SakaiProxy.getCurretUserEid());
-        selectedMember.setUserDisplayId(SakaiProxy.getDiplayNameForTheUser(SakaiProxy.getCurretUserEid()));
+        selectedMember.setUserEid(SakaiProxy.getCurrentUserId());
+        selectedMember.setUserDisplayId(SakaiProxy.getDiplayNameForTheUser(SakaiProxy.getCurrentUserId()));
         lastView = "userBlog";
         reloadPosts();
         return "userBlog";
@@ -183,7 +183,7 @@ public class PostListViewerController extends BloggerController {
     public String doSearch(){
 
         QueryBean query = (QueryBean) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("query");
-        Post[] result = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurretUserEid());
+        Post[] result = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurrentUserId());
         if (result==null)
         	postList = new ArrayList(); //empty list
         else
@@ -197,7 +197,7 @@ public class PostListViewerController extends BloggerController {
 
         QueryBean query = (QueryBean) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("query");
         query.setUser(selectedMember.getUserEid());
-        Post[] result = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurretUserEid());
+        Post[] result = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurrentUserId());
         if (result==null)
         	postList = new ArrayList(); //empty list
         else
@@ -283,7 +283,7 @@ public class PostListViewerController extends BloggerController {
     public String getSelectedMemberId(){
     	if (selectedMember!=null)
     		return selectedMember.getUserDisplayId();
-    	return SakaiProxy.getDiplayNameForTheUser(SakaiProxy.getCurretUserEid());
+    	return SakaiProxy.getDiplayNameForTheUser(SakaiProxy.getCurrentUserId());
     }    
     public boolean getShowFullContent(){
     	return showFullContent;

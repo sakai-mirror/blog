@@ -48,7 +48,7 @@ public class PostViewerController extends BloggerController{
         if (post!=null){
         	//we have to recover the post from database, because is possible that it would be changed in other controller.
         	//for example, if somebody has change the post or has added a comment, the post in the database is different than memory one 
-        	post = blogger.getPost(post.getOID(),SakaiProxy.getCurretUserEid());
+        	post = blogger.getPost(post.getOID(),SakaiProxy.getCurrentUserId());
         }
         return post;
     }
@@ -79,7 +79,7 @@ public class PostViewerController extends BloggerController{
     }
     public String doDeletePost(){
     	if (post!=null){
-    		blogger.deletePost(post.getOID(), SakaiProxy.getCurretUserEid());
+    		blogger.deletePost(post.getOID(), SakaiProxy.getCurrentUserId());
     	}
 		ValueBinding binding =  Util.getValueBinding("#{postListViewerController}");
 		PostListViewerController controller = (PostListViewerController)binding.getValue(FacesContext.getCurrentInstance());
@@ -102,17 +102,17 @@ public class PostViewerController extends BloggerController{
     }
     
     public boolean getActivetAddCommentCommand(){
-    	if (SakaiProxy.getCurretUserEid().equals(post.getCreator().getId()))
+    	if (SakaiProxy.getCurrentUserId().equals(post.getCreator().getId()))
     		return true; //the autor can add comments
     	return post.getState().getAllowComments();
     }
     public boolean getActivateEditCommand(){
-    	if (SakaiProxy.getCurretUserEid().equals(post.getCreator().getId()))
+    	if (SakaiProxy.getCurrentUserId().equals(post.getCreator().getId()))
     		return true; //the creator can always modify the post
     	return !post.getState().getReadOnly(); //depending the flag
     }
     public boolean getActivateDeleteCommand(){
-    	if (SakaiProxy.getCurretUserEid().equals(post.getCreator().getId()))
+    	if (SakaiProxy.getCurrentUserId().equals(post.getCreator().getId()))
     		return true; //only the creator can delete the post
     	return false; 
     }

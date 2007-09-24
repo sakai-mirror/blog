@@ -146,7 +146,7 @@ public class UIOutputPost extends UIOutput {
 			writer.writeAttribute("style","font-size:12px; font-family:Verdana, Arial, Helvetica, sans-serif",null);
 			writer.write(post.getCreator().getDisplayName());
 			Date date = new Date(post.getDate());
-			writer.write(" ("+DateFormat.getDateInstance(DateFormat.SHORT).format(date)+")");
+			writer.write(" ("+DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,Locale.UK).format(date)+")");
 			writer.endElement("span");
 		}
 		writer.endElement("td");

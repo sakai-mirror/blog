@@ -26,8 +26,9 @@
 		response.addHeader("Pragma", "no-cache");
 %>
 
-
-<f:loadBundle basename="uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages" var="msgs"/>
+<jsp:useBean id="msgs" class="org.sakaiproject.util.ResourceLoader" scope="session">
+   <jsp:setProperty name="msgs" property="baseName" value="uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages"/>
+</jsp:useBean>
 
 <f:view>
 	<sakai:view_container title="#{msgs.title}">

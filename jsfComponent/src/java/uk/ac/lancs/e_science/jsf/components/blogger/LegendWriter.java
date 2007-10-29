@@ -1,10 +1,9 @@
 package uk.ac.lancs.e_science.jsf.components.blogger;
 
 import java.io.IOException;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
-import javax.faces.application.Application;
+import org.sakaiproject.util.ResourceLoader;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -14,18 +13,15 @@ public class LegendWriter {
 	
 	private UIComponent uicomponent;
 	private String contextPath;
-	private ResourceBundle messages;
+	private ResourceLoader messages;
 	private ResponseWriter writer;
 	private String formClientId; 
 	
 	public LegendWriter( FacesContext context, UIComponent uicomponent){
 		this.uicomponent = uicomponent;
 		writer = context.getResponseWriter();
+        messages = new ResourceLoader("uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages");
 		HttpServletRequest req =((HttpServletRequest)context.getExternalContext().getRequest());
-	    Application application = context.getApplication( );
-        String messageBundleName = application.getMessageBundle( );
-        Locale locale = context.getViewRoot( ).getLocale( );
-        messages = ResourceBundle.getBundle(messageBundleName, locale);
 		contextPath = req.getContextPath();
 		
 	}

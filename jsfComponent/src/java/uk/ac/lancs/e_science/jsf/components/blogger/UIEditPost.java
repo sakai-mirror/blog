@@ -18,8 +18,8 @@ package uk.ac.lancs.e_science.jsf.components.blogger;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Locale;
+
+import org.sakaiproject.util.ResourceLoader;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIOutput;
@@ -48,20 +48,15 @@ public class UIEditPost extends UIOutput{
 	private Post post = null;
 	private IBloggerJSFEditionController controller = null;
 	private String contextPath=null;
-	private ResourceBundle messages;
+	private ResourceLoader messages;
 	
 	public void encodeBegin(FacesContext context) throws IOException{
 		ResponseWriter writer = context.getResponseWriter();
 		writer.startElement("div",this);
 		post = (Post)getAttributes().get("post");
 		controller = (IBloggerJSFEditionController)getAttributes().get("controller");
+        messages = new ResourceLoader("uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages");
 		HttpServletRequest req =((HttpServletRequest)context.getExternalContext().getRequest());
-		
-	    Application application = context.getApplication( );
-        String messageBundleName = application.getMessageBundle( );
-
-        Locale locale = context.getViewRoot( ).getLocale( );
-        messages = ResourceBundle.getBundle(messageBundleName, locale);
 		contextPath = req.getContextPath();
 		if (post!=null){
 			writePost(writer, post);

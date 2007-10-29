@@ -19,35 +19,27 @@ package uk.ac.lancs.e_science.jsf.components.blogger;
 import java.io.IOException;
 
 import java.util.Collection;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
+import org.sakaiproject.util.ResourceLoader;
 
-import javax.faces.application.Application;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionEvent;
 
-
-
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 
 public class UIListOfPosts extends UICommand {
-	private ResourceBundle messages;
+	private ResourceLoader messages;
 	
 	public UIListOfPosts(){
 		super();
 	}
+	
 	public void encodeBegin(FacesContext context) throws IOException{
 		
-		
-	    Application application = context.getApplication( );
-        String messageBundleName = application.getMessageBundle( );
-
-        Locale locale = context.getViewRoot( ).getLocale( );
-        messages = ResourceBundle.getBundle(messageBundleName, locale);		
+        messages = new ResourceLoader("uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages");
 		
 		Collection listOfPost = (Collection)getAttributes().get("posts");
 		Boolean showComments= (Boolean)getAttributes().get("showComments");

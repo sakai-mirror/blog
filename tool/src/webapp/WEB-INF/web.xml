@@ -123,7 +123,7 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
 
     <servlet>
         <servlet-name>blogger</servlet-name>
-        <servlet-class>org.sakaiproject.jsf.util.JsfTool</servlet-class>
+        <servlet-class>org.sakaiproject.jsf.util.HelperAwareJsfTool</servlet-class>
             <init-param>
                 <param-name>default</param-name>
                 <param-value>main</param-value>

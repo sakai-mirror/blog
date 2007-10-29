@@ -19,7 +19,10 @@ package uk.ac.lancs.e_science.sakai.tools.blogger;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
+import javax.faces.el.ValueBinding;
 import javax.servlet.ServletRequest;
+
+import com.sun.faces.util.Util;
 
 import uk.ac.lancs.e_science.sakai.tools.blogger.cacheForImages.CacheForImages;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
@@ -47,8 +50,13 @@ public class PreviewPostController extends BloggerController{
         			cache.removeImage(((Image)post.getElements()[i]).getIdImage());
         		}
         	}
-        }    	
-    	return doBack();
+        }
+        
+      // The lookup key needs to be specified in faces-config ie: postViewerController.
+      ValueBinding binding =  Util.getValueBinding("#{postViewerController}");
+      PostViewerController postViewerController = (PostViewerController)binding.getValue(FacesContext.getCurrentInstance());
+      postViewerController.setPost(post);
+    	return "viewPost";//doBack();
     }    
     
     public void setPost(Post post){

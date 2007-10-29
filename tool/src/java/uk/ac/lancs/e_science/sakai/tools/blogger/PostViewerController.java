@@ -50,6 +50,11 @@ public class PostViewerController extends BloggerController{
         	//for example, if somebody has change the post or has added a comment, the post in the database is different than memory one 
         	post = blogger.getPost(post.getOID(),SakaiProxy.getCurrentUserId());
         }
+        else
+        {
+        	post = getPostFromMemory();
+        }
+        
         return post;
     }
     public Post getPostFromMemory(){

@@ -20,15 +20,12 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
-import javax.faces.FactoryFinder;
-import javax.faces.application.Application;
+import org.sakaiproject.util.ResourceLoader;
+
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.render.RenderKit;
-import javax.faces.render.RenderKitFactory;
 import javax.servlet.http.HttpServletRequest;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Comment;
@@ -42,18 +39,12 @@ import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.PostElement;
 
 public class UIOutputPost extends UIOutput {
 	private String contextPath="";
-	private ResourceBundle messages;
+	private ResourceLoader messages;
 	public void encodeBegin(FacesContext context) throws IOException{
 		ResponseWriter writer = context.getResponseWriter();
 		Post post = (Post)getAttributes().get("post");
+        messages = new ResourceLoader("uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages");
 		HttpServletRequest req =((HttpServletRequest)context.getExternalContext().getRequest());
-		
-	    Application application = context.getApplication( );
-        String messageBundleName = application.getMessageBundle( );
-
-        Locale locale = context.getViewRoot( ).getLocale( );
-        messages = ResourceBundle.getBundle(messageBundleName, locale);
-        
 		contextPath = req.getContextPath();
 		if (post!=null){
 			writePost(writer, post);

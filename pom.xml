@@ -11,6 +11,14 @@
   <groupId>org.sakaiproject</groupId>
   <artifactId>blog-base</artifactId>
   <packaging>pom</packaging>
+  
+  <scm>
+    <connection>scm:svn:https://source.sakaiproject.org/svn/blog/trunk</connection>
+    <developerConnection>scm:svn:https://source.sakaiproject.org/svn/blog/trunk</developerConnection>
+    <url>https://source.sakaiproject.org/svn/blog/trunk</url>
+  </scm>
+  
+
   <modules>
     <module>api</module>
     <module>api-impl</module>

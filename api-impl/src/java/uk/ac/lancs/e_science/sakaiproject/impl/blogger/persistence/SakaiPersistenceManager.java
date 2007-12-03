@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-import java.io.ByteArrayInputStream;
 import java.sql.*;
 
 import org.sakaiproject.db.api.SqlService;

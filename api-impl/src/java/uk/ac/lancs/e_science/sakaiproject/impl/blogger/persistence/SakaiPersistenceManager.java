@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import java.sql.*;
 
+import org.apache.log4j.Logger;
 import org.sakaiproject.db.api.SqlService;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
@@ -40,12 +41,16 @@ import uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence.sql.util.SQLG
 
 public class SakaiPersistenceManager
 {
+	private Logger logger = Logger.getLogger(SakaiPersistenceManager.class);
+	
 	private SqlService sqlService;
 
 	ISQLGenerator sqlGenerator;
 
 	public SakaiPersistenceManager() throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("SakaiPersistenceManager()");
+		
 		sqlService = org.sakaiproject.db.cover.SqlService.getInstance();
 		String vendor = sqlService.getVendor();
 		// TODO load the proper class using reflection. We can use a named based system to locate the correct SQLGenerator
@@ -62,79 +67,160 @@ public class SakaiPersistenceManager
 
 	public void storePost(Post post, String siteId) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("storePost(Post instance supplied with ID: " + post.getOID() + "," + siteId + ")");
+		
 		Connection connection = getConnection();
 		try
 		{
 			Collection sqlStatements;
 			if (!existPost(post.getOID()))
 			{
-				sqlStatements = sqlGenerator.getInsertStatementsForPost(post, siteId, connection);
-				executeSQL(sqlStatements, connection);
-			}
-			else
-			{ // delete and insert again. this is less efficient but simplier
-				Post originalPost = getPost(post.getOID());
-				sqlStatements = sqlGenerator.getDeleteStatementsForPostExcludingImagesAndFiles(post.getOID());
-				executeSQL(sqlStatements, connection);
 				try
 				{
-					sqlStatements = sqlGenerator.getInsertStatementsForPostExcludingImagesAndFiles(post, siteId);
+					if(logger.isDebugEnabled()) logger.debug("This is a new post. Getting insert statements for post ...");
+					sqlStatements = sqlGenerator.getInsertStatementsForPost(post, siteId, connection);
+				
+					if(logger.isDebugEnabled()) logger.debug("Executing insert statements for post ...");
 					executeSQL(sqlStatements, connection);
+				}
+				catch(Exception e)
+				{
+					logger.error("Caught exception whilst inserting new post. Message: " + e.getMessage());
+					
+					if(logger.isDebugEnabled()) e.printStackTrace();
+					
+					throw new PersistenceException(e.getMessage());
+				}
+			}
+			else
+			{
+				// delete and insert again. this is less efficient but simpler
+				
+				// TODO: All of this needs to be in a transaction. The post can
+				// be deleted, the insert can fail and the delete never gets
+				// rolled back, arghhhhh
+				
+				Post originalPost = getPost(post.getOID());
+				
+				boolean oldAutoCommitFlag = true;
+				
+				try
+				{
+					if(logger.isDebugEnabled()) logger.debug("Getting delete statements for post ...");
+					sqlStatements = sqlGenerator.getDeleteStatementsForPostExcludingImagesAndFiles(post.getOID());
+				
+					// Start transaction
+					oldAutoCommitFlag = connection.getAutoCommit();
+					connection.setAutoCommit(false);
+				
+					if(logger.isDebugEnabled()) logger.debug("Executing delete statements for post ...");
+					executeSQL(sqlStatements, connection);
+					
+					if(logger.isDebugEnabled()) logger.debug("Getting insert statements for post ...");
+					sqlStatements = sqlGenerator.getInsertStatementsForPostExcludingImagesAndFiles(post, siteId);
+					
+					if(logger.isDebugEnabled()) logger.debug("Executing insert statements for post ...");
+					executeSQL(sqlStatements, connection);
+					
+					reinsertImagesAndFiles(post, connection);
 				}
 				catch (Exception e)
 				{
-					sqlStatements = sqlGenerator.getInsertStatementsForPostExcludingImagesAndFiles(originalPost, siteId);
-					// this can happen when the post has odd characteres that we did't deal with them. But we tried our best!!!
-				}
-
-				// Now... Images ... We need be more efficient.
-				Collection imagesIdInDb = getIdImages(post);
-				Iterator itImagesIdInDb = imagesIdInDb.iterator();
-				while (itImagesIdInDb.hasNext())
-				{
-					String imageId = (String) itImagesIdInDb.next();
-					if (!post.hasImage(imageId)) executeSQL(sqlGenerator.getDeleteStatementForImage(imageId), connection);
-				}
-				if (post.getImages() != null)
-				{
-					ArrayList imagesToInsert = new ArrayList();
-					for (int i = 0; i < post.getImages().length; i++)
+					// This can happen when the post has odd characters that we didn't deal with. But we tried our best!!!
+					
+					if(logger.isDebugEnabled()) e.printStackTrace();
+					
+					// Roll back !
+					if(logger.isDebugEnabled()) logger.debug("Rolling back ...");
+					try
 					{
-						if (!imagesIdInDb.contains(post.getImages()[i].getIdImage())) imagesToInsert.add(post.getImages()[i]);
+						connection.rollback();
 					}
-					executeSQL(sqlGenerator.getInsertStatementsForImages((Image[]) imagesToInsert.toArray(new Image[0]), post.getOID(), connection), connection);
-				}
-				// Now... Files ... We need be more efficient.
-				Collection filesIdInDb = getIdFiles(post);
-				Iterator itFilesIdInDb = filesIdInDb.iterator();
-				while (itFilesIdInDb.hasNext())
-				{
-					String fileId = (String) itFilesIdInDb.next();
-					if (!post.hasFile(fileId)) executeSQL(sqlGenerator.getDeleteStatementForFile(fileId), connection);
-				}
-				if (post.getFiles() != null)
-				{
-					ArrayList filesToInsert = new ArrayList();
-					for (int i = 0; i < post.getFiles().length; i++)
+					catch (SQLException e1)
 					{
-						if (!filesIdInDb.contains(post.getFiles()[i].getIdFile())) filesToInsert.add(post.getFiles()[i]);
+						logger.error("Caught exception whilst rolling back post transaction. Message: " + e1.getMessage());
+						
+						if(logger.isDebugEnabled()) e1.printStackTrace();
 					}
-					executeSQL(sqlGenerator.getInsertStatementsForFiles((File[]) filesToInsert.toArray(new File[0]), post.getOID(), connection), connection);
+					
+					logger.error("Caught an exception whilst inserting post. Message: " + e.getMessage());
+					
+				}
+				finally
+				{
+					try
+					{
+						connection.setAutoCommit(oldAutoCommitFlag);
+					}
+					catch (SQLException e)
+					{
+						logger.error("Caught exception whilst resetting autocommit flag on db connection. Message: " + e.getMessage());
+						
+						if(logger.isDebugEnabled()) e.printStackTrace();
+					}
 				}
 			}
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 		finally
 		{
 			releaseConnection(connection);
 		}
 	}
+	
+	private void reinsertImagesAndFiles(Post post,Connection connection) throws PersistenceException
+	{
+		try
+		{
+			// Now... Images ... We need be more efficient.
+			List<String> imagesIdInDb = getIdImages(post);
+			for(String imageId : imagesIdInDb)
+			{
+				if (!post.hasImage(imageId))
+					executeSQL(sqlGenerator.getDeleteStatementForImage(imageId), connection);
+			}
+			
+			if (post.getImages() != null)
+			{
+				ArrayList imagesToInsert = new ArrayList();
+				for (Image image : post.getImages())
+				{
+					if (!imagesIdInDb.contains(image.getIdImage()))
+						imagesToInsert.add(image);
+				}
+				
+				executeSQL(sqlGenerator.getInsertStatementsForImages((Image[]) imagesToInsert.toArray(new Image[0]), post.getOID(), connection), connection);
+			}
+			
+			// Now... Files ... We need be more efficient.
+			List<String> filesIdInDb = getIdFiles(post);
+			for(String fileId : filesIdInDb)
+			{
+				if (!post.hasFile(fileId))
+					executeSQL(sqlGenerator.getDeleteStatementForFile(fileId), connection);
+			}
+			
+			if (post.getFiles() != null)
+			{
+				ArrayList filesToInsert = new ArrayList();
+				for (int i = 0; i < post.getFiles().length; i++)
+				{
+					if (!filesIdInDb.contains(post.getFiles()[i].getIdFile()))
+						filesToInsert.add(post.getFiles()[i]);
+				}
+				
+				executeSQL(sqlGenerator.getInsertStatementsForFiles((File[]) filesToInsert.toArray(new File[0]), post.getOID(), connection), connection);
+			}
+		}
+		catch(Exception e)
+		{
+			throw new PersistenceException(e.getMessage());
+		}
+	}
 
 	public void deletePost(String postId) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("deletePost(" + postId + ")");
+		
 		Connection connection = getConnection();
 		try
 		{
@@ -151,6 +237,8 @@ public class SakaiPersistenceManager
 
 	public List getPosts(QueryBean query, String siteId) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("getPosts(" + query.getQueryString() + "," + siteId + ")");
+		
 		Connection connection = getConnection();
 		try
 		{
@@ -167,6 +255,8 @@ public class SakaiPersistenceManager
 
 	public Post getPost(String postId) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("getPost(" + postId + ")");
+		
 		Connection connection = getConnection();
 		try
 		{
@@ -185,6 +275,8 @@ public class SakaiPersistenceManager
 
 	public List getAllPost(String siteId) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("getAllPost(" + siteId + ")");
+		
 		Connection connection = getConnection();
 		try
 		{
@@ -201,6 +293,8 @@ public class SakaiPersistenceManager
 
 	public boolean existPost(String OID) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("existPost(" + OID + ")");
+		
 		Connection connection = getConnection();
 		try
 		{
@@ -229,9 +323,11 @@ public class SakaiPersistenceManager
 	 * @return Collection with the image's identifier currently in the database that belows to the post
 	 * @throws PersistenceException
 	 */
-	public Collection getIdImages(Post post) throws PersistenceException
+	public List<String> getIdImages(Post post) throws PersistenceException
 	{
-		ArrayList result = new ArrayList();
+		if(logger.isDebugEnabled()) logger.debug("getIdImages(Post instance supplied with ID: " + post.getOID() + ")");
+		
+		List<String> result = new ArrayList<String>();
 		Connection connection = getConnection();
 		try
 		{
@@ -259,6 +355,8 @@ public class SakaiPersistenceManager
 
 	public Image getImage(String imageId, int size) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("getImage(" + imageId + "," + size + ")");
+		
 		Connection connection = getConnection();
 		Image image = new Image();
 		image.setIdImage(imageId);
@@ -312,9 +410,11 @@ public class SakaiPersistenceManager
 	 * @return Collection with the file's identifier currently in the database that belows to the post
 	 * @throws PersistenceException
 	 */
-	public Collection getIdFiles(Post post) throws PersistenceException
+	public List<String> getIdFiles(Post post) throws PersistenceException
 	{
-		ArrayList result = new ArrayList();
+		if(logger.isDebugEnabled()) logger.debug("getIdFiles(Post instance supplied with ID: " + post.getOID() + ")");
+		
+		List<String> result = new ArrayList<String>();
 		Connection connection = getConnection();
 		try
 		{
@@ -342,6 +442,8 @@ public class SakaiPersistenceManager
 
 	public File getFile(String fileId) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("getFile(" + fileId + ")");
+		
 		Connection connection = getConnection();
 		File file = new File();
 		file.setIdFile(fileId);
@@ -372,6 +474,8 @@ public class SakaiPersistenceManager
 
 	private ResultSet executeQuerySQL(String sql, Connection connection) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("executeQuerySQL(" + sql + "," + connection + ")");
+		
 		try
 		{
 			Statement statement = connection.createStatement();
@@ -386,6 +490,8 @@ public class SakaiPersistenceManager
 
 	private void executeSQL(String sql, Connection connection) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("executeSQL(" + sql + "," + connection + ")");
+		
 		Collection sqlList = new ArrayList();
 		sqlList.add(sql);
 		executeSQL(sqlList, connection);
@@ -393,6 +499,8 @@ public class SakaiPersistenceManager
 
 	private void executeSQL(Collection sql, Connection connection) throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("executeSQL(" + sql + "," + connection + ")");
+		
 		try
 		{
 			Iterator it = sql.iterator();
@@ -497,6 +605,8 @@ public class SakaiPersistenceManager
 	 */
 	private void releaseConnection(Connection connection)
 	{
+		if(logger.isDebugEnabled()) logger.debug("releaseConnection()");
+		
 		try
 		{
 			sqlService.returnConnection(connection);
@@ -509,6 +619,8 @@ public class SakaiPersistenceManager
 
 	private Connection getConnection() throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("getConnection()");
+		
 		try
 		{
 			return sqlService.borrowConnection();
@@ -522,6 +634,8 @@ public class SakaiPersistenceManager
 
 	public void initRepository() throws PersistenceException
 	{
+		if(logger.isDebugEnabled()) logger.debug("initRepository()");
+		
 		Connection connection = getConnection();
 		try
 		{

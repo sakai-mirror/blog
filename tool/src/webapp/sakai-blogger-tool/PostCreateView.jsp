@@ -175,7 +175,7 @@ td.td2{
 				
 
                 <sakai:button_bar>
-                    <h:commandButton action="#{postCreateController.doPreview}" value="Preview" onclick="javascript:buttonPressed='PREVIEW'; " />
+                    <h:commandButton action="#{postCreateController.doPreview}" value="#{msgs.preview}" onclick="javascript:buttonPressed='PREVIEW'; " />
                     <h:commandButton action="#{postCreateController.doSave}" value="#{msgs.save}" onclick="javascript:buttonPressed='SAVE';"/>
                     <h:commandButton action="main" value="#{msgs.cancel}" immediate="true" onclick="javascript:buttonPressed='CANCEL';"/>
                 </sakai:button_bar>

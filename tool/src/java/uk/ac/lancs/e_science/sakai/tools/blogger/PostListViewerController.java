@@ -34,6 +34,8 @@ import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.sorter.VisibilityComp
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.searcher.QueryBean;
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.BloggerManager;
 
+import org.sakaiproject.util.ResourceLoader;
+
 
 import java.util.*;
 
@@ -258,11 +260,13 @@ public class PostListViewerController extends BloggerController{
 
     //----- END METHODS USED BY PAGER ------------------------
     public List getVisibilityList(){
+    	
+    	ResourceLoader rl = new ResourceLoader("uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages");
 
         ArrayList result = new ArrayList();
-        result.add(new SelectItem(new Integer(4),"ALL"));
-        result.add(new SelectItem(new Integer(State.PRIVATE),"PRIVATE"));
-        result.add(new SelectItem(new Integer(State.SITE),"SITE"));
+        result.add(new SelectItem(new Integer(4),rl.getString("state_all")));
+        result.add(new SelectItem(new Integer(State.PRIVATE),rl.getString("state_private")));
+        result.add(new SelectItem(new Integer(State.SITE),rl.getString("state_site")));
         //result.add(new SelectItem(new Integer(State.PUBLIC),"PUBLIC"));
         return result;
     }

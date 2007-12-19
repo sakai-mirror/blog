@@ -361,7 +361,8 @@ public class PostWriter {
 			writer.write(comment.getCreator().getDisplayName());
 			writer.write("<br/>");
 			Date date = new Date(comment.getDate());
-			writer.write(" ("+DateFormat.getDateInstance(DateFormat.SHORT).format(date)+")");
+			writer.write(" ("+DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,Locale.UK).format(date)+")");
+			//writer.write(" ("+DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)+")");
 			writer.endElement("td");
 			writer.startElement("td",uicomponent);
 			writer.writeAttribute("class","tdComment tdComment2",null);

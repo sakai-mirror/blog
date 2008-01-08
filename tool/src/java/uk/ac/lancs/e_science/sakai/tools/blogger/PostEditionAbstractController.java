@@ -21,6 +21,8 @@ import uk.ac.lancs.e_science.jsf.components.blogger.IBloggerJSFEditionController
 import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingResourceException;
+
+import org.sakaiproject.util.FormattedText;
 import org.sakaiproject.util.ResourceLoader;
 import java.util.StringTokenizer; 
 
@@ -365,7 +367,12 @@ public class PostEditionAbstractController extends BloggerController implements 
     public String addParagraph(){
     	resetCurrentElementIndex();
     	if (editedText!=null && !editedText.trim().equals(""))
+    	{
+    		StringBuilder errorMessages = new StringBuilder();
+    		editedText = FormattedText.processFormattedText(editedText, errorMessages, true, false);
     		post.addElement(new Paragraph(editedText));
+    	}
+    	
     	editedText="";
     	deactivateModifiyButtons();
     	isChanged = true;
@@ -374,7 +381,12 @@ public class PostEditionAbstractController extends BloggerController implements 
     
     public String modifyParagraph(){
     	if (editedText!=null && !editedText.trim().equals(""))
+    	{
+    		StringBuilder errorMessages = new StringBuilder();
+    		editedText = FormattedText.processFormattedText(editedText, errorMessages, true, false);
     		post.replaceElement(new Paragraph(editedText),currentElementIndex);
+    	}
+    	
     	editedText="";
     	deactivateModifiyButtons();
     	isChanged = true;

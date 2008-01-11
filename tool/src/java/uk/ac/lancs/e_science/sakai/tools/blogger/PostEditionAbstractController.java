@@ -31,6 +31,7 @@ import javax.servlet.ServletRequest;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.myfaces.custom.tabbedpane.HtmlPanelTabbedPane;
+import org.sakaiproject.util.FormattedText;
 
 import com.sun.faces.util.Util;
 
@@ -366,7 +367,12 @@ public class PostEditionAbstractController extends BloggerController implements 
     public String addParagraph(){
     	resetCurrentElementIndex();
     	if (editedText!=null && !editedText.trim().equals(""))
-    		post.addElement(new Paragraph(editedText));
+    	{
+    		StringBuffer errorMessages = new StringBuffer();
+            editedText = FormattedText.processFormattedText(editedText, errorMessages, true, false);
+            post.addElement(new Paragraph(editedText));
+    	}
+    	
     	editedText="";
     	deactivateModifiyButtons();
     	isChanged = true;
@@ -375,7 +381,12 @@ public class PostEditionAbstractController extends BloggerController implements 
     
     public String modifyParagraph(){
     	if (editedText!=null && !editedText.trim().equals(""))
-    		post.replaceElement(new Paragraph(editedText),currentElementIndex);
+    	{
+    		StringBuffer errorMessages = new StringBuffer();
+            editedText = FormattedText.processFormattedText(editedText, errorMessages, true, false);
+            post.replaceElement(new Paragraph(editedText),currentElementIndex);
+    	}
+    	
     	editedText="";
     	deactivateModifiyButtons();
     	isChanged = true;

@@ -368,7 +368,7 @@ public class PostEditionAbstractController extends BloggerController implements 
     	resetCurrentElementIndex();
     	if (editedText!=null && !editedText.trim().equals(""))
     	{
-    		StringBuffer errorMessages = new StringBuffer();
+    		StringBuilder errorMessages = new StringBuilder();
             editedText = FormattedText.processFormattedText(editedText, errorMessages, true, false);
             post.addElement(new Paragraph(editedText));
     	}
@@ -382,7 +382,7 @@ public class PostEditionAbstractController extends BloggerController implements 
     public String modifyParagraph(){
     	if (editedText!=null && !editedText.trim().equals(""))
     	{
-    		StringBuffer errorMessages = new StringBuffer();
+    		StringBuilder errorMessages = new StringBuilder();
             editedText = FormattedText.processFormattedText(editedText, errorMessages, true, false);
             post.replaceElement(new Paragraph(editedText),currentElementIndex);
     	}

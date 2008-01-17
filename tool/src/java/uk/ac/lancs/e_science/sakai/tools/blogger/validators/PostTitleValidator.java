@@ -16,7 +16,7 @@
  *************************************************************************************/
 package uk.ac.lancs.e_science.sakai.tools.blogger.validators;
 
-import java.util.ResourceBundle;
+import org.sakaiproject.util.ResourceLoader;
 
 import com.sun.faces.util.MessageFactory;
 
@@ -33,7 +33,7 @@ public class PostTitleValidator implements Validator
 		if ((facesContext == null) || (uiComponent == null)) throw new IllegalArgumentException(facesContext == null ? "facesContext" : "uiComponent" + " cannot be null");
 
 		String val = (String) o;
-        ResourceBundle messages = ResourceBundle.getBundle(facesContext.getApplication().getMessageBundle(), facesContext.getViewRoot( ).getLocale());
+		ResourceLoader messages = new ResourceLoader("uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages");
 
 		if (val.trim().length() == 0)
 		{

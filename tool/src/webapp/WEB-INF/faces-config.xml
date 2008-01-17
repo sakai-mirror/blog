@@ -23,13 +23,18 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
 <!-- =========== FACES CONFIGURATION FILE ================================== -->
 
 <faces-config>
-
-  	<application>
-    	<message-bundle>uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages</message-bundle>
-    	<locale-config>
-      	<default-locale>en</default-locale>
-    	</locale-config>
-  	</application>
+  	
+  	<managed-bean>
+		<description>Dynamic Resource Bundle Loader</description>
+		<managed-bean-name>msgs</managed-bean-name>
+		<managed-bean-class>org.sakaiproject.util.ResourceLoader</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<description>Bundle baseName</description>
+			<property-name>baseName</property-name>
+			<value>uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages</value>
+		</managed-property>
+	</managed-bean>
 
 	<managed-bean>
   		<managed-bean-name>postListViewerController</managed-bean-name>

@@ -21,7 +21,7 @@ import uk.ac.lancs.e_science.jsf.components.blogger.IBloggerJSFEditionController
 import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import org.sakaiproject.util.ResourceLoader;
 import java.util.StringTokenizer; 
 
 import javax.faces.context.FacesContext;
@@ -156,14 +156,13 @@ public class PostEditionAbstractController extends BloggerController implements 
 	public String getKeywordsMessage(){
     	String keywordsMessage = null;
 		
-		ResourceBundle bundle = 
-				ResourceBundle.getBundle(FacesContext.getCurrentInstance().getApplication().getMessageBundle(),FacesContext.getCurrentInstance().getViewRoot().getLocale()); 
+        ResourceLoader messages = new ResourceLoader("uk.ac.lancs.e_science.sakai.tools.blogger.bundle.Messages");
 		
 		String key = "keywords_instruction";
 		
 		try
 		{
-			keywordsMessage = bundle.getString(key);
+			keywordsMessage = messages.getString(key);
 		}
 		catch(MissingResourceException e)
 		{

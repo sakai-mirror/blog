@@ -22,21 +22,7 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
     <display-name>blogger</display-name>
     
     <description>Blogger</description>
-    <context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>server</param-value>
-    </context-param>
-
-<!--sakai2 - why is this needed /Chuck -->
-    <context-param>
-        <param-name>com.sun.faces.validateXml</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <context-param>
-        <param-name>com.sun.faces.verifyObjects</param-name>
-        <param-value>true</param-value>
-    </context-param>
-
+    
     <servlet>
         <servlet-name>servletForImages</servlet-name>
         <servlet-class>uk.ac.lancs.e_science.sakai.tools.blogger.servlet.ServletForImages</servlet-class>
@@ -59,6 +45,7 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
 		<dispatcher>FORWARD</dispatcher> 
 		<dispatcher>INCLUDE</dispatcher>         
     </servlet-mapping>	
+
 <!--sakai-->
     <filter>
         <filter-name>sakai.request</filter-name>
@@ -75,90 +62,41 @@ Copyright (c) 2006. Centre for e-Science. Lancaster University. United Kingdom.
 			<param-value>false</param-value> 
 		</init-param>
     </filter>
-	<filter>
-		<filter-name>MyFacesExtensionsFilter</filter-name>
-		<!--<filter-class>org.apache.myfaces.component.html.util.ExtensionsFilter</filter-class>-->
-		<filter-class>org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
-	</filter>
-	<filter>
-		<filter-name>Upload Filter</filter-name> 
-		<filter-class>uk.ac.lancs.e_science.fileUpload.UploadFilter</filter-class> 
-		<init-param>
-			<param-name>uk.ac.lancs.e_science.fileUpload.UploadFilter.sizeMax</param-name>
-			<param-value>20</param-value><!-- Mbytes -->
+    
+    <servlet>
+        <servlet-name>blog</servlet-name>
+	    <servlet-class>org.apache.wicket.protocol.http.WicketServlet</servlet-class>
+	    <init-param>
+	      	<param-name>applicationFactoryClassName</param-name>
+	      	<param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
+	    </init-param>
+	    <init-param>
+			<param-name>applicationBean</param-name>
+			<param-value>blogApplication</param-value>
 		</init-param>
-	</filter> 	  
-	
-	<filter-mapping>
-        <filter-name>sakai.request</filter-name>
-        <servlet-name>Faces Servlet</servlet-name>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>INCLUDE</dispatcher>
-    </filter-mapping>
-
-	<filter-mapping>
-		<filter-name>Upload Filter</filter-name> 
-		<url-pattern>/*</url-pattern> 
-		<dispatcher>REQUEST</dispatcher> 
-		<dispatcher>FORWARD</dispatcher> 
-		<dispatcher>INCLUDE</dispatcher> 
-	</filter-mapping>
-
-    <filter-mapping>
-        <filter-name>MyFacesExtensionsFilter</filter-name>
-        <url-pattern>*.jsf</url-pattern>
-		<dispatcher>REQUEST</dispatcher> 
-		<dispatcher>FORWARD</dispatcher> 
-		<dispatcher>INCLUDE</dispatcher>            
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>MyFacesExtensionsFilter</filter-name>
-        <url-pattern>/faces/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher> 
-		<dispatcher>FORWARD</dispatcher> 
-		<dispatcher>INCLUDE</dispatcher>   
-	 </filter-mapping>
-
-    <servlet>
-        <servlet-name>blogger</servlet-name>
-        <servlet-class>org.sakaiproject.jsf.util.HelperAwareJsfTool</servlet-class>
-            <init-param>
-                <param-name>default</param-name>
-                <param-value>main</param-value>
-            </init-param>
-            <init-param>
-                <param-name>path</param-name>
-                <param-value>/sakai-blogger-tool</param-value>
-            </init-param>
-            <load-on-startup> 1 </load-on-startup>
+    	<init-param>
+	  		<param-name>configuration</param-name>
+	  		<param-value>development</param-value>
+		</init-param>
      </servlet>
-
-
-
-
-     <!-- Faces Servlet -->
-    <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup> 2 </load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.jsf</url-pattern>
-    </servlet-mapping>
-
+     
+  	<!-- Wicket likes to have a url-pattern mapping even though Sakai doesn't use it. -->
+	<servlet-mapping>
+		<servlet-name>blog</servlet-name>
+		<url-pattern>/sakai-blogger-tool/*</url-pattern>		
+	</servlet-mapping>
+	
     <listener>
         <listener-class>org.sakaiproject.util.ToolListener</listener-class>
     </listener>  
     
+  	<listener>
+    	<listener-class>org.sakaiproject.util.ContextLoaderListener</listener-class>
+  	</listener>
 
 	<welcome-file-list>
 	  <welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-
 
 </web-app>
 

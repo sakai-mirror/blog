@@ -194,14 +194,14 @@ public class SQLGenerator implements ISQLGenerator{
 	 */
     public Collection getInsertStatementsForPost(Post post, String prefix, String siteId, Connection connection) throws SQLException{
         ArrayList result = new ArrayList();
-        result.add(doInsertStatementForPost(post, prefix,siteId));
+        result.add(doInsertStatementForPost(post, prefix,siteId,connection));
         result.addAll(getInsertStatementsForImages(post.getImages(),post.getOID(), connection));
         result.addAll(getInsertStatementsForFiles(post.getFiles(),post.getOID(), connection));
         return result;
     }
-	public Collection getInsertStatementsForPostExcludingImagesAndFiles(Post post,String siteId){
+	public Collection getInsertStatementsForPostExcludingImagesAndFiles(Post post,String siteId,Connection connection){
         ArrayList result = new ArrayList();
-        result.add(doInsertStatementForPost(post, DEFAULT_PREFIX,siteId));
+        result.add(doInsertStatementForPost(post, DEFAULT_PREFIX,siteId,connection));
         return result;
 	}
 
@@ -263,13 +263,20 @@ public class SQLGenerator implements ISQLGenerator{
 		statement.append(FILE_ID).append("='").append(idFile).append("'");
 		return statement.toString();
 	}
-    protected String doInsertStatementForPost(Post post, String prefix, String siteId){
-        
+	
+    protected PreparedStatement doInsertStatementForPost(Post post, String prefix, String siteId,Connection connection)
+    {
+    	/*
+    	 	Changed this from a normal statement to a PreparedStatement in
+    	 	response to SAK-13376. Oracle will not allow a string literal of 
+    	 	length exceeding 4000 characters unless it is bound - AF.
+    	 */
+    	
     	XMLConverter xmlConverter = new XMLConverter();
         PostReader reader = new PostReader(xmlConverter);
         reader.parsePost(post);
         String postAsXML = xmlConverter.getXML();
-
+        
         StringBuilder statement = new StringBuilder();
         statement.append("INSERT INTO ").append(prefix).append(TABLE_POST).append(" (");
         statement.append(POST_ID+",");
@@ -287,11 +294,24 @@ public class SQLGenerator implements ISQLGenerator{
         String creator = post.getCreator().getId().replaceAll("'",APOSTROFE);
         statement.append("'").append(creator).append("',");
         statement.append("'").append(post.getState().getVisibility()) .append("',");
-        statement.append("'").append(siteId).append("',");
+        statement.append("'").append(siteId).append("',?)");
+        
+        String sql = statement.toString();
+        
         String xml = postAsXML.replaceAll("'",APOSTROFE);
-        statement.append("'").append(xml).append("\'");
-        statement.append(")");
-        return statement.toString();
+        
+        try
+        {
+        	PreparedStatement ps = connection.prepareStatement(sql);
+        
+        	ps.setString(1,xml);
+        	return ps;
+        }
+        catch(SQLException sqle)
+        {
+        	sqle.printStackTrace();
+        	return null;
+        }
     }
     
     public List getInsertStatementsForImages(Image[] images, String postOID, Connection connection) throws SQLException{

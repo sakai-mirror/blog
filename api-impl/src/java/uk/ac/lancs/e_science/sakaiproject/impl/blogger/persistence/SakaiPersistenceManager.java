@@ -74,10 +74,10 @@ public class SakaiPersistenceManager{
            		sqlStatements = sqlGenerator.getDeleteStatementsForPostExcludingImagesAndFiles(post.getOID());
            		executeSQL(sqlStatements, connection);
                	try{
-            		sqlStatements = sqlGenerator.getInsertStatementsForPostExcludingImagesAndFiles(post, siteId);
+            		sqlStatements = sqlGenerator.getInsertStatementsForPostExcludingImagesAndFiles(post, siteId,connection);
             		executeSQL(sqlStatements, connection);
             	} catch (Exception e){
-            		sqlStatements = sqlGenerator.getInsertStatementsForPostExcludingImagesAndFiles(originalPost, siteId);
+            		sqlStatements = sqlGenerator.getInsertStatementsForPostExcludingImagesAndFiles(originalPost, siteId,connection);
             		//this can happen when the post has odd characteres that we did't deal with them. But we tried our best!!!
             	}
                 

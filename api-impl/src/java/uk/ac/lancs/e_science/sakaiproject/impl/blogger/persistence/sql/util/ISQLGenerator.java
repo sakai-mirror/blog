@@ -87,7 +87,7 @@ public interface ISQLGenerator {
 	public abstract String getSelectFile(String fileId);
 
 	public abstract Collection getInsertStatementsForPost(Post post,String siteId, Connection connection) throws SQLException;
-	public abstract Collection getInsertStatementsForPostExcludingImagesAndFiles(Post post,String siteId);
+	public abstract Collection getInsertStatementsForPostExcludingImagesAndFiles(Post post,String siteId,Connection connection);
     public abstract List getInsertStatementsForImages(Image[] images, String postOID, Connection connection) throws SQLException;
     public abstract List getInsertStatementsForFiles(File[] files, String postOID, Connection connection) throws SQLException;
 	

@@ -189,14 +189,14 @@ public class SQLGenerator implements ISQLGenerator{
 	 */
     public Collection getInsertStatementsForPost(Post post, String prefix, String siteId, Connection connection) throws SQLException{
         ArrayList result = new ArrayList();
-        result.add(doInsertStatementForPost(post, prefix,siteId));
+        result.add(doInsertStatementForPost(post, prefix,siteId,connection));
         result.addAll(getInsertStatementsForImages(post.getImages(),post.getOID(), connection));
         result.addAll(getInsertStatementsForFiles(post.getFiles(),post.getOID(), connection));
         return result;
     }
-	public Collection getInsertStatementsForPostExcludingImagesAndFiles(Post post,String siteId){
+	public Collection getInsertStatementsForPostExcludingImagesAndFiles(Post post,String siteId,Connection connection){
         ArrayList result = new ArrayList();
-        result.add(doInsertStatementForPost(post, DEFAULT_PREFIX,siteId));
+        result.add(doInsertStatementForPost(post, DEFAULT_PREFIX,siteId,connection));
         return result;
 	}
 
@@ -258,6 +258,58 @@ public class SQLGenerator implements ISQLGenerator{
 		statement.append(FILE_ID).append("='").append(idFile).append("'");
 		return statement.toString();
 	}
+	
+	protected PreparedStatement doInsertStatementForPost(Post post, String prefix, String siteId,Connection connection)
+    {
+    	/*
+    	 	Changed this from a normal statement to a PreparedStatement in
+    	 	response to SAK-13376. Oracle will not allow a string literal of 
+    	 	length exceeding 4000 characters unless it is bound - AF.
+    	 */
+    	
+    	XMLConverter xmlConverter = new XMLConverter();
+        PostReader reader = new PostReader(xmlConverter);
+        reader.parsePost(post);
+        String postAsXML = xmlConverter.getXML();
+        
+        StringBuilder statement = new StringBuilder();
+        statement.append("INSERT INTO ").append(prefix).append(TABLE_POST).append(" (");
+        statement.append(POST_ID+",");
+        statement.append(TITLE+",");
+        statement.append(DATE+",");
+        statement.append(IDCREATOR+",");
+        statement.append(VISIBILITY+",");
+        statement.append(SITE_ID+",");
+        statement.append(XMLCOLUMN);
+        statement.append(") VALUES (");
+        statement.append("'").append(post.getOID()).append("',");
+        String title = post.getTitle().replaceAll("'",APOSTROFE); //we can't have any ' because hypersonic complains. so we can't reeplace ' for ////', what it is valid in mysql
+        statement.append("'").append(title).append("',");
+        statement.append("'").append(post.getDate()).append("',");
+        String creator = post.getCreator().getId().replaceAll("'",APOSTROFE);
+        statement.append("'").append(creator).append("',");
+        statement.append("'").append(post.getState().getVisibility()) .append("',");
+        statement.append("'").append(siteId).append("',?)");
+        
+        String sql = statement.toString();
+        
+        String xml = postAsXML.replaceAll("'",APOSTROFE);
+        
+        try
+        {
+        	PreparedStatement ps = connection.prepareStatement(sql);
+        
+        	ps.setString(1,xml);
+        	return ps;
+        }
+        catch(SQLException sqle)
+        {
+        	sqle.printStackTrace();
+        	return null;
+        }
+    }
+	
+	/*
     protected String doInsertStatementForPost(Post post, String prefix, String siteId){
         
     	XMLConverter xmlConverter = new XMLConverter();
@@ -288,6 +340,7 @@ public class SQLGenerator implements ISQLGenerator{
         statement.append(")");
         return statement.toString();
     }
+    */
     
     public List getInsertStatementsForImages(Image[] images, String postOID, Connection connection) throws SQLException{
    		ArrayList result = new ArrayList();

@@ -85,9 +85,7 @@ public class SakaiPersistenceManager
 				}
 				catch(Exception e)
 				{
-					logger.error("Caught exception whilst inserting new post. Message: " + e.getMessage());
-					
-					if(logger.isDebugEnabled()) e.printStackTrace();
+					logger.error("Caught exception whilst inserting new post.",e);
 					
 					throw new PersistenceException(e.getMessage());
 				}
@@ -117,7 +115,7 @@ public class SakaiPersistenceManager
 					executeSQL(sqlStatements, connection);
 					
 					if(logger.isDebugEnabled()) logger.debug("Getting insert statements for post ...");
-					sqlStatements = sqlGenerator.getInsertStatementsForPostExcludingImagesAndFiles(post, siteId);
+					sqlStatements = sqlGenerator.getInsertStatementsForPostExcludingImagesAndFiles(post, siteId,connection);
 					
 					if(logger.isDebugEnabled()) logger.debug("Executing insert statements for post ...");
 					executeSQL(sqlStatements, connection);

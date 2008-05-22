@@ -34,10 +34,7 @@ import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Image;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.xml.XMLToPost;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.searcher.QueryBean;
-import uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence.sql.util.HiperSonicGenerator;
-import uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence.sql.util.ISQLGenerator;
-import uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence.sql.util.MySQLGenerator;
-import uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence.sql.util.SQLGenerator;
+import uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence.sql.util.*;
 
 public class SakaiPersistenceManager
 {
@@ -60,6 +57,8 @@ public class SakaiPersistenceManager
 			sqlGenerator = new SQLGenerator();
 		else if (vendor.equals("hsqldb"))
 			sqlGenerator = new HiperSonicGenerator();
+      else if (vendor.equals("db2"))
+         sqlGenerator = new DB2Generator();
 		else
 			throw new PersistenceException("Unknown database vendor:" + vendor);
 

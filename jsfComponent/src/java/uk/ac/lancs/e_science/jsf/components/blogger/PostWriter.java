@@ -434,6 +434,8 @@ public class PostWriter {
 			if(Character.isLetter(letter) && !previousWasLetter) {
 				if(Character.isLowerCase(letter))
 					buff.append(Character.toUpperCase(letter));
+				else
+					buff.append(letter);
 				previousWasLetter = true;
 			}else{
 				buff.append(letter);

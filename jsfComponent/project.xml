@@ -42,9 +42,37 @@
            	<type>jar</type>
        	</dependency>
        	
+    	<dependency>
+      		<groupId>sakaiproject</groupId>
+      		<artifactId>sakai-user-api</artifactId>
+      		<version>${sakai.version}</version>
+      		<type>jar</type>
+    	</dependency>
+    	
+    	<dependency>
+     	 	<groupId>sakaiproject</groupId>
+      		<artifactId>sakai-tool-api</artifactId>
+      		<version>${sakai.version}</version>
+      		<type>jar</type>
+    	</dependency>
+    	
+    	<dependency>      
+      		<groupId>sakaiproject</groupId>
+      		<artifactId>sakai-entity-api</artifactId>
+      		<version>${sakai.version}</version>
+      		<type>jar</type>
+    	</dependency>
+       	
 		<dependency>
         	<groupId>sakaiproject</groupId>
            	<artifactId>sakai-util</artifactId>
+           	<version>${sakai.version}</version>
+           	<type>jar</type>
+       	</dependency>
+       	
+       	<dependency>
+        	<groupId>sakaiproject</groupId>
+           	<artifactId>sakai-util-api</artifactId>
            	<version>${sakai.version}</version>
            	<type>jar</type>
        	</dependency>

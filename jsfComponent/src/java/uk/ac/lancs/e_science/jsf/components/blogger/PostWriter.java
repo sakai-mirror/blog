@@ -4,7 +4,13 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
+import org.sakaiproject.entity.api.ResourceProperties;
+import org.sakaiproject.time.cover.TimeService;
+import org.sakaiproject.tool.cover.SessionManager;
+import org.sakaiproject.user.api.Preferences;
+import org.sakaiproject.user.cover.PreferencesService;
 import org.sakaiproject.util.ResourceLoader;
 
 import javax.faces.component.UIComponent;
@@ -187,7 +193,10 @@ public class PostWriter {
 		writer.writeAttribute("align","right", null);
 		writer.startElement("span",uicomponent);
 		Date date = new Date(post.getDate());
-		writer.write(" ("+DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,Locale.UK).format(date)+")");
+		//writer.write(" ("+DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,Locale.UK).format(date)+")");
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,getUserLocale());
+		df.setTimeZone(getUserTimezone());
+		writer.write(" ("+capitalizeDate(df.format(date))+")");
 		writer.endElement("span");
 			writer.endElement("td ");
 		
@@ -361,7 +370,10 @@ public class PostWriter {
 			writer.write(comment.getCreator().getDisplayName());
 			writer.write("<br/>");
 			Date date = new Date(comment.getDate());
-			writer.write(" ("+DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,Locale.UK).format(date)+")");
+			//writer.write(" ("+DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,Locale.UK).format(date)+")");
+			DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,getUserLocale());
+			df.setTimeZone(getUserTimezone());
+			writer.write(" ("+capitalizeDate(df.format(date))+")");
 			//writer.write(" ("+DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)+")");
 			writer.endElement("td");
 			writer.startElement("td",uicomponent);
@@ -372,7 +384,6 @@ public class PostWriter {
 		}
 		writer.endElement("table");
 	}
-	
 	
 	private String getFormClientId(UIComponent component,FacesContext context){
 		if (component==null)
@@ -386,4 +397,51 @@ public class PostWriter {
 			
 
 	}
+	
+	private Locale getUserLocale() {
+		Preferences prefs = PreferencesService.getPreferences(SessionManager.getCurrentSessionUserId());
+		ResourceProperties props = prefs.getProperties(ResourceLoader.APPLICATION_ID);
+		String prefLocale = props.getProperty(ResourceLoader.LOCALE_KEY);
+		return getLocaleFromString(prefLocale);		
+	}
+	private Locale getLocaleFromString(String localeString) {
+		if(localeString != null && !localeString.trim().equals("")) {
+			String[] locValues = localeString.trim().split("_");
+			if (locValues.length > 1)
+				return new Locale(locValues[0], locValues[1]); // language, country
+			else if (locValues.length == 1)
+				return new Locale(locValues[0]); // just language
+		}
+		return Locale.getDefault();
+	}
+	
+	private TimeZone getUserTimezone() {
+		Preferences prefs = PreferencesService.getPreferences(SessionManager.getCurrentSessionUserId());
+		ResourceProperties props = prefs.getProperties(TimeService.APPLICATION_ID);
+		String timeZone = props.getProperty(TimeService.TIMEZONE_KEY);
+		if(timeZone != null && !timeZone.trim().equals(""))
+			return TimeZone.getTimeZone(timeZone);
+		else
+			return TimeZone.getDefault();
+	}
+	
+	private String capitalizeDate(String dateString) {
+		if(dateString == null) return null;
+		boolean previousWasLetter = false;
+		StringBuilder buff = new StringBuilder();
+		for(int i=0; i< dateString.length(); i++) {
+			char letter = dateString.charAt(i);
+			if(Character.isLetter(letter) && !previousWasLetter) {
+				if(Character.isLowerCase(letter))
+					buff.append(Character.toUpperCase(letter));
+				previousWasLetter = true;
+			}else{
+				buff.append(letter);
+				if(!Character.isLetter(letter))
+					previousWasLetter = false;
+			}
+		}
+		return buff.toString();
+	}
+
 }

@@ -16,18 +16,14 @@
  *************************************************************************************/
 package org.sakaiproject.tool.blog.impl;
 
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Observer;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.model.PropertyModel;
 import org.sakaiproject.api.app.profile.Profile;
 import org.sakaiproject.api.app.profile.ProfileManager;
 import org.sakaiproject.authz.api.AuthzGroup;
@@ -62,7 +58,6 @@ import org.sakaiproject.tool.blog.api.datamodel.BlogPermissions;
 import org.sakaiproject.tool.blog.api.datamodel.File;
 import org.sakaiproject.tool.blog.api.datamodel.Image;
 import org.sakaiproject.tool.blog.api.datamodel.Post;
-import org.sakaiproject.tool.blog.api.datamodel.State;
 import org.sakaiproject.user.api.AuthenticationManager;
 import org.sakaiproject.user.api.User;
 import org.sakaiproject.user.api.UserDirectoryService;

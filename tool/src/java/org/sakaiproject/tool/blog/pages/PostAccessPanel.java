@@ -1,5 +1,6 @@
 package org.sakaiproject.tool.blog.pages;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,7 +40,8 @@ public class PostAccessPanel extends Panel
 		
 		form.add(new Label("postVisibilityLabel",new ResourceModel("postVisibility")));
 		
-		List<String> model = Arrays.asList(new String[] {State.PRIVATE,State.READY});
+		List<String> temp = Arrays.asList(new String[] {State.PRIVATE,State.READY});
+		List<String> model = new ArrayList<String>(temp);
 		if(!BlogApplication.get().getPersistenceManager().getOptions().isLearningLogMode())
 			model.add(State.PUBLIC);
 		

@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html  
+      xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:wicket="http://wicket.sourceforge.net/"  
+      xml:lang="en"  
+      lang="en">
+      
+<body>
+
+<wicket:head>
+	<script type="text/javascript" src="/library/editor/FCKeditor/fckeditor.js"></script>
+	<style>
+	td.tabStyle{
+		width:720px;
+	}
+	td.td1{
+		width:80px;
+	}
+	td.td2{
+		width:440px;
+	}
+	</style>
+	<script language="javascript">
+		isChanged =false;
+		tabContentIsChanged = false;
+		buttonPressed="";
+		doSubmit = false;
+		desactivateVerify=false;
+		function verifySave(otherChanges)
+		{
+			var result = false;
+			if (!desactivateVerify)
+			{
+				if (buttonPressed=='SAVE' && tabContentIsChanged)
+				{
+					result=window.confirm("You have changed an element but you do not have add or modify it in the document. Press OK to return to the editor. Press Cancel to ignore this message.");
+				}
+				if (buttonPressed=='CANCEL' && (isChanged || tabContentIsChanged || otherChanges))
+				{
+					result=window.confirm("You have modified the document, but you do not have save the changes. Press OK to return to the editor. Press Cancel to ignore this message.");
+				}
+			}
+			doSubmit = !result;
+			return !result;
+		}
+		function functionOnSubmitForTextArea()
+		{
+			return doSubmit;
+		}
+		function functionOnChangeInAbstract()
+		{
+			isChanged = true;
+		}
+		function functionOnChangeInText()
+		{
+			tabContentIsChanged = true;
+		}
+	</script>
+</wicket:head>
+
+<wicket:extend>
+<span wicket:id="feedback">Feedback Panel</span>
+<h3><span wicket:id="postEditorLabel">[postEditorLabel]</span></h3>
+
+<div style="height: 20px;"></div>
+
+<form wicket:id="postForm" enctype="multipart/form-data">
+    <table cols="2">
+    <tbody>
+    	<tr>
+			<td align="left"><span wicket:id="postVisibilityLabel">Access:</span></td>
+	 	    <td align="left">
+	       		<select wicket:id="visibilities">
+        			<option value="Value 1"/>
+         			<option value="Value 2"/>
+         		</select>
+        		<input type="checkbox" wicket:id="readOnlyCheckbox"/>
+    			<span wicket:id="readOnlyLabel">[readOnlyLabel]</span> 
+        		<input type="checkbox" wicket:id="allowCommentsCheckbox"/>
+    			<span wicket:id="allowCommentsLabel">[allowCommentsLabel]</span> 
+	        </td>
+		</tr>
+	    <tr>
+			<td class="td1"><span wicket:id="titleLabel">[titleLabel]</span></td>
+			<td class="td2" align="left"><input type="text" wicket:id="titleField"/></td>
+		</tr>
+	    <tr>
+			<td class="td1"><span wicket:id="keywordsLabel">[keywordsLabel]</span></td>
+			<td class="td2" align="left"><input type="text" wicket:id="keywordsField" onkeypress="javascript:isChanged=true;" size="32"" required="true"/></td>
+		</tr>
+		<tr>
+			<td class="td1"><span wicket:id="abstractLabel">[abstractLabel]</span></td>
+	    	<td class="td2" align="left"><span wicket:id="abstractEditor">[abstractEditor]</span></td>
+	   	</tr>
+		<tr>
+			<td></td>
+			<td>
+			<br/>
+                    <input type="submit" wicket:id="saveButton" value="Save"/>
+                    <input type="submit" wicket:id="cancelButton" value="Cancel"/>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+</form>
+</wicket:extend>
+</body>
+</html>

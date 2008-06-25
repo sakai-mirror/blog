@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="org.sakaiproject.tool.blog.api.SakaiProxy"
+		class="org.sakaiproject.tool.blog.impl.SakaiProxyImpl">
+		
+		<property name="siteService"><ref bean="org.sakaiproject.site.api.SiteService"/></property>
+		<property name="serverConfigurationService"><ref bean="org.sakaiproject.component.api.ServerConfigurationService"/></property>
+		<property name="sessionManager"><ref bean="org.sakaiproject.tool.api.SessionManager"/></property>
+		<property name="toolManager"><ref bean="org.sakaiproject.tool.api.ToolManager"/></property>
+		<property name="authenticationManager"><ref bean="org.sakaiproject.user.api.AuthenticationManager"/></property>
+		<property name="authzGroupService"><ref bean="org.sakaiproject.authz.api.AuthzGroupService"/></property>
+		<property name="functionManager"><ref bean="org.sakaiproject.authz.api.FunctionManager"/></property>
+		<property name="userDirectoryService"><ref bean="org.sakaiproject.user.api.UserDirectoryService"/></property>
+		<property name="contentHostingService"><ref bean="org.sakaiproject.content.api.ContentHostingService"/></property>
+		<property name="entityManager"><ref bean="org.sakaiproject.entity.api.EntityManager"/></property>
+		<property name="sqlService"><ref bean="org.sakaiproject.db.api.SqlService"/></property>
+		<property name="profileManager"><ref bean="org.sakaiproject.api.app.profile.ProfileManager"/></property>
+		<property name="eventTrackingService"><ref bean="org.sakaiproject.event.api.EventTrackingService"/></property>
+		
+	</bean>
+
+	<!-- The id of this bean needs to match the param 'applicationBean' under your web.xml -->
+	<bean id="blogApplication" class="org.sakaiproject.tool.blog.BlogApplication">
+    	<property name="sakaiProxy">
+			<ref bean="org.sakaiproject.tool.blog.api.SakaiProxy"/>
+		</property>
+    </bean>
+    
+    
+</beans>

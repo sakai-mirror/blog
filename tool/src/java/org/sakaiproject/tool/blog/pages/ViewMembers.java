@@ -52,7 +52,7 @@ public class ViewMembers extends BasePage
 		viewMembersLink.setVisible(false);
 		newPostLink.setVisible(false);
 		
-		add(new Label("membersLabel",new ResourceModel("listOfSiteMembers")));
+		add(new Label("bloggersLabel",new ResourceModel("listOfSiteMembers")));
 		
 		ResourceModel memberModel = new ResourceModel("member");
 		ResourceModel dateModel = new ResourceModel("dateOfLastPostHeader");

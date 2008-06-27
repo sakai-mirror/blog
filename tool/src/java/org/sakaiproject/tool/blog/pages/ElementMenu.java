@@ -1,7 +1,11 @@
 package org.sakaiproject.tool.blog.pages;
 
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.ResourceModel;
 import org.sakaiproject.tool.blog.api.datamodel.Post;
+import org.sakaiproject.tool.blog.pages.models.PostModel;
 
 public class ElementMenu extends BasePage
 {
@@ -52,5 +56,21 @@ public class ElementMenu extends BasePage
 		};
 		
 		add(newImageLink);
+		
+		Form form = new Form("cancelForm");
+		
+		Button cancelButton = new Button("cancelButton", new ResourceModel("cancel"))
+		{
+			public void onSubmit()
+			{
+				setResponsePage(new PostPage(new PostModel(post),true));
+			}
+		};
+		
+		cancelButton.setDefaultFormProcessing(false);
+
+		form.add(cancelButton);
+		
+		add(form);
 	}
 }

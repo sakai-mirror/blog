@@ -33,7 +33,7 @@ public class State implements Serializable
 
 	private boolean readOnly = true;
 
-	private boolean allowComments = false;
+	private boolean allowComments = true;
 
 	public State()
 	{

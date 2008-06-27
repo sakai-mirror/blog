@@ -1,20 +1,16 @@
 package org.sakaiproject.tool.blog.pages;
 
-import org.apache.wicket.Resource;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.resource.BufferedDynamicImageResource;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.link.ResourceLink;
 import org.apache.wicket.model.Model;
 import org.sakaiproject.api.app.profile.Profile;
 import org.sakaiproject.tool.blog.BlogApplication;
 import org.sakaiproject.tool.blog.api.BlogFunctions;
 import org.sakaiproject.tool.blog.api.QueryBean;
 import org.sakaiproject.tool.blog.impl.managers.PersistenceManager;
-import org.wicketstuff.rome.FeedResource;
+//import org.wicketstuff.rome.FeedResource;
 
 public class MemberBlog extends BasePage
 {

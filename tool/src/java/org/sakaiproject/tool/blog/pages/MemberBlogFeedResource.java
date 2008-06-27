@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.wicket.Response;
-import org.apache.wicket.protocol.http.WebResponse;
 import org.sakaiproject.tool.blog.BlogApplication;
 import org.sakaiproject.tool.blog.api.QueryBean;
 import org.sakaiproject.tool.blog.api.SakaiProxy;
 import org.sakaiproject.tool.blog.api.datamodel.Post;
 import org.sakaiproject.tool.blog.impl.managers.PostManager;
-import org.wicketstuff.rome.FeedResource;
+//import org.wicketstuff.rome.FeedResource;
 
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndContentImpl;
@@ -20,7 +18,7 @@ import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
 
-public class MemberBlogFeedResource extends FeedResource
+public class MemberBlogFeedResource// extends FeedResource
 {
 	private transient PostManager postManager;
 	private transient SakaiProxy sakaiProxy;

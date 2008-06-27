@@ -479,20 +479,49 @@ public class PersistenceManager
 	{
 		// if (logger.isDebugEnabled())
 		// logger.debug("getPost(" + postId + ")");
+		
+		List<Post> posts = new ArrayList<Post>();
 
 		Connection connection = getConnection();
 		try
 		{
+			List<String> statements = sqlGenerator.getSelectStatementsForQuery(query);
+			for(String statement : statements)
+			{
+				ResultSet rs = executeQuerySQL(statement, connection);
+				posts.addAll(transformResultSetInPostCollection(rs, connection, false));
+				
+				try
+				{
+					rs.close();
+				}
+				catch(SQLException sqle)
+				{
+					logger.warn("Caught exception whilst closing record set",sqle);
+				}
+			}
+			/*
 			String statement = sqlGenerator.getSelectStatementForQuery(query);
+			
 			ResultSet rs = executeQuerySQL(statement, connection);
-			List<Post> posts = transformResultSetInPostCollection(rs, connection, false);
-
-			return posts;
+			posts.addAll(transformResultSetInPostCollection(rs, connection, false));
+			
+			try
+			{
+				rs.close();
+			}
+			catch(SQLException sqle)
+			{
+				logger.warn("Caught exception whilst closing record set",sqle);
+			}
+			*/
 		}
 		finally
 		{
 			releaseConnection(connection);
 		}
+		
+		return posts;
 	}
 
 	public Post getPost(String postId) throws PersistenceException

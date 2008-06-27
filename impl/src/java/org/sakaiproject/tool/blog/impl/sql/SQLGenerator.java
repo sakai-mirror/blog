@@ -84,8 +84,54 @@ public class SQLGenerator implements ISQLGenerator
 	 * @see uk.ac.lancs.e_science.sakaiproject.component.blogger.persistence.sql.util.ISQLGenerator#getSelectStatementForQuery(java.lang.String,
 	 *      uk.ac.lancs.e_science.sakaiproject.service.blogger.searcher.QueryBean, java.lang.String)
 	 */
-	public String getSelectStatementForQuery(QueryBean query)
+	public List<String> getSelectStatementsForQuery(QueryBean query)
 	{
+		List<String> statements = new ArrayList<String>();
+		
+		String queryString = query.getQueryString();
+		
+		if(queryString != null && queryString.length() > 0)
+		{
+			String sql = "SELECT *"
+						+ " FROM " + TABLE_POST
+							+ " WHERE (" + TITLE + " LIKE '%" + queryString + "%'"
+							+ " OR " + SHORT_TEXT + " like '%" + queryString + "%')";
+			
+			if(query.queryBySiteId())
+				sql += " AND " + SITE_ID + " = '" + query.getSiteId() + "'";
+			
+			sql += " ORDER BY " + CREATED_DATE + " DESC";
+			
+			statements.add(sql);
+			
+			sql = "SELECT DISTINCT " + TABLE_POST + ".*"
+						+ " FROM " + TABLE_POST + "," + TABLE_PARAGRAPH + "," + TABLE_POST_ELEMENT
+							+ " WHERE " + TABLE_POST + "." + POST_ID + " = " + TABLE_POST_ELEMENT + "." + POST_ID;
+			
+			if(query.queryBySiteId())
+				sql += " AND " + TABLE_POST + "." + SITE_ID + " = '" + query.getSiteId() + "'";
+			
+			sql += " AND " + TABLE_POST_ELEMENT + "." + ELEMENT_ID + " = " + TABLE_PARAGRAPH + "." + PARAGRAPH_ID
+				+ " AND " + TABLE_PARAGRAPH + "." + CONTENT + " like '%" + queryString + "%'"
+				+ " ORDER BY " + CREATED_DATE + " DESC";
+			
+			statements.add(sql);
+			
+			sql = "SELECT DISTINCT " + TABLE_POST + ".*"
+						+ " FROM " + TABLE_POST + "," + TABLE_COMMENT
+							+ " WHERE " + TABLE_POST + "." + POST_ID + " = " + TABLE_COMMENT + "." + POST_ID;
+			
+			if(query.queryBySiteId())
+				sql += " AND " + TABLE_POST + "." + SITE_ID + " = '" + query.getSiteId() + "'";
+			
+			sql += " AND " + TABLE_COMMENT + "." + CONTENT + " like '%" + queryString + "%'"
+				+ " ORDER BY " + CREATED_DATE + " DESC";
+			
+			statements.add(sql);
+			
+			return statements;
+		}
+		
 		StringBuilder statement = new StringBuilder();
 		statement.append("SELECT * FROM ").append(TABLE_POST);
 		
@@ -123,32 +169,13 @@ public class SQLGenerator implements ISQLGenerator
 		if (query.queryByEndDate())
 			statement.append(CREATED_DATE).append("<='").append(query.getEndDate()).append("' AND ");
 		
-		String queryString = query.getQueryString();
-		
-		if(queryString != null && queryString.length() > 0)
-		{
-			String sql = "SELECT DISTINCT " + TABLE_POST + ".*"
-						+ " FROM " + TABLE_POST + "," + TABLE_PARAGRAPH + "," + TABLE_POST_ELEMENT + "," + TABLE_COMMENT
-							+ " WHERE (" + TABLE_POST + "." + POST_ID + " = " + TABLE_POST_ELEMENT + "." + POST_ID
-							+ " OR " + TABLE_POST + "." + POST_ID + " = " + TABLE_COMMENT + "." + POST_ID +")";
-							//+ " WHERE " + TABLE_POST + "." + POST_ID + " = " + TABLE_POST_ELEMENT + "." + POST_ID
-							//+ " AND " + TABLE_POST + "." + POST_ID + " = " + TABLE_COMMENT + "." + POST_ID;
-			
-			if(query.queryBySiteId())
-				sql += " AND " + TABLE_POST + "." + SITE_ID + " = '" + query.getSiteId() + "'";
-			
-			sql += " AND " + TABLE_POST_ELEMENT + "." + ELEMENT_ID + " = " + TABLE_PARAGRAPH + "." + PARAGRAPH_ID
-				+ " AND (" + TABLE_PARAGRAPH + "." + CONTENT + " like '%" + queryString + "%'"
-				+ " OR " + TABLE_COMMENT + "." + CONTENT + " like '%" + queryString + "%')"
-				+ " ORDER BY " + CREATED_DATE + " DESC";
-			
-			return sql;
-		}
 
 		// in this point, we know that there is a AND at the end of the statement. Remove it.
 		statement = new StringBuilder(statement.toString().substring(0, statement.length() - 4)); // 4 is the length of AND with the last space
 		statement.append(" ORDER BY ").append(CREATED_DATE).append(" DESC ");
-		return statement.toString();
+		
+		statements.add(statement.toString());
+		return statements;
 	}
 
 	protected String doTableForPost()

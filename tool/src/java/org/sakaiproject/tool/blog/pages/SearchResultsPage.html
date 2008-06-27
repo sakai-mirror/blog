@@ -7,12 +7,11 @@
       lang="en">
 <body>
 <wicket:extend>
-    <h3><span wicket:id="searchLabel">[searchLabel]</span></h3>
+    <h3><span wicket:id="searchResultsLabel">[searchResultsLabel]</span></h3>
     <br />
-    <form wicket:id="searchForm">
-    	<input type="text" wicket:id="searchField"/>
-    	<input type="submit" wicket:id="searchButton"/>
-    </form>
+    <a href="#" wicket:id="backToSearchLink"><span wicket:id="backToSearchLabel">[backToSearchLabel]</span></a>
+    <br />
+    <span wicket:id="postsPanel">[postsPanel]</span>
 </wicket:extend>
 </body>
 </html>

@@ -72,10 +72,13 @@ public class PostsPanel extends Panel
 		Label showFullContentLabel = new Label("showFullContentLabel",new ResourceModel("showFullContent"));
 		form.add(showFullContentLabel);
 		
-		if(sakaiProxy.isOnGateway())
-			query.setVisibilities(new String[] {State.PUBLIC});
-		else
-			query.setSiteId(sakaiProxy.getCurrentSiteId());
+		if(query != null)
+		{
+			if(sakaiProxy.isOnGateway())
+				query.setVisibilities(new String[] {State.PUBLIC});
+			else
+				query.setSiteId(sakaiProxy.getCurrentSiteId());
+		}
 	
 		PostDataProvider provider = new PostDataProvider(query);
 		

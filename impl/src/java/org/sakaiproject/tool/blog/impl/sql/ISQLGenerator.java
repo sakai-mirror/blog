@@ -104,7 +104,7 @@ public interface ISQLGenerator {
 
 	public abstract List<String> getCreateStatementsForPost();
 
-	public abstract String getSelectStatementForQuery(QueryBean query);
+	public abstract List<String> getSelectStatementsForQuery(QueryBean query);
 
 	public abstract String getSelectAllPost(String siteId);
 

@@ -9,14 +9,11 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.sakaiproject.tool.blog.api.QueryBean;
 import org.sakaiproject.tool.blog.api.datamodel.State;
-import org.sakaiproject.tool.blog.dataproviders.PostDataProvider;
 
 public class SearchPage extends BasePage
 {
 	private transient Logger logger = Logger.getLogger(SearchPage.class);
-	
-	private QueryBean query = new QueryBean();
-	
+	private QueryBean query;
 	
 	public SearchPage()
 	{
@@ -34,8 +31,10 @@ public class SearchPage extends BasePage
 	{
 		super();
 		
-		if(q != null)
-			this.query = q;
+		query = q;
+		
+		if(query == null)
+			query = new QueryBean();
 		
 		if(logger.isDebugEnabled()) logger.debug("SearchPage(" + pageSize + "," + currentPage + ")");
 		
@@ -45,12 +44,15 @@ public class SearchPage extends BasePage
 		{
 			protected void onSubmit()
 			{
-				if(sakaiProxy.isOnGateway())
-					query.setVisibilities(new String[] {State.PUBLIC});
-				else
-					query.setSiteId(sakaiProxy.getCurrentSiteId());
+				if(query != null)
+				{
+					if(sakaiProxy.isOnGateway())
+						query.setVisibilities(new String[] {State.PUBLIC});
+					else
+						query.setSiteId(sakaiProxy.getCurrentSiteId());
+				}
 				
-				setResponsePage(new SearchPage(query));
+				setResponsePage(new SearchResultsPage(query));
 			}
 		};
 		
@@ -58,17 +60,5 @@ public class SearchPage extends BasePage
 		searchForm.add(new Button("searchButton",new ResourceModel("search")));
 		
 		add(searchForm);
-		
-		PostsPanel pp = new PostsPanel("postsPanel",query);
-		add(pp);
-		if(q == null)
-			pp.setVisible(false);
 	}
-
-	/*
-	public QueryBean getQueryBean()
-	{
-		return queryBean;
-	}
-	*/
 }

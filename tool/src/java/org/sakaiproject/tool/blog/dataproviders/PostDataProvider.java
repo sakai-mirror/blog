@@ -46,6 +46,12 @@ public class PostDataProvider implements IDataProvider
 		
 		postManager = BlogApplication.get().getPostManager();
 		
+		if(query == null)
+		{
+			posts = new ArrayList<Post>();
+			return;
+		}
+		
 		try
 		{
 			/*

@@ -129,8 +129,10 @@ public class SQLGenerator implements ISQLGenerator
 		{
 			String sql = "SELECT DISTINCT " + TABLE_POST + ".*"
 						+ " FROM " + TABLE_POST + "," + TABLE_PARAGRAPH + "," + TABLE_POST_ELEMENT + "," + TABLE_COMMENT
-							+ " WHERE " + TABLE_POST + "." + POST_ID + " = " + TABLE_POST_ELEMENT + "." + POST_ID
-							+ " AND " + TABLE_POST + "." + POST_ID + " = " + TABLE_COMMENT + "." + POST_ID;
+							+ " WHERE (" + TABLE_POST + "." + POST_ID + " = " + TABLE_POST_ELEMENT + "." + POST_ID
+							+ " OR " + TABLE_POST + "." + POST_ID + " = " + TABLE_COMMENT + "." + POST_ID +")";
+							//+ " WHERE " + TABLE_POST + "." + POST_ID + " = " + TABLE_POST_ELEMENT + "." + POST_ID
+							//+ " AND " + TABLE_POST + "." + POST_ID + " = " + TABLE_COMMENT + "." + POST_ID;
 			
 			if(query.queryBySiteId())
 				sql += " AND " + TABLE_POST + "." + SITE_ID + " = '" + query.getSiteId() + "'";

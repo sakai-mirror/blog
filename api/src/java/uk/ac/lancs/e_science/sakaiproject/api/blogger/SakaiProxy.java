@@ -32,6 +32,7 @@ import org.sakaiproject.tool.api.SessionManager;
 import org.sakaiproject.tool.api.ToolManager;
 import org.sakaiproject.user.api.AuthenticationManager;
 import org.sakaiproject.user.api.User;
+import org.sakaiproject.user.api.UserNotDefinedException;
 import org.sakaiproject.user.cover.UserDirectoryService;
 
 
@@ -66,6 +67,21 @@ public class SakaiProxy {
     	}
     	
     }
+   public static String getUserId(String eid){
+      try{
+         return UserDirectoryService.getInstance().getUserId(eid);
+      } catch (UserNotDefinedException e){
+         return null;
+      }
+   }
+   public static String getEid(String userId){
+      try{
+         return UserDirectoryService.getInstance().getUserEid(userId);
+      } catch (UserNotDefinedException e){
+         return null;
+      }
+   }
+
     public static String getPageId(){
 		Placement placement = toolManager.getCurrentPlacement();
 		

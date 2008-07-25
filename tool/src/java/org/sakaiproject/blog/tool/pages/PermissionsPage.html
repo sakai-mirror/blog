@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html  
+      xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:wicket="http://wicket.sourceforge.net/"  
+      xml:lang="en"  
+      lang="en">
+<body>
+<wicket:extend>
+<h3><span wicket:id="permissionsLabel">[permissionsLabel]</span></h3>
+<form wicket:id="form">
+<table>
+<thead>
+<tr>
+	<th>&nbsp;</th>
+	<th colspan="6">Post</th>
+	<th colspan="6">Comment</th>
+</tr>
+<tr>
+	<th align="left"><span wicket:id="roleLabel">[roleLabel]</span></th>
+	<th><span wicket:id="postCreateLabel">[postCreateLabel]</span></th>
+	<th><span wicket:id="postReadAnyLabel">[postReadAnyLabel]</span></th>
+	<th><span wicket:id="postReadOwnLabel">[postReadOwnLabel]</span></th>
+	<th><span wicket:id="postUpdateAnyLabel">[postUpdateAnyLabel]</span></th>
+	<th><span wicket:id="postUpdateOwnLabel">[postUpdateOwnLabel]</span></th>
+	<th><span wicket:id="postDeleteAnyLabel">[postDeleteAnyLabel]</span></th>
+	<th><span wicket:id="postDeleteOwnLabel">[postDeleteOwnLabel]</span>&nbsp;&nbsp;&nbsp;</th>
+	<th><span wicket:id="commentCreateLabel">[commentCreateLabel]</span></th>
+	<th><span wicket:id="commentReadAnyLabel">[commentReadAnyLabel]</span></th>
+	<th><span wicket:id="commentReadOwnLabel">[commentReadOwnLabel]</span></th>
+	<th><span wicket:id="commentUpdateAnyLabel">[commentUpdateAnyLabel]</span></th>
+	<th><span wicket:id="commentUpdateOwnLabel">[commentUpdateOwnLabel]</span></th>
+	<th><span wicket:id="commentDeleteAnyLabel">[commentDeleteAnyLabel]</span></th>
+	<th><span wicket:id="commentDeleteOwnLabel">[commentDeleteOwnLabel]</span></th>
+</tr>
+</thead>
+<tbody>
+<tr wicket:id="permissionsTable">
+	<td align="left"><span wicket:id="role">[role]</span></td>
+	<td align="center"><input type="checkbox" wicket:id="postCreateCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="postReadAnyCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="postReadOwnCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="postUpdateAnyCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="postUpdateOwnCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="postDeleteAnyCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="postDeleteOwnCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="commentCreateCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="commentReadAnyCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="commentReadOwnCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="commentUpdateAnyCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="commentUpdateOwnCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="commentDeleteAnyCheckbox"/></td>
+	<td align="center"><input type="checkbox" wicket:id="commentDeleteOwnCheckbox"/></td>
+</tr>
+</tbody>
+</table>
+
+<input type="submit" wicket:id="saveButton" value="Save"/>
+<input type="submit" wicket:id="cancelButton" value="Add to Document"/>
+</form>
+</wicket:extend>
+</body>
+</html>

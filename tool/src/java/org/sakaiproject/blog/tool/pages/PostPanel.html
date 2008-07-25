@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html  
+      xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:wicket="http://wicket.sourceforge.net/"  
+      xml:lang="en"  
+      lang="en">
+<body>
+<wicket:panel>
+<div id="postOuterContainer">
+	<div id="postInnerContainer">
+		<span id="postOptionsPanel">
+			<a href="#" wicket:id="commentLink"><img src="/library/image/silk/comment_add.png" width="16" height="16" alt="Add Comment"/></a>&nbsp;
+			<a href="#" wicket:id="deleteLink" onClick="return confirmPostDelete();"><img src="/library/image/silk/bin_closed.png" width="16" height="16" alt="Delete"/></a>&nbsp;
+			<a href="#" wicket:id="editLink"><img src="/library/image/silk/layout_edit.png" width="16" height="16" alt="Edit"/></a>&nbsp;
+			<a href="#" wicket:id="stopEditingLink"><img src="img/layout_edit_stop.png" width="16" height="16" alt="Stop Editing"/></a>&nbsp;
+		</span>
+		<span id="postAccessPanel" wicket:id="postAccessPanel">[postAccessPanel]</span>
+		<br/>
+		<br/>
+		<div id="title">
+			<span>
+				<a href="#" wicket:id="postLink"><span wicket:id="title">[title]</span></a>
+				<a href="#" wicket:id="editTitleLink"><img src="/library/image/silk/layout_edit.png" width="16" height="16" alt="Edit Title"/></a>
+			</span>
+		</div> <!-- /title -->
+	
+		<div id="author">
+			<span wicket:id="author">Adrian Fish</span><span wicket:id="postDate">[postDate]</span>
+		</div> <!-- /author -->
+	
+		<div id="abstract">
+			<span wicket:id="shortText">[shortText]</span>
+			<a href="#" wicket:id="editShortTextLink"><img src="/library/image/silk/layout_edit.png" width="16" height="16" alt="Edit Short Text"/></a>
+		</div> <!-- /abstract -->
+		
+		<div style="height: 7px;"></div>
+		
+		<span wicket:id="postElementsPanel">[postElementsPanel]</span>
+		<div class="newLink"><a href="#" wicket:id="newLink"><img src="img/new.png" width="22" height="16" alt="new"/></a></div>
+		<div style="height: 7px;"></div>
+		<div id="commentTotal"><a href="#" wicket:id="showCommentsLink"><span wicket:id="commentTotal">[commentTotal]</span></a></div>
+		<span wicket:id="postCommentsPanel">Comments Panel here !</span>
+	</div> <!-- /postInnerContainer -->
+</div> <!-- /postOuterContainer -->
+</wicket:panel>
+</body>
+</html>

@@ -11,8 +11,7 @@
   <groupId>org.sakaiproject</groupId>
   <artifactId>sakai-blog-base</artifactId>
   <packaging>pom</packaging>
-
-  <!--
+<!--
   <build>
       <plugins>
 	  	<plugin>
@@ -22,26 +21,24 @@
 	</plugins>
 	</build>
 	-->
-	<reporting>
-   		<plugins>
-	    	<plugin>
-		    	<groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-checkstyle-plugin</artifactId>
-				<!--
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+<!--
 			    <configuration>
 			    	<configLocation>checkstyle.xml</configLocation>
 	            	<headerLocation>LICENSE.txt</headerLocation>
 	        	</configuration>
 				-->
-	      </plugin>
-     </plugins>
-   </reporting>
-
-    <modules>
-        <module>components</module>
-        <module>api</module>
-        <module>impl</module>
-        <module>tool</module>
-    </modules>
-    
+      </plugin>
+    </plugins>
+  </reporting>
+  <modules>
+    <module>components</module>
+    <module>api</module>
+    <module>impl</module>
+    <module>tool</module>
+  </modules>
 </project>

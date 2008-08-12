@@ -44,7 +44,7 @@
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-profile-api</artifactId>
-      <version>${sakai.version}</version>
+      
       <type>jar</type>
     </dependency>
 <!--org.sakaiprojectsakai-entity-util${sakai.version}jar-->

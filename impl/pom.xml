@@ -45,19 +45,16 @@
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blog-api</artifactId>
-      <version>${sakai.version}</version>
     </dependency>
 <!--org.sakaiprojectsakai-tool-api${sakai.version}-->
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-search-api</artifactId>
-      <version>${sakai.version}</version>
     </dependency>
 <!--org.sakaiprojectsakai-util${sakai.version}jar-->
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-profile-api</artifactId>
-      <version>${sakai.version}</version>
       <type>jar</type>
     </dependency>
 <!--org.sakaiprojectsakai-util-api${sakai.version}jar-->

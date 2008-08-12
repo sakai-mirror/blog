@@ -640,6 +640,9 @@ public class PersistenceManagerImpl implements PersistenceManager
 
 				String postId = rs.getString(ISQLGenerator.POST_ID);
 				post.setId(postId);
+				
+				String siteId = rs.getString(ISQLGenerator.SITE_ID);
+				post.setSiteId(siteId);
 
 				String title = rs.getString(ISQLGenerator.TITLE);
 				post.setTitle(title);
@@ -652,16 +655,10 @@ public class PersistenceManagerImpl implements PersistenceManager
 
 				String postCreatorId = rs.getString(ISQLGenerator.CREATOR_ID);
 				post.setCreatorId(postCreatorId);
-
-				String siteId = rs.getString(ISQLGenerator.SITE_ID);
-				post.setSiteId(siteId);
-
-				String visibility = rs.getString(ISQLGenerator.VISIBILITY);
-				post.setVisibility(visibility);
-
+				
 				String shortText = rs.getString(ISQLGenerator.SHORT_TEXT);
 				post.setShortText(shortText);
-
+				
 				String keywords = rs.getString(ISQLGenerator.KEYWORDS);
 				post.setKeywords(keywords);
 
@@ -670,6 +667,9 @@ public class PersistenceManagerImpl implements PersistenceManager
 
 				int allowComments = rs.getInt(ISQLGenerator.ALLOW_COMMENTS);
 				post.setCommentable(allowComments == 1);
+				
+				String visibility = rs.getString(ISQLGenerator.VISIBILITY);
+				post.setVisibility(visibility);
 
 				String statement = sqlGenerator.getSelectComments(postId);
 				ResultSet commentRS = executeQuerySQL(statement, connection);

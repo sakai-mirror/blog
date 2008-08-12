@@ -57,6 +57,8 @@ public class SQLGenerator implements ISQLGenerator
 	public String TIMESTAMP = "DATETIME";
 	
 	public String VARCHAR  = "VARCHAR";
+	
+	public String TEXT  = "TEXT";
 
 	/*
 	 * (non-Javadoc)
@@ -190,7 +192,7 @@ public class SQLGenerator implements ISQLGenerator
 		statement.append(CREATED_DATE + " " + TIMESTAMP + " NOT NULL" + ", ");
 		statement.append(MODIFIED_DATE + " " + TIMESTAMP + " NOT NULL" + ", ");
 		statement.append(CREATOR_ID + " " + VARCHAR + "(255) NOT NULL, ");
-		statement.append(SHORT_TEXT + " TEXT, ");
+		statement.append(SHORT_TEXT + " " + TEXT + ", ");
 		statement.append(KEYWORDS + " " + VARCHAR + "(255), ");
 		statement.append(READ_ONLY + " INT, ");
 		statement.append(ALLOW_COMMENTS + " INT, ");

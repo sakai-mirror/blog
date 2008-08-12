@@ -43,7 +43,6 @@ import org.sakaiproject.blog.api.datamodel.Image;
 import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.user.api.AuthenticationManager;
 import org.sakaiproject.user.api.UserDirectoryService;
-import org.sakaiproject.user.api.UserNotDefinedException;
 import org.sakaiproject.blog.api.BlogMember;
 
 public interface SakaiProxy

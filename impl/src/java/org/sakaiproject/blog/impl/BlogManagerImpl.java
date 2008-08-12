@@ -435,6 +435,9 @@ public class BlogManagerImpl implements BlogManager//, EntityProducer
         return results.toString();
     }
 
+    /**
+     * From EntityProducer
+     */
     public String merge(String siteId, Element root, String archivePath, String fromSiteId, Map attachmentNames, Map userIdTrans, Set userListAllowImport)
     {
         logger.debug("merge(siteId:" + siteId + ",root tagName:" + root.getTagName() + ",archivePath:" + archivePath + ",fromSiteId:" + fromSiteId);
@@ -520,33 +523,59 @@ public class BlogManagerImpl implements BlogManager//, EntityProducer
         return null;
     }
 
-    public ResourceProperties getEntityResourceProperties(Reference arg0)
+    public ResourceProperties getEntityResourceProperties(Reference ref)
     {
-        // TODO Auto-generated method stub
-        return null;
+    	try
+    	{
+    		String reference = ref.getReference();
+            
+    		int lastIndex = reference.lastIndexOf(Entity.SEPARATOR);
+    		String postId = reference.substring(lastIndex, reference.length() - lastIndex);
+    		Entity entity = getPost(postId);
+    		return entity.getProperties();
+        }
+        catch (Exception e)
+        {
+            logger.warn("getEntity(): " + e);
+            return null;
+        }
     }
 
+    /**
+     * From EntityProducer
+     */
     public String getEntityUrl(Reference ref)
     {
         return getEntity(ref).getUrl();
     }
 
+    /**
+     * From EntityProducer
+     */
     public HttpAccess getHttpAccess()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * From EntityProducer
+     */
     public String getLabel()
     {
         // TODO Auto-generated method stub
         return "blog";
     }
 
+    /**
+     * From EntityProducer
+     */
     public boolean parseEntityReference(String reference, Reference ref)
     {
-        // TODO Auto-generated method stub
-        return false;
+    	if(!reference.startsWith(BlogManager.REFERENCE_ROOT))
+    		return false;
+    	
+        return true;
     }
 
     public boolean willArchiveMerge()

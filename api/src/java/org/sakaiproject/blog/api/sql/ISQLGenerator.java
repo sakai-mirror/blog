@@ -58,7 +58,7 @@ public interface ISQLGenerator
 	public static final String ELEMENT_ID = "ELEMENT_ID";
 	public static final String ELEMENT_TYPE = "ELEMENT_TYPE";
 	public static final String POSITION = "POSITION";
-	public static final String MODE = "MODE";
+	public static final String MODE = "BLOGMODE";
 	
 	public static final String TIMEOUT = "TIMEOUT";
 	

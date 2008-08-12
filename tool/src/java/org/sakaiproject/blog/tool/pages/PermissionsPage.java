@@ -18,7 +18,7 @@ import org.sakaiproject.blog.tool.dataproviders.PermissionsDataProvider;
 
 public class PermissionsPage extends BasePage
 {
-	private Logger logger = Logger.getLogger(PermissionsPage.class);
+	private transient Logger logger = Logger.getLogger(PermissionsPage.class);
 	
 	private Map<String,BlogPermissions> map;
 

@@ -23,6 +23,7 @@ import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Comment;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.BloggerManager;
+import org.sakaiproject.util.FormattedText;
 
 
 public class AddCommentController extends BloggerController{
@@ -52,11 +53,16 @@ public class AddCommentController extends BloggerController{
     	if (isEmpty(commentText))
     		return "viewPost"; //ignore the comment
 
+		StringBuilder errorMessages = new StringBuilder();
+		commentText = FormattedText.processFormattedText(commentText, errorMessages, true, false);
+
         Comment comment = new Comment(commentText);
         blogger.addCommentToPost(comment, post.getOID(),SakaiProxy.getCurrentUserId(), SakaiProxy.getCurrentSiteId());
         return "viewPost";
 
     }
+    
+
     private boolean isEmpty(String str){
     	str = str.replaceAll("<br />", "");
     	str = str.replaceAll("&nbsp;", "");

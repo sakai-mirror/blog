@@ -354,7 +354,11 @@ public class PostEditionAbstractController extends BloggerController implements 
     //-----------------------------------------------------------------
 
     public void setShortText(String editingText){
-    	post.setShortText(editingText);
+    
+    	StringBuilder errorMessages = new StringBuilder();
+		editingText = FormattedText.processFormattedText(editingText, errorMessages, true, false);
+		post.setShortText(editingText);
+
     }
     public String getShortText(){
     	return post.getShortText();

@@ -17,19 +17,14 @@
 
 package uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence;
 
-
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-import java.io.ByteArrayInputStream;
 import java.sql.*;
 
 import org.sakaiproject.db.api.SqlService;
-
-
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Creator;
@@ -43,7 +38,10 @@ import uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence.sql.util.ISQL
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence.sql.util.MySQLGenerator;
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence.sql.util.SQLGenerator;
 
+import org.apache.log4j.Logger;
+
 public class SakaiPersistenceManager{
+	private Logger logger = Logger.getLogger(SakaiPersistenceManager.class);
     private SqlService sqlService;
     ISQLGenerator sqlGenerator;
     public SakaiPersistenceManager() throws PersistenceException{
@@ -60,7 +58,189 @@ public class SakaiPersistenceManager{
         	throw new PersistenceException("Unknown database vendor:"+vendor);
 
     }
+    
+    public void storePost(Post post,String siteId) throws PersistenceException
+	{
+    	if (logger.isDebugEnabled())
+    		logger.debug("storePost(Post instance supplied with ID: " + post.getOID() + ")");
 
+    	Connection connection = getConnection();
+    	try
+    	{
+    		if (!existPost(post.getOID()))
+    		{
+    			try
+    			{
+    				if (logger.isDebugEnabled())
+    					logger.debug("This is a new post. Getting insert statements for post ...");
+
+    				Collection sqlStatements = sqlGenerator.getInsertStatementsForPost(post, siteId,connection);
+
+    				if (logger.isDebugEnabled())
+    					logger.debug("Executing insert statements for post ...");
+
+    				boolean oldAutoCommitFlag = connection.getAutoCommit();
+				
+    				try
+    				{
+    					// Start transaction
+    					connection.setAutoCommit(false);
+    					executeSQL(sqlStatements, connection);
+    					connection.commit();
+    				}
+    				catch(Exception e)
+    				{	
+    					logger.error("Caught exception whilst inserting post. Rolling back ...",e);
+
+    					try
+    					{
+    						connection.rollback();
+    					}
+    					catch (SQLException e1)
+    					{
+    						logger.error("Caught exception whilst rolling back post transaction.",e);
+    					}
+    				}
+    				finally
+    				{
+    					connection.setAutoCommit(oldAutoCommitFlag);
+    				}
+    			}
+    			catch (Exception e)
+    			{
+    				e.printStackTrace();
+
+    				logger.error("Caught exception whilst inserting new post. Message: " + e.getMessage());
+
+    				if (logger.isDebugEnabled())
+    					e.printStackTrace();
+
+    				throw new PersistenceException(e.getMessage());
+    			}
+    		}
+    		else
+    		{
+    			// delete and insert again. this is less efficient but simpler
+
+    			// TODO: All of this needs to be in a transaction. The post can
+    			// be deleted, the insert can fail and the delete never gets
+    			// rolled back, arghhhhh
+
+    			Post originalPost = getPost(post.getOID());
+
+    			boolean oldAutoCommitFlag = true;
+
+    			try
+    			{
+    				if (logger.isDebugEnabled())
+    					logger.debug("Getting delete statements for post ...");
+				
+    				Collection deleteStatements = sqlGenerator.getDeleteStatementsForPostExcludingImagesAndFiles(post.getOID());
+
+    				// Start transaction
+    				oldAutoCommitFlag = connection.getAutoCommit();
+    				connection.setAutoCommit(false);
+
+    				if (logger.isDebugEnabled())
+    					logger.debug("Executing delete statements for post ...");
+    				executeSQL(deleteStatements, connection);
+
+    				if (logger.isDebugEnabled())
+    					logger.debug("Getting insert statements for post ...");
+    				Collection insertStatements = sqlGenerator.getInsertStatementsForPostExcludingImagesAndFiles(post, siteId,connection);
+    				//Collection insertStatements = sqlGenerator.getInsertStatementsForPost(post, connection);
+
+    				if (logger.isDebugEnabled())
+    					logger.debug("Executing insert statements for post ...");
+    				executeSQL(insertStatements, connection);
+				
+    				//Now... Images ... We need be more efficient.
+    				Collection imagesIdInDb = getIdImages(post);
+    				Iterator itImagesIdInDb = imagesIdInDb.iterator();
+    				while (itImagesIdInDb.hasNext())
+    				{
+    					String imageId = (String)itImagesIdInDb.next();
+    					if (!post.hasImage(imageId))
+    						executeSQL(sqlGenerator.getDeleteStatementForImage(imageId),connection);
+    				}
+    				if (post.getImages()!=null)
+    				{
+    					ArrayList imagesToInsert = new ArrayList();
+    					for (int i=0;i<post.getImages().length;i++)
+    					{
+    						if (!imagesIdInDb.contains(post.getImages()[i].getIdImage()))
+    							imagesToInsert.add(post.getImages()[i]);
+    					}
+    					executeSQL(sqlGenerator.getInsertStatementsForImages((Image[])imagesToInsert.toArray(new Image[0]),post.getOID(),connection),connection);
+    				}
+            	
+    				//Now... Files ... We need be more efficient.
+    				Collection filesIdInDb = getIdFiles(post);
+    				Iterator itFilesIdInDb = filesIdInDb.iterator();
+    				while (itFilesIdInDb.hasNext())
+    				{
+    					String fileId = (String)itFilesIdInDb.next();
+    					if (!post.hasFile(fileId))
+    						executeSQL(sqlGenerator.getDeleteStatementForFile(fileId),connection);
+    				}
+    				if (post.getFiles()!=null)
+    				{
+    					ArrayList filesToInsert = new ArrayList();
+    					for (int i=0;i<post.getFiles().length;i++)
+    					{
+    						if (!filesIdInDb.contains(post.getFiles()[i].getIdFile()))
+    							filesToInsert.add(post.getFiles()[i]);
+    					}           	
+    					executeSQL(sqlGenerator.getInsertStatementsForFiles((File[])filesToInsert.toArray(new File[0]),post.getOID(),connection),connection);
+    				}
+    			}
+    			catch (Exception e)
+    			{
+    				// This can happen when the post has odd characters that we didn't deal with. But we tried our best!!!
+
+    				if (logger.isDebugEnabled())
+    					e.printStackTrace();
+
+    				// Roll back !
+    				if (logger.isDebugEnabled())
+    					logger.debug("Rolling back ...");
+    				try
+    				{
+    					connection.rollback();
+    				}
+    				catch (SQLException e1)
+    				{
+    					logger.error("Caught exception whilst rolling back post transaction. Message: " + e1.getMessage());
+
+    					if (logger.isDebugEnabled())
+    						e1.printStackTrace();
+    				}
+
+    				logger.error("Caught an exception whilst inserting post. Message: " + e.getMessage());
+    			}
+    			finally
+    			{
+    				try
+    				{
+    					connection.setAutoCommit(oldAutoCommitFlag);
+    				}
+    				catch (SQLException e)
+    				{
+    					logger.error("Caught exception whilst resetting autocommit flag on db connection. Message: " + e.getMessage());
+
+    					if (logger.isDebugEnabled())
+    						e.printStackTrace();
+    				}
+    			}
+    		}
+    	}
+    	finally
+    	{
+    		releaseConnection(connection);
+    	}
+	}
+
+    /*
     public void storePost(Post post, String siteId) throws PersistenceException{
         Connection connection = getConnection();
         try{
@@ -120,6 +300,7 @@ public class SakaiPersistenceManager{
             releaseConnection(connection);
         }
     }
+    */
     
 
 
@@ -182,7 +363,7 @@ public class SakaiPersistenceManager{
                 ResultSet rs = executeQuerySQL(sqlGenerator.getSelectPost(OID), connection);
                 return (rs.next());
             } catch (SQLException e){
-                throw new PersistenceException();
+                throw new PersistenceException("Caught exception whilst testing for post '" + OID + "' existence",e);
             }
 
         } finally{
@@ -316,41 +497,40 @@ public class SakaiPersistenceManager{
     	executeSQL(sqlList, connection);
     }
 
-    private void executeSQL(Collection sql, Connection connection) throws PersistenceException{
-        try{
-            Iterator it = sql.iterator();
-            boolean autocommit = connection.getAutoCommit();
-            while (it.hasNext()){
+    private void executeSQL(Collection sql, Connection connection) throws PersistenceException
+    {
+        try
+        {
+            for(Iterator it = sql.iterator();it.hasNext();)
+            {
             	Object sentence = it.next();
-            	if (sentence instanceof String){
+            	if (sentence instanceof String)
+            	{
             		String sqlSentence = (String)sentence;
             		Statement statement = connection.createStatement();
             		if (sqlSentence.indexOf("SELECT")==0)
             			statement.executeQuery(sqlSentence);
-            		else{
-            			connection.setAutoCommit(true);
+            		else
             			statement.executeUpdate(sqlSentence);
-            			connection.setAutoCommit(autocommit);
-            		}
-            	} else if (sentence instanceof PreparedStatement){ 
-            		try{
+            	}
+            	else if (sentence instanceof PreparedStatement)
+            	{ 
+            		try
+            		{
             			PreparedStatement statement = (PreparedStatement)sentence;
             			//we use prepared statements to insert or update data with BLOB
-            			connection.setAutoCommit(true); 
             			statement.executeUpdate();
-            			connection.setAutoCommit(autocommit);
-            		} catch (SQLException e){
-            			System.out.println("Exception in Prepared statement");
-                    	System.out.println("SQLException:"+e.getMessage());
-            			
+            		}
+            		catch (SQLException e)
+            		{
+            			logger.error("Exception in Prepared statement",e);
             		}
             	}
-
             }
-        } catch (SQLException e){
-        	//System.out.println("SQLException:"+e.getMessage());
-        	
-            throw new PersistenceException();
+        }
+        catch (SQLException e)
+        {
+            throw new PersistenceException(e);
         }
     }
 

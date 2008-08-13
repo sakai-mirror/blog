@@ -17,6 +17,7 @@
 
 package uk.ac.lancs.e_science.sakai.tools.blogger;
 
+import org.sakaiproject.util.FormattedText;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
@@ -24,49 +25,66 @@ import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Comment;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.BloggerManager;
 
+public class AddCommentController extends BloggerController
+{
+	private Post post;
 
-public class AddCommentController extends BloggerController{
-    private Post post;
-    private String commentText;
-    private Blogger blogger;
+	private String commentText;
 
-    public AddCommentController(){
-    	super();
-    	blogger = BloggerManager.getBlogger();
-    }
-    
-    public void setPost(Post post){
-        this.post = post;
-    }
+	private Blogger blogger;
 
-    public Post getPost(){
-        return post;
-    }
-    public void setCommentText(String text){
-        commentText = text;
-    }
-    public String getCommentText(){
-        return ""; //initially, the comment text is empty.
-    }
-    public String doSaveComment(){
-    	if (isEmpty(commentText))
-    		return "viewPost"; //ignore the comment
+	public AddCommentController()
+	{
+		super();
+		blogger = BloggerManager.getBlogger();
+	}
 
-        Comment comment = new Comment(commentText);
-        blogger.addCommentToPost(comment, post.getOID(),SakaiProxy.getCurrentUserId(), SakaiProxy.getCurrentSiteId());
-        return "viewPost";
+	public void setPost(Post post)
+	{
+		this.post = post;
+	}
 
-    }
-    private boolean isEmpty(String str){
-    	str = str.replaceAll("<br />", "");
-    	str = str.replaceAll("&nbsp;", "");
-    	str = str.replaceAll(" ", ""); 
-    	str = str.trim(); 	
-    	for (int i=0;i<str.length();i++){//some estrange characteres come from the htmleditor that are not cleaned by  trim but the debugger shows them as white space
-    		Character ch = new Character(str.charAt(i));
-    		if (!Character.isSpaceChar(str.charAt(i)))
-    			return false;
-    	}
-    	return true;
-    }
+	public Post getPost()
+	{
+		return post;
+	}
+
+	public void setCommentText(String text)
+	{
+		commentText = text;
+	}
+
+	public String getCommentText()
+	{
+		return ""; // initially, the comment text is empty.
+	}
+
+	public String doSaveComment()
+	{
+		if (isEmpty(commentText))
+			return "viewPost"; // ignore the comment
+		
+		StringBuilder errorMessages = new StringBuilder();
+		commentText = FormattedText.processFormattedText(commentText, errorMessages, true, false);
+
+		Comment comment = new Comment(commentText);
+		blogger.addCommentToPost(comment, post.getOID(), SakaiProxy.getCurrentUserId(), SakaiProxy.getCurrentSiteId());
+		return "viewPost";
+
+	}
+
+	private boolean isEmpty(String str)
+	{
+		str = str.replaceAll("<br />", "");
+		str = str.replaceAll("&nbsp;", "");
+		str = str.replaceAll(" ", "");
+		str = str.trim();
+		for (int i = 0; i < str.length(); i++)
+		{// some estrange characteres come from the htmleditor that are not cleaned by trim but the debugger shows them as white space
+			Character ch = new Character(str.charAt(i));
+			if (!Character.isSpaceChar(str.charAt(i)))
+				return false;
+		}
+		return true;
+	}
 }

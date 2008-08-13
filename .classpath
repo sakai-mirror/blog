@@ -29,18 +29,11 @@
 	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.3/commons-lang-2.3.jar"/>
 	<classpathentry kind="var" path="M2_REPO/rome/rome/0.9/rome-0.9.jar"/>
 	<classpathentry kind="lib" path="lib/sakai-wicket-M2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-entity-api/SNAPSHOT/sakai-entity-api-SNAPSHOT.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-entity-util/SNAPSHOT/sakai-entity-util-SNAPSHOT.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-profile-api/2.6.0RC1-SNAPSHOT/sakai-profile-api-2.6.0RC1-SNAPSHOT.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-authz-api/SNAPSHOT/sakai-authz-api-SNAPSHOT.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-component-api/SNAPSHOT/sakai-component-api-SNAPSHOT.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-content-api/SNAPSHOT/sakai-content-api-SNAPSHOT.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-db-api/SNAPSHOT/sakai-db-api-SNAPSHOT.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-site-api/SNAPSHOT/sakai-site-api-SNAPSHOT.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-tool-api/SNAPSHOT/sakai-tool-api-SNAPSHOT.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-user-api/SNAPSHOT/sakai-user-api-SNAPSHOT.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-event-api/SNAPSHOT/sakai-event-api-SNAPSHOT.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-email-api/SNAPSHOT/sakai-email-api-SNAPSHOT.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-util-api/SNAPSHOT/sakai-util-api-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/kernel/sakai-component-manager/1.0RC2-SNAPSHOT/sakai-component-manager-1.0RC2-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/kernel/sakai-kernel-api/1.0RC2-SNAPSHOT/sakai-kernel-api-1.0RC2-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/kernel/sakai-kernel-util/1.0RC2-SNAPSHOT/sakai-kernel-util-1.0RC2-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -44,8 +44,6 @@
       <artifactId>log4j</artifactId>
       <version>1.2.8</version>
     </dependency>
-<!--org.sakaiprojectsakai-tool-api${sakai.version}-->
-<!--org.sakaiprojectsakai-entity-api${sakai.version}-->
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-profile-api</artifactId>
@@ -147,7 +145,6 @@
             <phase>compile</phase>
             <configuration>
               <tasks>
-<!--  Copy the webstart requirements into the exploded webapp directory. This needs to happen before the directory is warred -->
                 <copy file="${basedir}/../lib/sakai-wicket-M2.jar" todir="${project.build.directory}/${project.build.finalName}/WEB-INF/lib"/>
               </tasks>
             </configuration>

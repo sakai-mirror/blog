@@ -1,15 +1,15 @@
 package uk.ac.lancs.e_science.sakaiproject.api.blogger;
 
 public class Member {
-	String eid;
+	String id;
 	String displayId;
 	
-	public void setUserEid(String eid){
-		this.eid = eid;
+	public void setUserId(String id){
+		this.id = id;
 	}
-	public String getUserEid(){
-		return eid;
-		
+	
+	public String getUserId(){
+		return id;
 	}
 	public void setUserDisplayId(String displayId){
 		this.displayId = displayId;

@@ -7,6 +7,8 @@ import java.util.Locale;
 
 import org.sakaiproject.util.ResourceLoader;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlForm;
 import javax.faces.context.FacesContext;
@@ -154,7 +156,8 @@ public class PostWriter {
 		if (!linkInTitle){
 			writer.startElement("span",uicomponent);
 			writer.writeAttribute("class","spanTitle",null);
-			writer.write(post.getTitle());
+			String title = StringEscapeUtils.escapeHtml(post.getTitle().trim());
+			writer.write(title);
 			writer.endElement("span");
 		} else {
 			writer.startElement("a",uicomponent);
@@ -162,7 +165,8 @@ public class PostWriter {
 			writer.writeAttribute("class",titleStyle,null);
 			writer.writeAttribute("onClick","javascript:document.getElementById('idSelectedPost').value='"+post.getOID()+"';document.forms['"+formClientId+"'].submit();",null);
 			writer.writeAttribute("class","spanTitle",null);
-			writer.write(post.getTitle());
+			String title = StringEscapeUtils.escapeHtml(post.getTitle().trim());
+			writer.write(title);
 			writer.endElement("a");
 			
 		}

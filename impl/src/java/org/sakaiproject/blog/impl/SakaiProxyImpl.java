@@ -31,6 +31,8 @@ import org.sakaiproject.authz.api.AuthzGroup;
 import org.sakaiproject.authz.api.AuthzGroupService;
 import org.sakaiproject.authz.api.FunctionManager;
 import org.sakaiproject.authz.api.Role;
+import org.sakaiproject.authz.api.SecurityAdvisor;
+import org.sakaiproject.authz.api.SecurityService;
 import org.sakaiproject.component.api.ServerConfigurationService;
 import org.sakaiproject.content.api.ContentHostingService;
 import org.sakaiproject.content.api.ContentResource;
@@ -66,6 +68,7 @@ import org.sakaiproject.user.api.UserNotDefinedException;
 import org.sakaiproject.util.BaseResourceProperties;
 import org.sakaiproject.blog.api.BlogFunctions;
 import org.sakaiproject.blog.api.BlogMember;
+import org.sakaiproject.blog.api.BlogSecurityManager;
 
 public class SakaiProxyImpl implements SakaiProxy
 {
@@ -82,6 +85,8 @@ public class SakaiProxyImpl implements SakaiProxy
 	private SiteService siteService;
 
 	private AuthenticationManager authenticationManager;
+	
+	private SecurityService securityService;
 	
 	private UserDirectoryService userDirectoryService;
 	
@@ -404,6 +409,17 @@ public class SakaiProxyImpl implements SakaiProxy
 		}
 	}
 	
+	private void enableSecurityAdvisor()
+    {
+        registerSecurityAdvisor(new SecurityAdvisor()
+        {
+            public SecurityAdvice isAllowed(String userId, String function, String reference)
+            {
+                return SecurityAdvice.ALLOWED;
+            }
+        });
+    }
+	
 	/**
 	 * Saves the file to Sakai's content hosting
 	 */
@@ -418,6 +434,8 @@ public class SakaiProxyImpl implements SakaiProxy
 			
 			if(post.isPublic())
 				id = "/public/blog-files/" + name;
+			
+			enableSecurityAdvisor();
 
 			try
 			{
@@ -958,5 +976,20 @@ public class SakaiProxyImpl implements SakaiProxy
 	public String getFromAddress()
 	{
 		return fromAddress;
+	}
+
+	public void registerSecurityAdvisor(SecurityAdvisor securityAdvisor)
+	{
+		securityService.pushAdvisor(securityAdvisor);
+	}
+
+	public void setSecurityService(SecurityService securityService)
+	{
+		this.securityService = securityService;
+	}
+
+	public SecurityService getSecurityService()
+	{
+		return securityService;
 	}
 }

@@ -26,6 +26,7 @@ import org.sakaiproject.api.app.profile.Profile;
 import org.sakaiproject.api.app.profile.ProfileManager;
 import org.sakaiproject.authz.api.AuthzGroupService;
 import org.sakaiproject.authz.api.FunctionManager;
+import org.sakaiproject.authz.api.SecurityAdvisor;
 import org.sakaiproject.component.api.ServerConfigurationService;
 import org.sakaiproject.content.api.ContentHostingService;
 import org.sakaiproject.db.api.SqlService;
@@ -196,4 +197,6 @@ public interface SakaiProxy
 	public Set<String> getSiteUsers();
 
 	public void sendEmailWithMessage(String creatorId, String subject, String string);
+
+	public void registerSecurityAdvisor(SecurityAdvisor securityAdvisor);
 }

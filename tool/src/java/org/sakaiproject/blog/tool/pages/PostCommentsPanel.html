@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html  
+      xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:wicket="http://wicket.sourceforge.net/"  
+      xml:lang="en"  
+      lang="en">
+<body>
+<wicket:panel>
+	<span wicket:id="commentsLabel">[commentsLabel]</span>
+	<table cellpadding="0" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<td class="tdCommentHeader">Created</td>
+				<td class="tdCommentHeader">Modified</td>
+				<td class="tdCommentHeader">Creator</td>
+				<td class="tdCommentHeader">Comment</td>
+				<td class="tdCommentHeader">Options</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr wicket:id="comments">
+				<td width="100px" class="tdComment tdComment1"><span wicket:id="createdDate">[createdDate]</span></td>
+				<td width="100px" class="tdComment tdComment1"><span wicket:id="modifiedDate">[modifiedDate]</span></td>
+				<td width="100px" class="tdComment tdComment1"><span wicket:id="creator">[creator]</span></td>
+				<td class="tdComment tdComment1"><span wicket:id="commentText">Very good !</span></td>
+				<td class="tdComment tdComment1">
+					<a href="#" wicket:id="deleteLink" onClick="return confirmCommentDelete();"><img src="/library/image/silk/layout_delete.png" width="16" height="16" alt="Delete Comment"/></a>&nbsp;
+					<a href="#" wicket:id="editLink"><img src="/library/image/silk/layout_edit.png" width="16" height="16" alt="Edit Comment"/></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</wicket:panel>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html  
+      xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:wicket="http://wicket.sourceforge.net/"  
+      xml:lang="en"  
+      lang="en">
+<body>
+<wicket:extend>
+          <h3><span wicket:id="blogsLabel">[blogsLabel]</span></h3>
+		<div style="height: 20px;"></div>
+          <div id="postPager"><span wicket:id="memberNavigator">[memberNavigator]</span></div>
+          <table cols="3" class="listHier speciallistHier">
+				<thead>
+					<tr>
+						<th><a href="#" wicket:id="sortByMemberLink"><span wicket:id="memberHeader">[memberHeader]</span></a></th>
+						<th><a href="#" wicket:id="sortByPostTotalLink"><span wicket:id="postsHeader">[postsHeader]</span></a></th>
+						<th><a href="#" wicket:id="sortByLastPostDateLink"><span wicket:id="dateOfLastPostHeader">[dateOfLastPostDateHeader]</span></a></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="rows">
+						<td><img src="/library/image/silk/user.png" width="16" height="16" alt="User"/>&nbsp;<a href="#" wicket:id="showPostsLink"><span wicket:id="name">Adrian Fish</span></a></td>
+						<td><span wicket:id="postCount">[postCount]</span></td>
+						<td><span wicket:id="dateOfLastPost">[dateOfLastPost]</span></td>
+					</tr>
+					</tbody>
+				</table>
+</wicket:extend>
+</body>
+</html>

@@ -1,0 +1,231 @@
+a.aTitleHeader{
+	font-size:16px;
+	color:#990000;
+	font-weight:bold;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+a.aTitleHeader2{
+	font-size:20px;
+	color:#990000;
+	font-weight:bold;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}	
+table.tableHeader{
+ 	width:100%;
+}
+table.rowTable{
+   	border-style:solid;
+   	border-width:1px;
+   	border-left:none;
+   	border-right:none;
+   	border-top:none;
+   	border-color:#DDDFE4;
+}
+td.tdTitleHeader{
+	width:80%;
+ 	padding-right:15px;
+ 	padding-bottom:10px;
+}
+td.tdHeader{
+	border-style:solid;
+	border-width:1px;
+	border-left:none;
+	border-top:none;
+	border-bottom:1px;
+	padding-left:10px;
+	background-color:#CFCFCF;
+	border-color:#DDDFE4;
+}
+td.tdbase{
+   	border-style:solid;
+  	border-width:1px;
+  	border-left:none;
+   	border-top:none;
+  	border-bottom:none;
+   	padding-left:10px;
+   	border-color:#DDDFE4;
+}
+td.tdAuthorHeader{
+ 	vertical-align:top;
+ 	padding-bottom:10px;
+ 	color:#084A87;
+}
+
+td.tdGap{
+	border-style:none;
+	border-width:0px;
+	border-left:none;
+	border-top:none;
+	border-right:none;
+	border-color:#DDDFE4;
+}	
+td.tdGapWithLine{
+	border-style:solid;
+	border-width:1px;
+	border-left:none;
+	border-top:none;
+	border-right:none;
+	border-color:#DDDFE4;
+}			
+span.spanTitle{
+	font-size:20px;
+	color:#990000;
+	font-weight:bold;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+span.spanShortText{
+	font-size:14px;
+	color:#003300;
+	font-weight:bold;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+td.tdTitle{
+ 	width:80%;
+}
+td.tdAutor{
+ 	width:20%;
+}
+
+td.tdComment{
+	border-style:solid;
+	border-width:1px;
+	border-color:#DDDFE4;
+	border-top:none;
+	border-left:none;
+}
+td.tdComment1{
+}
+td.tdComment2{
+	border-right:none;
+}
+td.tdCommentHeader{
+	border-width:0px;
+	background-color:#DDDFE4;
+}
+
+#postOuterContainer{
+	border: 1px solid #000000;
+	}
+	
+#postInnerContainer{
+	margin: 5px;
+}
+
+#blogMainContainer{
+	margin: 5px;
+}
+
+#profilePopup{
+	border: 1px black solid;
+	position: absolute;
+	/*visibility: hidden;*/
+	display: none;
+	background-color: #f8f8e0;
+}
+
+.profilePhotoWrapper{
+	text-align: center;
+}
+
+.profilePhoto{
+    border: solid black 2px;
+}
+
+.memberPageProfilePhoto{
+	float: left;
+	margin-right: 5px;
+}
+	
+.profileBlurb{
+}
+
+#rssLink{
+	float: right;
+}
+
+#postsWrapper{
+	clear: both;
+	margin-top: 10px;
+	margin-left: 0px;
+}
+
+#viewOptions{
+	float: left;
+	margin: 0px;
+}
+
+#postPager{
+	float: right;
+	margin-right: 4px;
+}
+
+#posts{
+	clear: both;
+}
+	
+#author{
+	float: right;
+	font-size:12px;
+	clear:right;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+#postAccessPanel{
+	float:right;
+}
+
+#postOptionsPanel{
+	float: left;
+}
+
+#noPostsLabel{
+	clear:both;
+	padding-top: 10px;
+	font-weight: bold;
+	font-size: 12pt;
+}
+
+#title{
+	font-size:18px;
+	color:#990000;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	float: left;
+}
+
+#abstract{
+	clear: both;
+	padding-top: 5px;
+	font-size:12px;
+	color:#003300;
+	font-weight:bold;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+#elementPanel{
+	float:left;
+	clear: left;
+	padding-right: 7px;
+}
+
+#elementOptionsPanel{
+	padding-left: 15px;
+}
+
+#elementViewWrapper{
+	width: auto;
+}
+
+.newLink {
+        clear: left;
+	padding-top: 5px;
+}
+
+#sortPanel{
+	float: left;
+}
+
+#timeoutPanel{
+	float: left;
+	clear: right;
+	border: 1px solid;
+	display: none;
+}

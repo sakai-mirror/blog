@@ -1,25 +1,20 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
-  
   <parent>
     <artifactId>blog-base</artifactId>
     <groupId>org.sakaiproject</groupId>
     <version>2.6.0RC1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  
   <name>sakai-blogger-tool</name>
   <artifactId>sakai-blogger-tool</artifactId>
   <groupId>org.sakaiproject</groupId>
-  
   <organization>
     <name>Lancaster Centre for e-Science</name>
     <url>http://e-science.lancs.ac.uk</url>
   </organization>
-  
   <inceptionYear>2005</inceptionYear>
-  
   <developers>
     <developer>
       <name>Adrian Fish</name>
@@ -30,10 +25,12 @@
       <email>m.gonzalez@lancaster.ac.uk</email>
     </developer>
   </developers>
-  
   <packaging>war</packaging>
-  
   <dependencies>
+    <dependency>
+      <groupId>org.sakaiproject.kernel</groupId>
+      <artifactId>sakai-kernel-util</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blogger-api</artifactId>
@@ -66,18 +63,15 @@
       <groupId>org.sakaiproject.kernel</groupId>
       <artifactId>sakai-component-manager</artifactId>
     </dependency>
+<!--
+      This has been relocated to sakai-kernel-util
+      org.sakaiproject.kernel.utilsakai-entity-util-->
     <dependency>
-      <groupId>org.sakaiproject.kernel.util</groupId>
-      <artifactId>sakai-entity-util</artifactId>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-jsf-sun-ri-tool</artifactId>
+      <version>${sakai.version}</version>
+      <type>pom</type>
     </dependency>
-    
-		<dependency>
-        	<groupId>org.sakaiproject</groupId>
-           	<artifactId>sakai-jsf-sun-ri-tool</artifactId>
-           	<version>${sakai.version}</version>
-           	<type>pom</type>
-       	</dependency>	
-       	
     <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
@@ -105,7 +99,6 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-  
   <build>
     <resources>
       <resource>
@@ -117,5 +110,4 @@
     </resources>
 <!-- other resources for the jar - the message bundles -->
   </build>
-  
 </project>

@@ -48,16 +48,16 @@
     <servlet-mapping>
         <servlet-name>servletForImages</servlet-name>
         <url-pattern>/servletForImages</url-pattern>
-		<dispatcher>REQUEST</dispatcher> 
-		<dispatcher>FORWARD</dispatcher> 
-		<dispatcher>INCLUDE</dispatcher>         
+		<!-- <dispatcher>REQUEST</dispatcher> -->
+		<!-- <dispatcher>FORWARD</dispatcher> -->
+		<!-- <dispatcher>INCLUDE</dispatcher> -->     
     </servlet-mapping>	
     <servlet-mapping>
         <servlet-name>servletForFiles</servlet-name>
         <url-pattern>/servletForFiles</url-pattern>
-		<dispatcher>REQUEST</dispatcher> 
-		<dispatcher>FORWARD</dispatcher> 
-		<dispatcher>INCLUDE</dispatcher>         
+		<!-- <dispatcher>REQUEST</dispatcher> -->
+		<!-- <dispatcher>FORWARD</dispatcher> -->
+		<!-- <dispatcher>INCLUDE</dispatcher> -->     
     </servlet-mapping>	
 <!--sakai-->
     <filter>

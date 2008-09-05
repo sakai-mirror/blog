@@ -11,30 +11,6 @@
   <groupId>org.sakaiproject</groupId>
   <artifactId>sakai-blog-base</artifactId>
   <packaging>pom</packaging>
-<!--
-  <build>
-      <plugins>
-	  	<plugin>
-	   		<groupId>org.apache.maven.plugins</groupId>
-		    <artifactId>maven-checkstyle-plugin</artifactId>
-   		</plugin>
-	</plugins>
-	</build>
-	-->
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-<!--
-			    <configuration>
-			    	<configLocation>checkstyle.xml</configLocation>
-	            	<headerLocation>LICENSE.txt</headerLocation>
-	        	</configuration>
-				-->
-      </plugin>
-    </plugins>
-  </reporting>
   <modules>
     <module>components</module>
     <module>api</module>
@@ -47,22 +23,22 @@
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blog-api</artifactId>
-      <version>2.6.0RC1-SNAPSHOT</version>
+      <version>${sakai.version}</version>
     </dependency>
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-profile-api</artifactId>
-      <version>2.6.0RC1-SNAPSHOT</version>
+      <version>${sakai.version}</version>
      </dependency>
      <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blog-impl</artifactId>
-      <version>2.6.0RC1-SNAPSHOT</version>
+      <version>${sakai.version}</version>
      </dependency>
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-search-api</artifactId>
-      <version>2.6.0RC1-SNAPSHOT</version>
+      <version>${sakai.version}</version>
     </dependency>
 
  </dependencies>

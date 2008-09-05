@@ -72,9 +72,11 @@ public class Migrator
 			while(sourcePosts.next())
 			{
 				String sourcePostId = sourcePosts.getString("POST_ID");
-				String siteId = sourcePosts.getString("SITE_ID");
+				try
+				{
+					String siteId = sourcePosts.getString("SITE_ID");
 				
-				report.append("Source post with id '" + sourcePostId + "' is from the site with id '" + siteId + "'\n");
+					report.append("Source post with id '" + sourcePostId + "' is from the site with id '" + siteId + "'\n");
 				
 				// Does this site exist?
 				if(!sakaiProxy.siteExists(siteId))
@@ -92,6 +94,12 @@ public class Migrator
 				blogManager.savePost(post);
 				report.append("Saved post with id '" + post.getId() + "'\n");
 				count++;
+				}
+				catch(Throwable t)
+				{
+					report.append("Failed to migrate post with id '" + sourcePostId + "'");
+					logger.error("Failed to migrate post with id '" + sourcePostId + "'",t);
+				}
 			}
 		}
 		catch(Exception sqle)

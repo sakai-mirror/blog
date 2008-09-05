@@ -180,7 +180,7 @@ public class BlogManagerImpl implements BlogManager//, CoreEntityProvider, AutoR
         }
     }
 
-    public void addElement(Post post, PostElement element, int elementIndex)
+    public void addElement(Post post, PostElement element, int elementIndex) throws Exception
     {
         try
         {
@@ -190,12 +190,12 @@ public class BlogManagerImpl implements BlogManager//, CoreEntityProvider, AutoR
         catch (Exception e)
         {
             logger.error("Caught exception whilst adding element", e);
-
             post.removeElement(elementIndex);
+            throw e;
         }
     }
 
-    public void addElement(Post post, PostElement element)
+    public void addElement(Post post, PostElement element) throws Exception
     {
         try
         {
@@ -205,8 +205,8 @@ public class BlogManagerImpl implements BlogManager//, CoreEntityProvider, AutoR
         catch (Exception e)
         {
             logger.error("Caught exception whilst adding element", e);
-
             post.removeElement(element);
+            throw e;
         }
     }
 

@@ -61,14 +61,20 @@ public class EditImage extends BasePage
 							image.setFileName(imageDescription);
 							image.setFullContent(content);
 							
-							if(modify)
+							try
 							{
-								EditImage.this.blogManager.replaceElement(EditImage.this.post,image, EditImage.this.elementIndex);
-							}
-							else
-								EditImage.this.blogManager.addElement(EditImage.this.post,image,EditImage.this.elementIndex);
+								if(modify)
+								{
+									EditImage.this.blogManager.replaceElement(EditImage.this.post,image, EditImage.this.elementIndex);
+								}
+								else
+									EditImage.this.blogManager.addElement(EditImage.this.post,image,EditImage.this.elementIndex);
 							
-							setResponsePage(new PostPage(new PostModel(EditImage.this.post),true));
+								setResponsePage(new PostPage(new PostModel(EditImage.this.post),true));
+							}
+							catch(Exception e)
+							{
+							}
 						}
 					}
 					catch (Exception e)

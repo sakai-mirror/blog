@@ -3,6 +3,7 @@ package org.sakaiproject.blog.tool.pages;
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.sakaiproject.blog.tool.BlogApplication;
 import org.sakaiproject.blog.api.SakaiProxy;
@@ -28,6 +29,8 @@ public class BasePage extends SakaiPortletWebPage
 	protected Link viewRecycledLink;
 	protected Link searchLink;
 	protected Link preferencesLink;
+	private String message = "";
+	private Label messageLabel;
 	
 	public BasePage()
 	{
@@ -181,5 +184,20 @@ public class BasePage extends SakaiPortletWebPage
 			if(sakaiProxy.isCurrentUserMaintainer())
 				newPostLink.setVisible(false);
 		}
+		
+		messageLabel = new Label("messageLabel",new PropertyModel(this,"message"));
+		messageLabel.setVisible(false);
+		add(messageLabel);
+	}
+
+	public void setMessage(String message)
+	{
+		this.message = message;
+		messageLabel.setVisible(true);
+	}
+
+	public String getMessage()
+	{
+		return message;
 	}
 }

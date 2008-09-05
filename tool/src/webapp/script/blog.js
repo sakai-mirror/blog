@@ -43,6 +43,7 @@ function confirmPostElementDelete()
 function moveProfilePopup(e)
 {
 	$("#profilePopup").css({ left:e.clientX + 15,top:e.clientY }); 
+	//$("#profilePopup").css({ left:e.clientX + 15,bottom:e.clientY }); 
 }
 
 function hideProfilePopup(e)

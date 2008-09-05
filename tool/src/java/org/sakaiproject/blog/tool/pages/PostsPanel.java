@@ -101,7 +101,7 @@ public class PostsPanel extends Panel
 				
 				// TODO: Add some kind of transparency effect here to show that this is a recycled post
 				if(post.isRecycled())
-					postPanel.add(new AttributeAppender("style", true,new Model("opacity: 0.3;filter:alpha(opacity=30);"),";"));
+					postPanel.add(new AttributeAppender("style", true,new Model("filter:alpha(opacity=30);opacity: 0.3;"),";"));
 			}
 		};
 		

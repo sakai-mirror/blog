@@ -42,12 +42,18 @@ public class EditLink extends BasePage
 		{
 			public void onSubmit()
 			{
+				try
+				{
 				if(modify)
 					EditLink.this.blogManager.replaceElement(EditLink.this.post,linkRule, EditLink.this.elementIndex);
 				else
 					EditLink.this.blogManager.addElement(EditLink.this.post,linkRule,EditLink.this.elementIndex);
 
 				setResponsePage(new PostPage(new PostModel(EditLink.this.post),true));
+				}
+				catch(Exception e)
+				{
+				}
 			}
 		};
 

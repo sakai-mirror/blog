@@ -41,9 +41,9 @@ public interface BlogManager extends EntityProducer
 
     public void replaceElement(Post post, PostElement element, int elementIndex);
 
-    public void addElement(Post post, PostElement element, int elementIndex);
+    public void addElement(Post post, PostElement element, int elementIndex) throws Exception;
 
-    public void addElement(Post post, PostElement element);
+    public void addElement(Post post, PostElement element) throws Exception;
 
     public void setIndentation(Post post, PostElement element, int i);
 

@@ -42,13 +42,20 @@ public class EditText extends BasePage
 		{
 			public void onSubmit()
 			{
-				if(modify)
-					//EditText.this.post.replaceElement(new Paragraph(text.getText()), EditText.this.elementIndex);
-					EditText.this.blogManager.replaceElement(EditText.this.post, text, EditText.this.elementIndex);
-				else
-					EditText.this.blogManager.addElement(EditText.this.post,text,EditText.this.elementIndex);
+				try
+				{
+					if(modify)
+						//EditText.this.post.replaceElement(new Paragraph(text.getText()), EditText.this.elementIndex);
+						EditText.this.blogManager.replaceElement(EditText.this.post, text, EditText.this.elementIndex);
+					else
+						EditText.this.blogManager.addElement(EditText.this.post,text,EditText.this.elementIndex);
 
-				setResponsePage(new PostPage(new PostModel(EditText.this.post),true));
+					setResponsePage(new PostPage(new PostModel(EditText.this.post),true));
+				}
+				catch(Exception e)
+				{
+					setMessage(e.getMessage());
+				}
 			}
 		};
 

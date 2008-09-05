@@ -54,12 +54,18 @@ public class EditFile extends BasePage
 				
 				setFileUpload(fileUpload);
 				
-				if(!modify)
-					EditFile.this.blogManager.addElement(EditFile.this.post,file,EditFile.this.elementIndex);
-				else
-	                EditFile.this.blogManager.replaceElement(EditFile.this.post,EditFile.this.file, EditFile.this.elementIndex);
+				try
+				{
+					if(!modify)
+						EditFile.this.blogManager.addElement(EditFile.this.post,file,EditFile.this.elementIndex);
+					else
+						EditFile.this.blogManager.replaceElement(EditFile.this.post,EditFile.this.file, EditFile.this.elementIndex);
 				
-				setResponsePage(new PostPage(new PostModel(EditFile.this.post),true));
+					setResponsePage(new PostPage(new PostModel(EditFile.this.post),true));
+				}
+				catch(Exception e)
+				{
+				}
 			}
 		};
 

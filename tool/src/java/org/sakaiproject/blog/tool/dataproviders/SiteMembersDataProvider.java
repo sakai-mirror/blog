@@ -38,7 +38,7 @@ public class SiteMembersDataProvider implements IDataProvider
 		SakaiProxy sakaiProxy = BlogApplication.get().getSakaiProxy();
 		QueryBean qb = new QueryBean();
 		qb.setSiteId(sakaiProxy.getCurrentSiteId());
-		qb.setVisibilities(new String[] { State.PUBLIC, State.READY });
+		//qb.setVisibilities(new String[] { State.PUBLIC, State.READY });
 		qb.setCaller(sakaiProxy.getCurrentUserId());
 		BlogManager blogManager = BlogApplication.get().getBlogManager();
 

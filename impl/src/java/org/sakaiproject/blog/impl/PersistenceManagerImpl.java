@@ -442,7 +442,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 
 			connection.commit();
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			logger.error("Caught exception whilst deleting post. Rolling back ...", e);
 			try
@@ -481,6 +481,10 @@ public class PersistenceManagerImpl implements PersistenceManager
 
 			executeSQL(sql, connection);
 		}
+		catch (Exception e)
+		{
+			logger.error("Caught exception whilst recycling post",e);
+		}
 		finally
 		{
 			releaseConnection(connection);
@@ -504,7 +508,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 		}
 	}
 
-	private void executeSQL(String sql, Connection connection) throws PersistenceException
+	private void executeSQL(String sql, Connection connection) throws Exception
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("executeSQL(" + sql + "," + connection + ")");
@@ -585,45 +589,29 @@ public class PersistenceManagerImpl implements PersistenceManager
 		}
 	}
 
-	private void executeSQL(Collection sql, Connection connection) throws PersistenceException
+	private void executeSQL(Collection sql, Connection connection) throws Exception
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("executeSQL(" + sql + "," + connection + ")");
 
-		try
+		Iterator it = sql.iterator();
+		while (it.hasNext())
 		{
-			Iterator it = sql.iterator();
-			while (it.hasNext())
+			Object sentence = it.next();
+			if (sentence instanceof String)
 			{
-				Object sentence = it.next();
-				if (sentence instanceof String)
-				{
-					String sqlSentence = (String) sentence;
-					Statement statement = connection.createStatement();
-					if (sqlSentence.indexOf("SELECT") == 0)
-						statement.executeQuery(sqlSentence);
-					else
-						statement.executeUpdate(sqlSentence);
-				}
-				else if (sentence instanceof PreparedStatement)
-				{
-					try
-					{
-						// we use prepared statements to insert or update data with BLOB
-						((PreparedStatement) sentence).executeUpdate();
-					}
-					catch (SQLException e)
-					{
-						logger.error("Caught exception whilst executing prepared statement", e);
-					}
-				}
+				String sqlSentence = (String) sentence;
+				Statement statement = connection.createStatement();
+				if (sqlSentence.indexOf("SELECT") == 0)
+					statement.executeQuery(sqlSentence);
+				else
+					statement.executeUpdate(sqlSentence);
 			}
-		}
-		catch (SQLException e)
-		{
-			logger.error("Caught exception whilst executing SQL", e);
-
-			throw new PersistenceException(e.getMessage());
+			else if (sentence instanceof PreparedStatement)
+			{
+					// we use prepared statements to insert or update data with BLOB
+					((PreparedStatement) sentence).executeUpdate();
+			}
 		}
 	}
 
@@ -717,8 +705,14 @@ public class PersistenceManagerImpl implements PersistenceManager
 						if (type.equals(Paragraph.PARAGRAPH))
 						{
 							Paragraph paragraph = getParagraph(elementId, connection);
-							paragraph.setIndentation(indentation);
-							post.addElement(paragraph);
+							
+							if(paragraph != null)
+							{
+								paragraph.setIndentation(indentation);
+								post.addElement(paragraph);
+							}
+							else
+								logger.error("getParagraph('" + elementId + "') returned null.");
 						}
 
 						if (type.equals(Image.IMAGE))

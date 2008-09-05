@@ -39,7 +39,10 @@ public class Paragraph extends PostElement
 
 	public void setText(String text)
 	{
-		this.text = StringEscapeUtils.unescapeHtml(text.trim());
+		if(text == null)
+			this.text = null;
+		else
+			this.text = StringEscapeUtils.unescapeHtml(text.trim());
 	}
 
 	public String getText()

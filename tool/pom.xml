@@ -30,14 +30,15 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.sakaiproject.kernel</groupId>
-      <artifactId>sakai-kernel-api</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blog-api</artifactId>
       <version>${sakai.version}</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-entity-api</artifactId>
+      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
@@ -47,14 +48,15 @@
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-profile-api</artifactId>
+	  <version>${sakai.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-wicket</artifactId>
       <version>M2</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/../lib/sakai-wicket-M2.jar</systemPath>
     </dependency>
+    <!--
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket</artifactId>
@@ -80,6 +82,7 @@
       <artifactId>wicket-spring-annot</artifactId>
       <version>${sakai.wicket.version}</version>
     </dependency>
+    -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -137,6 +140,7 @@
       </resource>
     </resources>
     <plugins>
+    <!--
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
@@ -154,6 +158,7 @@
           </execution>
         </executions>
       </plugin>
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>

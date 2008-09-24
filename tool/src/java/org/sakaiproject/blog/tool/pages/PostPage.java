@@ -29,7 +29,7 @@ public class PostPage extends BasePage
 		{
 			if(sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_READ_OWN))
 			{
-				viewAllLink.setVisible(false);
+				//viewAllLink.setVisible(false);
 				viewMembersLink.setVisible(false);
 			}
 		}

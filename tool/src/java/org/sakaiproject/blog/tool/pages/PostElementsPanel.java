@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.ComponentTag;
@@ -43,12 +44,15 @@ public class PostElementsPanel extends Panel
 	private boolean editMode;
 
 	private Post post;
+	
+	private transient Logger logger = Logger.getLogger(PostElementsPanel.class);
 
-	public PostElementsPanel(String id, final Post post)
+	public PostElementsPanel(String id, final Post p)
 	{
+		
 		super(id);
 
-		this.post = post;
+		this.post = p;
 
 		blogManager = BlogApplication.get().getBlogManager();
 		sakaiProxy = BlogApplication.get().getSakaiProxy();
@@ -61,6 +65,12 @@ public class PostElementsPanel extends Panel
 			protected void populateItem(Item elementItem)
 			{
 				final PostElement postElement = (PostElement) elementItem.getModelObject();
+				
+				if(postElement == null)
+				{
+					logger.error("postElement is null. Returning ...");
+					return;
+				}
 
 				Link moveRightLink = new Link("moveRightLink")
 				{
@@ -161,20 +171,13 @@ public class PostElementsPanel extends Panel
 						Item item = (Item) getParent();
 						
 						int index = item.getIndex();
-						System.out.println("deleteButton clicked on index " + index);
 						
-						PostElement element = post.getElement(index);
-						if (element instanceof Image)
-						{
-							//CacheForImages cache = CacheForImages.getInstance();
-							//cache.removeImage(((Image) element).getId());
-						}
+						if(logger.isDebugEnabled())
+							logger.debug("deleteButton clicked on index " + index);
 						
+						logger.debug("Deleting post element " + index + " ...");
 						blogManager.deleteElement(post,index);
-						
-						//post.removeElement(index);
-						
-						//blogManager.savePost(post);
+						logger.debug("Deleted post element " + index + " ...");
 					}
 				};
 

@@ -34,7 +34,8 @@ public class BlogMember implements Serializable,Comparable
 
 	public String getUserDisplayName()
 	{
-		return sakaiUser.getDisplayName();
+		return sakaiUser.getLastName() + ", " + sakaiUser.getFirstName();
+		//return sakaiUser.getDisplayName();
 	}
 
 	public void setNumberOfPosts(int numberOfPosts)

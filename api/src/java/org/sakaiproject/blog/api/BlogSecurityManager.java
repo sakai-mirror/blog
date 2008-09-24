@@ -28,13 +28,11 @@ public interface BlogSecurityManager
 {
     public boolean canCurrentUserCommentOnPost(Post post);
 	
-	public boolean isCurrentUserTutor();
-	
 	public boolean canCurrentUserDeletePost(Post post) throws SecurityException;
 	
 	public boolean canCurrentUserEditPost(Post post);
 
-	public List<Post> filterSearch(List<Post> posts);
+	public List<Post> filter(List<Post> posts);
 	
 	public boolean canCurrentUserReadPost(Post post);
 	

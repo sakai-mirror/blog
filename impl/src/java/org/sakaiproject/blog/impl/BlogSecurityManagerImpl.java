@@ -20,6 +20,7 @@ package org.sakaiproject.blog.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.sakaiproject.blog.api.BlogFunctions;
 import org.sakaiproject.blog.api.SakaiProxy;
 import org.sakaiproject.blog.api.BlogSecurityManager;
@@ -29,44 +30,38 @@ import org.sakaiproject.blog.api.datamodel.Post;
 
 public class BlogSecurityManagerImpl implements BlogSecurityManager
 {
+    private Logger logger = Logger.getLogger(BlogSecurityManagerImpl.class);
+    
 	private SakaiProxy sakaiProxy;
 
     private PersistenceManager persistenceManager;
 
     public void init()
     {
+    	if(logger.isDebugEnabled()) logger.debug("init()");
     }
 
     public boolean canCurrentUserCommentOnPost(Post post)
 	{
+    	if(logger.isDebugEnabled()) logger.debug("canCurrentUserCommentOnPost()");
+    	
 		//if(sakaiProxy.isOnGateway() && post.isPublic() && post.isCommentable())
 			//return true;
-		
-		// This acts as an override
-		if(!sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_COMMENT_CREATE))
-			return false;
-		
-		String currentUser = sakaiProxy.getCurrentUserId();
-			
-		if(post.isCommentable() || post.getCreatorId().equals(currentUser))
-			return true;
-		
+    	
+    	// Tutors can always comment in learning log mode
 		if(persistenceManager.getOptions().isLearningLogMode()
-				&& isCurrentUserTutor())
+				&& sakaiProxy.isCurrentUserTutor())
 		{
 			return true;
 		}
 		
-		return false;
-	}
-	
-	public boolean isCurrentUserTutor()
-	{
-		if(sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_COMMENT_CREATE)
-				&& !sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_CREATE))
-		{
+		// If the post is comment-able and the current user has blog.comment.create
+		if(post.isCommentable() && sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_COMMENT_CREATE))
 			return true;
-		}
+		
+		// An author can always comment on their own posts
+		if(post.getCreatorId().equals(sakaiProxy.getCurrentUserId()))
+			return true;
 		
 		return false;
 	}
@@ -76,8 +71,13 @@ public class BlogSecurityManagerImpl implements BlogSecurityManager
 		if(sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_DELETE_ANY))
 			return true;
 		
+		// Once a post is ready it can't be deleted, except by a user with blog.post.delete.any
+		if(persistenceManager.getOptions().isLearningLogMode() && post.isReady())
+			return false;
+		
 		String currentUser = sakaiProxy.getCurrentUserId();
 		
+		// If the current user is the author and has blog.post.delete.own
 		if(currentUser != null && currentUser.equals(post.getCreatorId()))
 		{
 			if(sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_DELETE_OWN))
@@ -93,11 +93,14 @@ public class BlogSecurityManagerImpl implements BlogSecurityManager
 		if(sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_UPDATE_ANY))
 			return true;
 		
-		String currentUser = sakaiProxy.getCurrentUserId();
+		if(persistenceManager.getOptions().isLearningLogMode() && post.isReady())
+			return false;
 		
 		// If it's public and not marked read only, yes.
 		if(post.isPublic() && !post.isReadOnly())
 			return true;
+		
+		String currentUser = sakaiProxy.getCurrentUserId();
 		
 		// If the current user is authenticated and the post author, yes.
 		if(currentUser != null && currentUser.equals(post.getCreatorId()))
@@ -114,7 +117,11 @@ public class BlogSecurityManagerImpl implements BlogSecurityManager
 		return false;
 	}
 
-	public List<Post> filterSearch(List<Post> posts)
+	/**
+	 * Tests whether the current user can read each Post and if not, filters
+	 * that post out of the resulting list
+	 */
+	public List<Post> filter(List<Post> posts)
 	{
 		List<Post> filtered = new ArrayList<Post>();
 		for(Post post : posts)
@@ -175,8 +182,8 @@ public class BlogSecurityManagerImpl implements BlogSecurityManager
 			return true;
 		
 		// If I am the owner of the post commented upon, allow me.
-		if(post.getCreatorId().equals(sakaiProxy.getCurrentUserId()))
-				return true;
+		//if(post.getCreatorId().equals(sakaiProxy.getCurrentUserId()))
+			//	return true;
 		
 		// If I am the owner of the comment, allow me.
 		if(comment.getCreatorId().equals(sakaiProxy.getCurrentUserId()))
@@ -239,7 +246,7 @@ public class BlogSecurityManagerImpl implements BlogSecurityManager
 	{
 		if(persistenceManager.getOptions().isLearningLogMode())
 		{
-			if(isCurrentUserTutor() || sakaiProxy.isCurrentUserMaintainer())
+			if(sakaiProxy.isCurrentUserTutor() || sakaiProxy.isCurrentUserMaintainer())
 				return true;
 		}
 		else

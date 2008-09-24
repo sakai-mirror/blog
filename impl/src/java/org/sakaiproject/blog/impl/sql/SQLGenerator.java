@@ -56,6 +56,8 @@ public class SQLGenerator implements ISQLGenerator
 	
 	public String TIMESTAMP = "DATETIME";
 	
+	public String AUTO_TIMESTAMP = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP";
+	
 	public String VARCHAR  = "VARCHAR";
 	
 	public String TEXT  = "TEXT";
@@ -190,7 +192,7 @@ public class SQLGenerator implements ISQLGenerator
 		statement.append(SITE_ID + " " + VARCHAR + "(255), ");
 		statement.append(TITLE + " " + VARCHAR + "(255) NOT NULL, ");
 		statement.append(CREATED_DATE + " " + TIMESTAMP + " NOT NULL" + ", ");
-		statement.append(MODIFIED_DATE + " " + TIMESTAMP + " NOT NULL" + ", ");
+		statement.append(MODIFIED_DATE + " " + AUTO_TIMESTAMP + ", ");
 		statement.append(CREATOR_ID + " " + VARCHAR + "(255) NOT NULL, ");
 		statement.append(SHORT_TEXT + " " + TEXT + ", ");
 		statement.append(KEYWORDS + " " + VARCHAR + "(255), ");
@@ -292,8 +294,7 @@ public class SQLGenerator implements ISQLGenerator
 		statement.append("CREATE TABLE ").append(TABLE_OPTIONS);
 		statement.append("(");
 		statement.append(SITE_ID + " " + VARCHAR + "(255), ");
-		statement.append(MODE + " " + VARCHAR + "(24) NOT NULL,");
-		statement.append(TIMEOUT + " SMALLINT NOT NULL,");
+		statement.append(BLOGMODE + " " + VARCHAR + "(24) NOT NULL,");
 		statement.append("CONSTRAINT options_pk PRIMARY KEY (" + SITE_ID + ")");
 		statement.append(")");
 		return statement.toString();
@@ -761,6 +762,7 @@ public class SQLGenerator implements ISQLGenerator
 		
 		statements.add("DELETE FROM " + TABLE_POST_ELEMENT + " WHERE " + POST_ID + " = '" + module.getId() + "'");
 		statements.addAll(getInsertStatementsForPostElement(module, connection));
+		statements.add("UPDATE " + TABLE_POST + " SET " + MODIFIED_DATE + " = NOW() WHERE " + POST_ID + " = '" + module.getId() + "'");
 		
 		return statements;
 	}
@@ -875,16 +877,14 @@ public class SQLGenerator implements ISQLGenerator
 	{
 		String mode = (options.isLearningLogMode()) ? Modes.LEARNING_LOG : Modes.BLOG;
 		
-		int timeout = (Integer.parseInt(options.getTimeoutHours()) * 60) + (Integer.parseInt(options.getTimeoutDays()) * 1440);
-		
-		String sql =  "UPDATE " + TABLE_OPTIONS + " SET " + MODE + " = '" + mode + "',TIMEOUT = " + timeout + " WHERE "
+		String sql =  "UPDATE " + TABLE_OPTIONS + " SET " + BLOGMODE + " = '" + mode + "' WHERE "
 						+ SITE_ID + " = '" + options.getSiteId() + "'";
 		
 		Statement st = connection.createStatement();
 		ResultSet rs = st.executeQuery("SELECT * FROM " + TABLE_OPTIONS + " WHERE " + SITE_ID + " = '" + options.getSiteId() + "'");
 		
 		if(!rs.next())
-			sql = "INSERT INTO " + TABLE_OPTIONS + " VALUES('" + options.getSiteId() + "','" + mode + "'," + timeout + ")";
+			sql = "INSERT INTO " + TABLE_OPTIONS + " VALUES('" + options.getSiteId() + "','" + mode + "')";
 		
 		rs.close();
 		st.close();
@@ -933,5 +933,10 @@ public class SQLGenerator implements ISQLGenerator
 	public String getSelectNewCommentUnSubscribersStatement(String siteId)
 	{
 		return "SELECT " + USER_ID + " FROM " + TABLE_PREFERENCES + " WHERE " + SITE_ID + " = '" + siteId + "' AND " + NEW_COMMENT_ALERT + " = 0";
+	}
+
+	public String getSelectLearningLogPosts() throws Exception
+	{
+		return "select " + TABLE_POST + ".*," + TIMEOUT + " FROM " + TABLE_POST + "," + TABLE_OPTIONS + " WHERE " + TABLE_POST + "." + SITE_ID + " = " + TABLE_OPTIONS + "." + SITE_ID + " AND " + TABLE_OPTIONS + "." + BLOGMODE + " = '" + Modes.LEARNING_LOG + "'";
 	}
 }

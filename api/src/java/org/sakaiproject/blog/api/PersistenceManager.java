@@ -21,9 +21,9 @@ public interface PersistenceManager
 
 	public List<Post> getAllPost(String placementId, boolean populate) throws Exception;
 
-	public void addComment(Comment comment);
+	public void addComment(Comment comment) throws Exception;
 
-	public void deleteComment(Comment comment);
+	public void deleteComment(Comment comment) throws Exception;
 
 	public void createPost(Post post) throws Exception;
 
@@ -53,7 +53,7 @@ public interface PersistenceManager
 
 	public List<BlogMember> getPublicBloggers();
 
-	public void updateComment(Comment comment);
+	public void updateComment(Comment comment) throws Exception;
 
 	public void removeResourceReference(String resourceId);
 
@@ -90,4 +90,6 @@ public interface PersistenceManager
 	public boolean isUserNewCommentSubscriber(String userId) throws Exception;
 
 	public boolean postExists(String postId) throws Exception;
+
+	public List<Post> getLearningLogPosts() throws Exception;
 }

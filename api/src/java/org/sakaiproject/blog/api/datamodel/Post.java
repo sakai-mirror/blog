@@ -47,6 +47,8 @@ public class Post implements Entity, Serializable
 	private String siteId;
 
 	private boolean dirty = true;
+	
+	private int timeout = 0;
 
 	public Post()
 	{
@@ -144,7 +146,6 @@ public class Post implements Entity, Serializable
 
 	public void addComment(Comment comment)
 	{
-		comment.setPostId(id);
 		comments.add(comment);
 		dirty = true;
 	}
@@ -663,5 +664,15 @@ public class Post implements Entity, Serializable
 	public boolean isReady()
 	{
 		return state.isReady();
+	}
+
+	public void setTimeout(int timeout)
+	{
+		this.timeout = timeout;
+	}
+
+	public int getTimeout()
+	{
+		return timeout;
 	}
 }

@@ -48,7 +48,15 @@ public class BasePage extends SakaiPortletWebPage
 			@Override
 			public void onClick()
 			{
-				setResponsePage(new ViewAll());
+				if(persistenceManager.getOptions().isLearningLogMode())
+				{
+					if(sakaiProxy.isCurrentUserMaintainer() || sakaiProxy.isCurrentUserTutor())
+						setResponsePage(new ViewMembers());
+					else
+						setResponsePage(new MemberBlog());
+				}
+				else
+					setResponsePage(new ViewAll());
 			}
 		};
 		viewAllLink.add(new Label("viewAllLabel",new ResourceModel("home")));
@@ -174,8 +182,9 @@ public class BasePage extends SakaiPortletWebPage
 
 		if(persistenceManager.getOptions().isLearningLogMode())
 		{
-			viewAllLink.setVisible(false);
+			//viewAllLink.setVisible(false);
 			myBlogLink.setVisible(false);
+			preferencesLink.setVisible(false);
 			viewMembersLink.setVisible(false);
 			
 			if(!securityManager.canCurrentUserSearch())

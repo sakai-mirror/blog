@@ -2,12 +2,14 @@ package org.sakaiproject.blog.api.datamodel;
 
 import java.io.Serializable;
 
+import org.apache.log4j.Logger;
+
 public class BlogOptions  implements Serializable
 {
+	private transient Logger logger = Logger.getLogger(BlogOptions.class);
+	
 	private String siteId;
 	private String mode = Modes.BLOG;
-	private int timeoutDays = 0;
-	private int timeoutHours = 0;
 
 	public boolean isLearningLogMode()
 	{
@@ -32,25 +34,5 @@ public class BlogOptions  implements Serializable
 	public String getMode()
 	{
 		return mode;
-	}
-	
-	public void setTimeoutHours(String hours)
-	{
-		timeoutHours = Integer.parseInt(hours);
-	}
-	
-	public String getTimeoutHours()
-	{
-		return Integer.toString(timeoutHours);
-	}
-	
-	public void setTimeoutDays(String days)
-	{
-		timeoutDays = Integer.parseInt(days);
-	}
-	
-	public String getTimeoutDays()
-	{
-		return Integer.toString(timeoutDays);
 	}
 }

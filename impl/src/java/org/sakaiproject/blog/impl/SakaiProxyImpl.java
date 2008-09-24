@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Observer;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.sakaiproject.api.app.profile.Profile;
@@ -114,6 +115,21 @@ public class SakaiProxyImpl implements SakaiProxy
 	{
 		return toolManager.getCurrentPlacement().getContext(); // equivalent to PortalService.getCurrentSiteId();
 	}
+	
+	public String getCurrentToolId()
+	{
+		return toolManager.getCurrentPlacement().getId();
+	}
+	
+	public String getCurrentPageId()
+	{
+		Placement placement = toolManager.getCurrentPlacement();
+		
+		if(placement instanceof ToolConfiguration)
+			return ((ToolConfiguration) placement).getPageId();
+		
+		return null;
+	}
 
 	public String getCurrentUserId()
 	{
@@ -175,14 +191,6 @@ public class SakaiProxyImpl implements SakaiProxy
 		{
 			return ""; // this can happen if the user does not longer exist in the system
 		}
-
-	}
-
-	public String getPageId()
-	{
-		Placement placement = toolManager.getCurrentPlacement();
-
-		return ((ToolConfiguration) placement).getPageId();
 
 	}
 	
@@ -383,6 +391,7 @@ public class SakaiProxyImpl implements SakaiProxy
 			return null;
 		}
 	}
+	
 	public boolean fileExists(String resourceId) throws Exception
 	{
 		try
@@ -681,13 +690,18 @@ public class SakaiProxyImpl implements SakaiProxy
 	{
 		return functionManager;
 	}
+	
+	private AuthzGroup getAuthzGroupOfCurrentSite() throws Exception
+	{
+		Site site = siteService.getSite(getCurrentSiteId());
+		return authzGroupService.getAuthzGroup(site.getReference());
+	}
 
 	public boolean isAllowedFunction(String function)
 	{
 		try
 		{
-			Site site = siteService.getSite(getCurrentSiteId());
-			AuthzGroup realm = authzGroupService.getAuthzGroup(site.getReference());
+			AuthzGroup realm = getAuthzGroupOfCurrentSite();
 			Role r = realm.getUserRole(getCurrentUserId());
 			
 			if(r == null)
@@ -991,5 +1005,74 @@ public class SakaiProxyImpl implements SakaiProxy
 	public SecurityService getSecurityService()
 	{
 		return securityService;
+	}
+
+	public Set<String> getTutors()
+	{
+		Set<String> tutors = new TreeSet<String>();
+		
+		try
+		{
+			Set<String> users = getSiteUsers();
+			AuthzGroup realm = getAuthzGroupOfCurrentSite();
+			for(String user : users)
+			{
+				String role = authzGroupService.getUserRole(user, realm.getId());
+				if(role.equalsIgnoreCase("Tutor"))
+					tutors.add(user);
+			}
+		}
+		catch(Exception e)
+		{
+			logger.error("Caught exception whilst getting tutors",e);
+		}
+		
+		return tutors;
+	}
+
+	/**
+	 * Is the current user in the Tutor role?
+	 */
+	public boolean isCurrentUserTutor()
+	{
+		try
+		{
+			AuthzGroup realm = getAuthzGroupOfCurrentSite();
+			Role role = realm.getUserRole(getCurrentUserId());
+		
+			if(role.getId().equalsIgnoreCase("tutor"))
+				return true;
+			else
+				return false;
+		}
+		catch(Exception e)
+		{
+			logger.error("Caught exception whilst checking for tutor role. Returning false ...",e);
+			return false;
+		}
+	}
+
+	public Set<String> getTutors(String siteId)
+	{
+		Set<String> tutors = new TreeSet<String>();
+		
+		try
+		{
+			Site site = siteService.getSite(siteId);
+			Set<String> users = site.getUsers();
+			AuthzGroup realm = authzGroupService.getAuthzGroup(site.getReference());
+			for(String user : users)
+			{
+				String role = authzGroupService.getUserRole(user, realm.getId());
+				if(role.equalsIgnoreCase("Tutor"))
+					tutors.add(user);
+			}
+		}
+		catch(Exception e)
+		{
+			logger.error("Caught exception whilst getting tutors",e);
+		}
+		
+		return tutors;
 	}
 }

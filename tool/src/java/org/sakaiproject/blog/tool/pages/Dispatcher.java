@@ -14,7 +14,7 @@ public class Dispatcher extends BasePage
 		{
 			if(persistenceManager.getOptions().isLearningLogMode())
 			{
-				if(sakaiProxy.isCurrentUserMaintainer() || securityManager.isCurrentUserTutor())
+				if(sakaiProxy.isCurrentUserMaintainer() || sakaiProxy.isCurrentUserTutor())
 					setResponsePage(new ViewMembers());
 				else
 					setResponsePage(new MemberBlog());

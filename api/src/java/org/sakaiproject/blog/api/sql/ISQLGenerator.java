@@ -58,7 +58,7 @@ public interface ISQLGenerator
 	public static final String ELEMENT_ID = "ELEMENT_ID";
 	public static final String ELEMENT_TYPE = "ELEMENT_TYPE";
 	public static final String POSITION = "POSITION";
-	public static final String MODE = "BLOGMODE";
+	public static final String BLOGMODE = "BLOGMODE";
 	
 	public static final String TIMEOUT = "TIMEOUT";
 	
@@ -184,4 +184,6 @@ public interface ISQLGenerator
 	public abstract String getSelectNewPostEmailUnSubscribersStatement(String currentSiteId);
 
 	public abstract String getSelectNewCommentUnSubscribersStatement(String currentSiteId);
+
+	public abstract String getSelectLearningLogPosts() throws Exception;
 }

@@ -49,4 +49,11 @@ public class SakaiProxy
 		org.sakaiproject.blog.api.SakaiProxy sp = getInstance();
 		return sp.getAccessUrl();
 	}
+
+
+	public static String getPortalUrl()
+	{
+		org.sakaiproject.blog.api.SakaiProxy sp = getInstance();
+		return sp.getPortalUrl();
+	}
 }

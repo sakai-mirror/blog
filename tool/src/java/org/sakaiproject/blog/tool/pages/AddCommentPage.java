@@ -31,6 +31,7 @@ public class AddCommentPage extends BasePage
 			{
 				Comment comment = new Comment(getComment());
 				comment.setCreatorId(sakaiProxy.getCurrentUserId());
+				comment.setPostId(post.getId());
 				blogManager.addComment(post,comment);
 				
 				setResponsePage(new PostPage(new PostModel(post)));

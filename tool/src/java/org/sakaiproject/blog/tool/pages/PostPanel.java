@@ -146,9 +146,11 @@ public class PostPanel extends Panel
         
         Date date = post.getCreatedDate();
         
-        add(new Label("postDate"," ("+DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,Locale.UK).format(date)+")"));
+        add(new Label("postDate",DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,Locale.UK).format(date)));
         
-        String currentUserId = BlogApplication.get().getSakaiProxy().getCurrentUserId();
+        Date modifiedDate = post.getModifiedDate();
+        
+        add(new Label("modifiedDate",DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM,Locale.UK).format(modifiedDate)));
         
 		Label shortText = new Label("shortText",post.getShortText());
         

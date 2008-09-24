@@ -19,7 +19,6 @@ import org.sakaiproject.blog.api.datamodel.Comment;
 import org.sakaiproject.blog.api.datamodel.File;
 import org.sakaiproject.blog.api.datamodel.Image;
 import org.sakaiproject.blog.api.datamodel.LinkRule;
-import org.sakaiproject.blog.api.datamodel.Modes;
 import org.sakaiproject.blog.api.datamodel.Paragraph;
 import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.blog.api.datamodel.PostElement;
@@ -102,9 +101,9 @@ public class PersistenceManagerImpl implements PersistenceManager
 
 				connection.commit();
 			}
-			catch (SQLException sqle)
+			catch (Exception e)
 			{
-				logger.error("Caught exception whilst setting up tables. Rolling back ...", sqle);
+				logger.error("Caught exception whilst setting up tables. Rolling back ...", e);
 				connection.rollback();
 			}
 			finally
@@ -175,7 +174,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 		return result;
 	}
 
-	public void addComment(Comment comment)
+	public void addComment(Comment comment) throws Exception
 	{
 		Connection connection = null;
 
@@ -183,10 +182,6 @@ public class PersistenceManagerImpl implements PersistenceManager
 		{
 			connection = getConnection();
 			addComment(comment, connection);
-		}
-		catch (Exception e)
-		{
-			logger.error("Caught exception whilst adding comment.", e);
 		}
 		finally
 		{
@@ -201,7 +196,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 		sql.close();
 	}
 
-	public void deleteComment(Comment comment)
+	public void deleteComment(Comment comment) throws Exception
 	{
 		Connection connection = null;
 
@@ -210,10 +205,6 @@ public class PersistenceManagerImpl implements PersistenceManager
 			connection = getConnection();
 			String sql = sqlGenerator.getDeleteStatementForComment(comment, connection);
 			executeSQL(sql, connection);
-		}
-		catch (Exception e)
-		{
-			logger.error("Caught exception whilst deleting comment.", e);
 		}
 		finally
 		{
@@ -283,8 +274,9 @@ public class PersistenceManagerImpl implements PersistenceManager
 				}
 				
 				connection.commit();
+				post.setModifiedDate(new Date());
 			}
-			catch (SQLException sqle)
+			catch (Exception e)
 			{
 				connection.rollback();
 			}
@@ -469,7 +461,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 		}
 	}
 
-	public void recyclePost(String postId) throws PersistenceException
+	public void recyclePost(String postId) throws Exception
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("recyclePost(" + postId + ")");
@@ -478,12 +470,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 		try
 		{
 			String sql = sqlGenerator.getRecycleStatementForPost(postId, connection);
-
 			executeSQL(sql, connection);
-		}
-		catch (Exception e)
-		{
-			logger.error("Caught exception whilst recycling post",e);
 		}
 		finally
 		{
@@ -661,6 +648,15 @@ public class PersistenceManagerImpl implements PersistenceManager
 
 				String statement = sqlGenerator.getSelectComments(postId);
 				ResultSet commentRS = executeQuerySQL(statement, connection);
+				
+				try
+				{
+					int timeout = rs.getInt(ISQLGenerator.TIMEOUT);
+					post.setTimeout(timeout);
+				}
+				catch(SQLException sqle)
+				{
+				}
 
 				try
 				{
@@ -705,6 +701,11 @@ public class PersistenceManagerImpl implements PersistenceManager
 						if (type.equals(Paragraph.PARAGRAPH))
 						{
 							Paragraph paragraph = getParagraph(elementId, connection);
+							if(paragraph == null)
+							{
+								logger.error("The paragraph is null");
+								continue;
+							}
 							
 							if(paragraph != null)
 							{
@@ -718,6 +719,11 @@ public class PersistenceManagerImpl implements PersistenceManager
 						if (type.equals(Image.IMAGE))
 						{
 							Image image = getImage(elementId, Image.NONE, connection);
+							if(image == null)
+							{
+								logger.error("The image is null");
+								continue;
+							}
 							image.setIndentation(indentation);
 							post.addElement(image);
 						}
@@ -725,6 +731,11 @@ public class PersistenceManagerImpl implements PersistenceManager
 						if (type.equals(File.FILE))
 						{
 							File file = getFile(elementId, connection);
+							if(file == null)
+							{
+								logger.error("The file is null");
+								continue;
+							}
 							file.setDisplayName(displayName);
 							file.setIndentation(indentation);
 							post.addElement(file);
@@ -733,6 +744,11 @@ public class PersistenceManagerImpl implements PersistenceManager
 						if (type.equals(LinkRule.LINK))
 						{
 							LinkRule link = getLink(elementId, connection);
+							if(link == null)
+							{
+								logger.error("The link is null");
+								continue;
+							}
 							link.setDisplayName(displayName);
 							link.setIndentation(indentation);
 							post.addElement(link);
@@ -1021,7 +1037,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 		return members;
 	}
 
-	public void updateComment(Comment comment)
+	public void updateComment(Comment comment) throws Exception
 	{
 		Connection connection = null;
 		try
@@ -1029,10 +1045,6 @@ public class PersistenceManagerImpl implements PersistenceManager
 			connection = getConnection();
 			String sql = sqlGenerator.getUpdateStatementForComment(comment, connection);
 			executeSQL(sql, connection);
-		}
-		catch (Exception e)
-		{
-			logger.error("Caught exception whilst adding comment.", e);
 		}
 		finally
 		{
@@ -1056,7 +1068,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 				executeSQL(statements, connection);
 				connection.commit();
 			}
-			catch (SQLException sqle)
+			catch (Exception e)
 			{
 				connection.rollback();
 			}
@@ -1109,10 +1121,12 @@ public class PersistenceManagerImpl implements PersistenceManager
 				Collection statements = sqlGenerator.getUpdateElementStatements(post, element, elementIndex, connection);
 				executeSQL(statements, connection);
 				connection.commit();
+				post.setModifiedDate(new Date());
 			}
-			catch (SQLException sqle)
+			catch (Exception e)
 			{
 				connection.rollback();
+				throw e;
 			}
 			finally
 			{
@@ -1138,10 +1152,12 @@ public class PersistenceManagerImpl implements PersistenceManager
 			{
 				addPostElement(post, element, connection);
 				connection.commit();
+				post.setModifiedDate(new Date());
 			}
-			catch (SQLException sqle)
+			catch (Exception e)
 			{
 				connection.rollback();
+				throw e;
 			}
 			finally
 			{
@@ -1198,9 +1214,10 @@ public class PersistenceManagerImpl implements PersistenceManager
 				executeSQL(statements, connection);
 				connection.commit();
 			}
-			catch (SQLException sqle)
+			catch (Exception e)
 			{
 				connection.rollback();
+				throw e;
 			}
 			finally
 			{
@@ -1228,10 +1245,12 @@ public class PersistenceManagerImpl implements PersistenceManager
 				Collection statements = sqlGenerator.getDeleteStatementsForElement(post, position, connection);
 				executeSQL(statements, connection);
 				connection.commit();
+				post.setModifiedDate(new Date());
 			}
-			catch (SQLException sqle)
+			catch (Exception e)
 			{
 				connection.rollback();
+				throw e;
 			}
 			finally
 			{
@@ -1252,6 +1271,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 			connection = getConnection();
 			String statement = sqlGenerator.getSaveTitleStatement(post);
 			executeSQL(statement, connection);
+			post.setModifiedDate(new Date());
 		}
 		finally
 		{
@@ -1267,6 +1287,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 			connection = getConnection();
 			String statement = sqlGenerator.getSaveShortTextStatement(post);
 			executeSQL(statement, connection);
+			post.setModifiedDate(new Date());
 		}
 		finally
 		{
@@ -1335,27 +1356,7 @@ public class PersistenceManagerImpl implements PersistenceManager
 			ResultSet rs = executeQuerySQL(statement, connection);
 
 			if (rs.next())
-			{
-				String mode = rs.getString(ISQLGenerator.MODE);
-				int timeoutMins = rs.getInt(ISQLGenerator.TIMEOUT);
-				
-				int days = timeoutMins/1440;
-				
-				int hours = (timeoutMins - (days * 1440)) / 60;
-				
-				settings.setTimeoutHours(Integer.toString(hours));
-				
-				settings.setTimeoutDays(Integer.toString(days));
-				
-				settings.setMode(mode);
-				
-				/*
-				if(mode.equals(Modes.LEARNING_LOG))
-					settings.setLearningLogMode(true);
-				else
-					settings.setBlogMode(true);
-					*/
-			}
+				settings.setMode(rs.getString(ISQLGenerator.BLOGMODE));
 
 			rs.close();
 		}
@@ -1519,5 +1520,62 @@ public class PersistenceManagerImpl implements PersistenceManager
 		}
 		
 		return true;
+	}
+
+	public List<Post> getLearningLogPosts() throws Exception
+	{
+		List<Post> posts = new ArrayList<Post>();
+		
+		Connection connection = null;
+		
+		try
+		{
+			connection = getConnection();
+			String statement = sqlGenerator.getSelectLearningLogPosts();
+			ResultSet rs = executeQuerySQL(statement, connection);
+			
+			while (rs.next())
+			{
+				Post post = new Post();
+
+				String postId = rs.getString(ISQLGenerator.POST_ID);
+				post.setId(postId);
+				
+				String siteId = rs.getString(ISQLGenerator.SITE_ID);
+				post.setSiteId(siteId);
+				
+				Date postCreatedDate = rs.getTimestamp(ISQLGenerator.CREATED_DATE);
+				post.setCreatedDate(postCreatedDate);
+				
+				String title = rs.getString(ISQLGenerator.TITLE);
+				post.setTitle(title);
+
+				String postCreatorId = rs.getString(ISQLGenerator.CREATOR_ID);
+				post.setCreatorId(postCreatorId);
+
+				String visibility = rs.getString(ISQLGenerator.VISIBILITY);
+				post.setVisibility(visibility);
+				
+				try
+				{
+					int timeout = rs.getInt(ISQLGenerator.TIMEOUT);
+					post.setTimeout(timeout);
+				}
+				catch(SQLException sqle)
+				{
+					sqle.printStackTrace();
+				}
+				
+				posts.add(post);
+			}
+			
+			rs.close();
+		}
+		finally
+		{
+			releaseConnection(connection);
+		}
+		
+		return posts;
 	}
 }

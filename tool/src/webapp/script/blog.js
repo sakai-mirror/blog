@@ -59,16 +59,6 @@ function showProfilePopup(e)
 	$("#profilePopup").fadeIn("fast");
 }
 
-function showTimeoutPanel(e)
-{
-	$("#timeoutPanel").slideDown(); 
-}
-
-function hideTimeoutPanel(e)
-{
-	$("#timeoutPanel").slideUp(); 
-}
-
 function confirmCommentDelete()
 {
 	return confirm('Are you sure you want to delete the comment?');

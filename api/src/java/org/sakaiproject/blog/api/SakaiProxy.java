@@ -65,8 +65,6 @@ public interface SakaiProxy
 	public String getDisplayNameForTheUser(String userId);
 
 	public String getEmailForTheUser(String userId);
-
-	public String getPageId();
 	
 	public boolean isMaintainer(String userId);
 	
@@ -199,4 +197,20 @@ public interface SakaiProxy
 	public void sendEmailWithMessage(String creatorId, String subject, String string);
 
 	public void registerSecurityAdvisor(SecurityAdvisor securityAdvisor);
+
+	/**
+	 * Returns the user ids of users in the Tutor role
+	 */
+	public Set<String> getTutors();
+
+	public boolean isCurrentUserTutor();
+
+	/**
+	 * Returns the user ids of users in the Tutor role, for the specified site
+	 */
+	public Set<String> getTutors(String siteId);
+
+	public String getCurrentPageId();
+	
+	public String getCurrentToolId();
 }

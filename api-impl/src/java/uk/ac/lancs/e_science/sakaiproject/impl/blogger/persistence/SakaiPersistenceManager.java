@@ -27,6 +27,7 @@ import java.sql.*;
 import org.sakaiproject.db.api.SqlService;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Creator;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.File;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Image;
@@ -482,15 +483,28 @@ public class SakaiPersistenceManager{
         }
     }
 
-
     private ResultSet executeQuerySQL(String sql, Connection connection) throws PersistenceException{
-        try{
-            Statement statement = connection.createStatement();
+    	
+    	Statement statement;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new PersistenceException(e);
+        }
+        
+        try {
             return statement.executeQuery(sql);
         } catch (SQLException e){
-            throw new PersistenceException();
+            throw new PersistenceException(e);
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                // tried
+            }
         }
     }
+    
     private void executeSQL(String sql, Connection connection) throws PersistenceException{
     	Collection sqlList = new ArrayList();
     	sqlList.add(sql);
@@ -620,12 +634,16 @@ public class SakaiPersistenceManager{
     }
 
     public void initRepository() throws PersistenceException{
+    	
+    	if(!SakaiProxy.isAutoDDL())
+    		return;
+    	
         Connection connection = getConnection();
         try{
             Collection statements = sqlGenerator.getCreateStatementsForPost();
             executeSQL(statements,connection);
         }  catch (Exception e){
-        	//e.printStackTrace();
+        	logger.error("Failed to initRepository",e);
         }
         finally{
             releaseConnection(connection);

@@ -23,6 +23,7 @@ import java.util.Set;
 import org.sakaiproject.authz.api.AuthzGroup;
 import org.sakaiproject.authz.api.AuthzGroupService;
 import org.sakaiproject.authz.api.Role;
+import org.sakaiproject.component.cover.ServerConfigurationService;
 import org.sakaiproject.site.api.Site;
 import org.sakaiproject.site.api.SiteService;
 import org.sakaiproject.site.api.ToolConfiguration;
@@ -56,6 +57,12 @@ public class SakaiProxy {
     		return userId; //this can happen if the user does not longer exist in the system
     	}
     }
+    
+	public static boolean isAutoDDL()
+	{
+		String autoDDL = ServerConfigurationService.getString("auto.ddl");
+		return autoDDL.equals("true");
+	}
     
     public static String getPageId(){
 		Placement placement = toolManager.getCurrentPlacement();

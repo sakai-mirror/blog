@@ -48,16 +48,10 @@
     <servlet-mapping>
         <servlet-name>servletForImages</servlet-name>
         <url-pattern>/servletForImages</url-pattern>
-		<!-- <dispatcher>REQUEST</dispatcher> -->
-		<!-- <dispatcher>FORWARD</dispatcher> -->
-		<!-- <dispatcher>INCLUDE</dispatcher> -->     
     </servlet-mapping>	
     <servlet-mapping>
         <servlet-name>servletForFiles</servlet-name>
         <url-pattern>/servletForFiles</url-pattern>
-		<!-- <dispatcher>REQUEST</dispatcher> -->
-		<!-- <dispatcher>FORWARD</dispatcher> -->
-		<!-- <dispatcher>INCLUDE</dispatcher> -->     
     </servlet-mapping>	
 <!--sakai-->
     <filter>
@@ -135,9 +129,6 @@
             <load-on-startup> 1 </load-on-startup>
      </servlet>
 
-
-
-
      <!-- Faces Servlet -->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
@@ -153,12 +144,10 @@
     <listener>
         <listener-class>org.sakaiproject.util.ToolListener</listener-class>
     </listener>  
-    
 
 	<welcome-file-list>
 	  <welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-
 
 </web-app>
 

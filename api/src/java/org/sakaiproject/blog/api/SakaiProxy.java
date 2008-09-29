@@ -84,18 +84,6 @@ public interface SakaiProxy
 
 	public BlogMember getMember(String memberId);
 
-	public void setToolManager(ToolManager toolManager);
-
-	public ToolManager getToolManager();
-
-	public void setSessionManager(SessionManager sessionManager);
-
-	public SessionManager getSessionManager();
-
-	public void setAuthzGroupService(AuthzGroupService authzGroupService);
-
-	public AuthzGroupService getAuthzGroupService();
-
 	public String getCurrentSiteCollectionId();
 	
 	public boolean isAutoDDL();
@@ -114,45 +102,13 @@ public interface SakaiProxy
 	
 	public String getAccessUrl();
 
-	public void setContentHostingService(ContentHostingService contentHostingService);
-
-	public ContentHostingService getContentHostingService();
-
-	public void setSiteService(SiteService siteService);
-
-	public SiteService getSiteService();
-
-	public void setServerConfigurationService(ServerConfigurationService serverConfigurationService);
-
-	public ServerConfigurationService getServerConfigurationService();
-
-	public void setAuthenticationManager(AuthenticationManager authenticationManager);
-
-	public AuthenticationManager getAuthenticationManager();
-
-	public void setUserDirectoryService(UserDirectoryService userDirectoryService);
-
-	public UserDirectoryService getUserDirectoryService();
-
 	public void registerEntityProducer(EntityProducer entityProducer);
-
-	public void setEntityManager(EntityManager entityManager);
-
-	public EntityManager getEntityManager();
 
 	public void deleteResources(String[] resourceIds);
 
 	public Profile getUserProfileById(String userId);
 
-	public void setProfileManager(ProfileManager profileManager);
-
-	public ProfileManager getProfileManager();
-	
 	public void deleteFolderForPost(String postId);
-
-	public void setSqlService(SqlService sqlService);
-
-	public SqlService getSqlService();
 
 	public String getResourceUrl(String resourceId);
 
@@ -162,10 +118,6 @@ public interface SakaiProxy
 
 	public void registerFunction(String function);
 
-	public void setFunctionManager(FunctionManager functionManager);
-
-	public FunctionManager getFunctionManager();
-
 	public boolean isAllowedFunction(String function);
 
 	public List<BlogPermissions> getPermissions();
@@ -173,10 +125,6 @@ public interface SakaiProxy
 	public void savePermissions(BlogPermissions permissions) throws Exception;
 
 	public void addEventObserver(Observer observer);
-
-	public void setEventTrackingService(EventTrackingService eventTrackingService);
-
-	public EventTrackingService getEventTrackingService();
 
 	public void deleteEventObserver(Observer observer);
 

@@ -54,7 +54,10 @@ public class PostAccessPanel extends Panel
 			
 			protected void onSelectionChanged(Object newSelection)
 			{
-				blogManager.saveVisibility(post);
+				if(blogManager != null && post != null)
+					blogManager.saveVisibility(post);
+				
+				// TODO: Add log message
 			}
 		};
 		form.add(ddc);

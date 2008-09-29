@@ -13,7 +13,7 @@ import org.sakaiproject.blog.api.datamodel.State;
 
 public class MemberBlog extends BasePage
 {
-	private static final String UNAVAILABLE_IMAGE = "img/officialPhotoUnavailable.jpg";
+	private static final String UNAVAILABLE_IMAGE = "img/no_image.gif";
 	private byte[] pictureBytes;
 	
 	private String userId;

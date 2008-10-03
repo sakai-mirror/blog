@@ -30,9 +30,14 @@ import java.io.IOException;
 public class XMLToPost {
     public Post convertXMLInPost(String xml){
 
-        String parserClass = "com.sun.org.apache.xerces.internal.parsers.SAXParser";
+		// SAK-13408 - The specified parserClass is only in the Sun JRE. This is an issue for Websphere,
+    	// which uses the IBM JRE. The solution is to let the JRE itself pick the right SAXParser to use.
+    	// In the Sun JRE's case, it will choose the specified parserClass by default anyways.
+    	
+        //String parserClass = "com.sun.org.apache.xerces.internal.parsers.SAXParser";
         try{
-            XMLReader reader = XMLReaderFactory.createXMLReader(parserClass);
+            //XMLReader reader = XMLReaderFactory.createXMLReader(parserClass);
+            XMLReader reader = XMLReaderFactory.createXMLReader();
             XMLPostContentHandler ch = new XMLPostContentHandler();
             reader.setContentHandler(ch);
             InputSource is = new InputSource(new StringReader(xml));

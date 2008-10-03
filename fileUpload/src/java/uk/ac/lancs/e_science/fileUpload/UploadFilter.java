@@ -35,6 +35,7 @@ import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadException;
+import org.sakaiproject.component.cover.ServerConfigurationService;
 
 
 public class UploadFilter implements Filter {
@@ -87,7 +88,21 @@ public class UploadFilter implements Filter {
          upload.setRepositoryPath(repositoryPath);
       
       try {
+    	  
+    	 // SAK-13408 - Websphere cannot properly read the request if it has already been parsed and
+    	 // marked by the Apache Commons FileUpload library. The request needs to be buffered so that 
+    	 // it can be reset for subsequent processing
+    	 if("websphere".equals(ServerConfigurationService.getString("servlet.container"))){
+    		 HttpServletRequest bufferedInputRequest = new BufferedHttpServletRequestWrapper (httpRequest);
+    		 httpRequest = bufferedInputRequest;
+    	 }
+    	  
          List list = upload.parseRequest(httpRequest);
+         
+         if("websphere".equals(ServerConfigurationService.getString("servlet.container"))){
+        	 httpRequest.getInputStream().reset();
+         }
+         
          final Map map = new HashMap();
          for (int i = 0; i < list.size(); i ++) {
             FileItem item = (FileItem) list.get(i);
@@ -123,4 +138,82 @@ public class UploadFilter implements Filter {
          throw servletEx;
       }      
    }   
+   
+   
+	// SAK-13408 - The servlet's InputStream is read and marked by the Apache Commons
+	// FileUpload library. In Websphere, this is causing problems with the Spring framework's
+	// navigation. These two inner classes, BufferedHttpServletRequestWrapper and
+	// BufferedServletInputStream allow the stream to be reset after the Apache Commons
+	// FileUpload library is done with it. 
+	public class BufferedHttpServletRequestWrapper extends HttpServletRequestWrapper {
+
+		BufferedServletInputStream bufferedServletInputStream = null;
+
+		public BufferedHttpServletRequestWrapper(HttpServletRequest request)
+		{
+			super(request);
+		}
+		public javax.servlet.ServletInputStream getInputStream() throws java.io.IOException
+		{
+			if (bufferedServletInputStream == null)
+			{
+				long maxSize = 0;
+	      		try{
+	    	  			maxSize = Long.parseLong(super.getHeader("Content-Length"));
+				} catch (NumberFormatException e){
+					e.printStackTrace();
+				}
+				bufferedServletInputStream = new BufferedServletInputStream(super.getInputStream(), maxSize);
+			}
+			return bufferedServletInputStream;
+		}
+	}
+
+	public class BufferedServletInputStream  extends  javax.servlet.ServletInputStream {
+		
+		java.io.BufferedInputStream bufferedInputStream = null;
+		
+		public BufferedServletInputStream(javax.servlet.ServletInputStream originalInputStream, long sizeMax) {
+			super();
+
+			bufferedInputStream = new java.io.BufferedInputStream(originalInputStream, (int)sizeMax);
+	   		bufferedInputStream.mark((int)sizeMax);
+		}
+	
+		public int read(byte[] b, int off, int len) throws IOException {
+			return bufferedInputStream.read(b, off, len);
+		}
+
+		public int read(byte[] b) throws IOException {
+			return bufferedInputStream.read(b);
+		}
+	
+		public int read() throws IOException {
+			return bufferedInputStream.read();
+		}
+
+		public long skip(long n) throws IOException {
+			return bufferedInputStream.skip(n);
+		}
+
+		public int available() throws IOException{
+			return bufferedInputStream.available();
+		}
+
+		public void close() throws IOException {
+			bufferedInputStream.close();
+		}
+
+		public void mark(int readlimit) {
+			bufferedInputStream.mark(readlimit);
+		}
+
+		public void reset() throws IOException {
+			bufferedInputStream.reset();
+		}
+
+		public boolean markSupported() {
+			return bufferedInputStream.markSupported();
+		}
+	}
 }

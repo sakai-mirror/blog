@@ -3,6 +3,7 @@ package org.sakaiproject.blog.tool.pages;
 import java.text.DateFormat;
 import java.util.Locale;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.IAjaxCallDecorator;
@@ -31,7 +32,7 @@ public class ViewMembers extends BasePage
 	
 	//private ProfilePanel profilePanel;
 	
-	private static final String UNAVAILABLE_IMAGE = "img/officialPhotoUnavailable.jpg";
+	private static final String UNAVAILABLE_IMAGE = "img/no_image.gif";
 	
 	private Label displayNameLabel;
 	//private Label blurbLabel;
@@ -139,8 +140,25 @@ public class ViewMembers extends BasePage
 					}
 				};
 				
-				showPostsLink.add(new OnMouseOverBehaviour());
-				showPostsLink.add(new AttributeAppender("onMouseOut", new Model("hideProfilePopup(event);"),";"));
+				//showPostsLink.add(new OnMouseOverBehaviour());
+				//showPostsLink.add(new AttributeAppender("onMouseOut", new Model("hideProfilePopup(event);"),";"));
+				String portalUrl = sakaiProxy.getPortalUrl();
+				String siteId = sakaiProxy.getCurrentSiteId();
+				String pageId = sakaiProxy.getCurrentPageId();
+				String toolId = sakaiProxy.getCurrentToolId();
+				
+				//String url = portalUrl
+				//String url = "/portal"
+					//			+ "/tool/" + toolId
+						//		+ "/home?wicket:bookmarkablePage=:org.sakaiproject.blog.tool.pages.ProfilePopupPage&userId="
+							//	+ member.getUserId();
+				
+								String url = "?wicket:bookmarkablePage=:org.sakaiproject.blog.tool.pages.ProfilePopupPage&userId="
+								+ member.getUserId();
+				
+				//showPostsLink.add(new AttributeModifier("rel", true, new Model(portalUrl"/?wicket:bookmarkablePage=:org.sakaiproject.blog.tool.pages.ProfilePopupPage&userId=" + member.getUserId())));
+				showPostsLink.add(new AttributeModifier("rel", true, new Model(url)));
+				//showPostsLink.add(new AttributeModifier("rel", true, new Model("http://www.java.com")));
 
 				showPostsLink.add(new Label("name", member.getUserDisplayName()));
 
@@ -183,9 +201,10 @@ public class ViewMembers extends BasePage
 		add(indicator);
 		*/
 		
-		addProfilePanelComponents();
+		//addProfilePanelComponents();
 	}
 	
+	/*
 	private void addProfilePanelComponents()
 	{
 		displayNameLabel = new Label("displayName","");
@@ -203,6 +222,7 @@ public class ViewMembers extends BasePage
 		photo.setOutputMarkupId(true);
 		add(photo);
 	}
+	*/
 	
 	public void setUserId(String userId)
 	{
@@ -239,6 +259,7 @@ public class ViewMembers extends BasePage
 			photo.setImageResource(new ContextRelativeResource(UNAVAILABLE_IMAGE));
 	}
 	
+	/*
 	private class OnMouseOverBehaviour extends AjaxEventBehavior// implements IAjaxIndicatorAware
 	{
 		public OnMouseOverBehaviour()
@@ -277,4 +298,5 @@ public class ViewMembers extends BasePage
 			return "indicator";
 		}
 	}
+	*/
 }

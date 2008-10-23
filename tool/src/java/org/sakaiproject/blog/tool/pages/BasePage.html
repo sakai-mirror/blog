@@ -5,13 +5,14 @@
       xmlns:wicket="http://wicket.sourceforge.net/"  
       xml:lang="en"  
       lang="en">
-<body onLoad="if($("#learningLog").checked) showTimeoutPanel(event);">
+<body>
 
 <wicket:head>
 	<link rel="stylesheet" type="text/css" href="css/blog.css" />
-	<script type="text/javascript" src="/library/js/jquery.js"></script> 
-	<script type="text/javascript" src="script/blog.js"></script> 
+	<script type="text/javascript" src="js/blog.js"></script> 
 </wicket:head>
+
+<wicket:extend>
 
 	<div class="navIntraTool">
 		<a wicket:id="viewAllLink"><span wicket:id="viewAllLabel">[viewAllLabel]</span></a>
@@ -23,11 +24,14 @@
 		<a wicket:id="preferencesLink"><span wicket:id="preferencesLabel">[preferencesLabel]</span></a>
 		<a wicket:id="searchLink"><span wicket:id="searchLabel">[searchLabel]</span></a>
 		<a wicket:id="recycleBinLink"><span wicket:id="recycleBinLabel">[recycleBinLabel]</span></a>
-       </div>
-<div id="blogMainContainer">
-		<br />
-		<div style="color: red;font-weight: bold" wicket:id="messageLabel"></div>
-        <wicket:child/>
+	</div>
+       
+		<div id="blogMainContainer">
+			<br />
+			<div style="color: red;font-weight: bold" wicket:id="messageLabel"></div>
+        	<wicket:child/>
         </div>
+        
+</wicket:extend>
 </body>
 </html>

@@ -55,16 +55,12 @@ public interface SakaiProxy
 	public Connection borrowConnection() throws SQLException;
 	
 	public void returnConnection(Connection connection);
-	
-	public String getCurrentUserEid();
 
 	public String getCurrentUserDisplayName();
 	
 	public String getVendor();
 
 	public String getDisplayNameForTheUser(String userId);
-
-	public String getEmailForTheUser(String userId);
 	
 	public boolean isMaintainer(String userId);
 	
@@ -152,11 +148,6 @@ public interface SakaiProxy
 	public Set<String> getTutors();
 
 	public boolean isCurrentUserTutor();
-
-	/**
-	 * Returns the user ids of users in the Tutor role, for the specified site
-	 */
-	public Set<String> getTutors(String siteId);
 
 	public String getCurrentPageId();
 	

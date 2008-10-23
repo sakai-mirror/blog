@@ -40,25 +40,6 @@ function confirmPostElementDelete()
 	return confirm('Are you sure you want to delete the post element?');
 }
 
-function moveProfilePopup(e)
-{
-	$("#profilePopup").css({ left:e.clientX + 15,top:e.clientY }); 
-	//$("#profilePopup").css({ left:e.clientX + 15,bottom:e.clientY }); 
-}
-
-function hideProfilePopup(e)
-{
-	//$("#profilePopup").css({ visibility:"hidden" }); 
-	//$("#profilePopup").css({ display:"none" }); 
-	$("#profilePopup").fadeOut("fast"); 
-}
-
-function showProfilePopup(e)
-{
-	//$("#profilePopup").css({ visibility:"visible" }); 
-	$("#profilePopup").fadeIn("fast");
-}
-
 function confirmCommentDelete()
 {
 	return confirm('Are you sure you want to delete the comment?');

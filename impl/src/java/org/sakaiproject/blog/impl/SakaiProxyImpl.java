@@ -69,7 +69,6 @@ import org.sakaiproject.user.api.UserNotDefinedException;
 import org.sakaiproject.util.BaseResourceProperties;
 import org.sakaiproject.blog.api.BlogFunctions;
 import org.sakaiproject.blog.api.BlogMember;
-import org.sakaiproject.blog.api.BlogSecurityManager;
 
 public class SakaiProxyImpl implements SakaiProxy
 {
@@ -149,13 +148,6 @@ public class SakaiProxyImpl implements SakaiProxy
 		sqlService.returnConnection(connection);
 	}
 	
-	public String getCurrentUserEid(){
-		
-		Session session = sessionManager.getCurrentSession();
-		String userEid = session.getUserEid();
-		return userEid;
-	}
-
 	public String getCurrentUserDisplayName()
 	{
 		return getDisplayNameForTheUser(getCurrentUserId());
@@ -180,7 +172,7 @@ public class SakaiProxyImpl implements SakaiProxy
 		}
 	}
 
-	public String getEmailForTheUser(String userId)
+	private String getEmailForTheUser(String userId)
 	{
 		try
 		{
@@ -1050,29 +1042,5 @@ public class SakaiProxyImpl implements SakaiProxy
 			logger.error("Caught exception whilst checking for tutor role. Returning false ...",e);
 			return false;
 		}
-	}
-
-	public Set<String> getTutors(String siteId)
-	{
-		Set<String> tutors = new TreeSet<String>();
-		
-		try
-		{
-			Site site = siteService.getSite(siteId);
-			Set<String> users = site.getUsers();
-			AuthzGroup realm = authzGroupService.getAuthzGroup(site.getReference());
-			for(String user : users)
-			{
-				String role = authzGroupService.getUserRole(user, realm.getId());
-				if(role.equalsIgnoreCase("Tutor"))
-					tutors.add(user);
-			}
-		}
-		catch(Exception e)
-		{
-			logger.error("Caught exception whilst getting tutors",e);
-		}
-		
-		return tutors;
 	}
 }

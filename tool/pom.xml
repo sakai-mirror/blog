@@ -54,7 +54,7 @@
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-wicket</artifactId>
-      <version>M2</version>
+      <version>${sakai.version}</version>
     </dependency>
     <!--
     <dependency>

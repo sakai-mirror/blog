@@ -1,6 +1,7 @@
 package org.sakaiproject.blog.tool.pages;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
@@ -60,6 +61,7 @@ public class BasePage extends SakaiPortletWebPage
 			}
 		};
 		viewAllLink.add(new Label("viewAllLabel",new ResourceModel("home")));
+		viewAllLink.add(new AttributeModifier("title",true,new ResourceModel("homeTooltip")));
 		add(viewAllLink);
 		
 		if(sakaiProxy.isOnGateway())
@@ -77,6 +79,7 @@ public class BasePage extends SakaiPortletWebPage
 			}
 		};
 		viewMembersLink.add(new Label("viewMembersLabel",new ResourceModel("viewMembersBlog")));
+		viewMembersLink.add(new AttributeModifier("title",true,new ResourceModel("viewMembersBlogTooltip")));
 		add(viewMembersLink);
 		
 		myBlogLink = new Link("myBlogLink")
@@ -88,6 +91,7 @@ public class BasePage extends SakaiPortletWebPage
 			}
 		};
 		myBlogLink.add(new Label("viewMyBlogLabel",new ResourceModel("viewMyBlog")));
+		myBlogLink.add(new AttributeModifier("title",true,new ResourceModel("viewMyBlogTooltip")));
 		add(myBlogLink);
 		
 		if(sakaiProxy.isOnGateway())
@@ -102,6 +106,7 @@ public class BasePage extends SakaiPortletWebPage
 			}
 		};
 		newPostLink.add(new Label("newPostLabel",new ResourceModel("new")));
+		newPostLink.add(new AttributeModifier("title",true,new ResourceModel("newTooltip")));
 		add(newPostLink);
 		
 		if(!securityManager.canCurrentUserCreatePosts())
@@ -117,6 +122,7 @@ public class BasePage extends SakaiPortletWebPage
 		};
 		
 		permissionsPageLink.add(new Label("permissionsLabel",new ResourceModel("permissions")));
+		permissionsPageLink.add(new AttributeModifier("title",true,new ResourceModel("permissionsTooltip")));
 		add(permissionsPageLink);
 		
 		if(!sakaiProxy.isCurrentUserMaintainer())
@@ -132,6 +138,7 @@ public class BasePage extends SakaiPortletWebPage
 		};
 		
 		optionsPageLink.add(new Label("optionsLabel",new ResourceModel("options")));
+		optionsPageLink.add(new AttributeModifier("title",true,new ResourceModel("optionsTooltip")));
 		add(optionsPageLink);
 		
 		if(!sakaiProxy.isCurrentUserMaintainer())
@@ -147,7 +154,7 @@ public class BasePage extends SakaiPortletWebPage
 		};
 		
 		preferencesLink.add(new Label("preferencesLabel",new ResourceModel("preferences")));
-		
+		preferencesLink.add(new AttributeModifier("title",true,new ResourceModel("preferencesTooltip")));
 		add(preferencesLink);
 		
 		if(sakaiProxy.isOnGateway())
@@ -163,6 +170,7 @@ public class BasePage extends SakaiPortletWebPage
 		};
 		
 		searchLink.add(new Label("searchLabel",new ResourceModel("search")));
+		searchLink.add(new AttributeModifier("title",true,new ResourceModel("searchTooltip")));
 		add(searchLink);
 		
 		viewRecycledLink = new Link("recycleBinLink")
@@ -175,6 +183,7 @@ public class BasePage extends SakaiPortletWebPage
 		};
 		
 		viewRecycledLink.add(new Label("recycleBinLabel",new ResourceModel("recycleBin")));
+		viewRecycledLink.add(new AttributeModifier("title",true,new ResourceModel("recycleBinTooltip")));
 		add(viewRecycledLink);
 		
 		if(!sakaiProxy.isCurrentUserMaintainer())

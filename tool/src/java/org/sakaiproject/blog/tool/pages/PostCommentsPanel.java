@@ -3,6 +3,7 @@ package org.sakaiproject.blog.tool.pages;
 import java.text.DateFormat;
 import java.util.Date;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -72,6 +73,7 @@ public class PostCommentsPanel extends Panel
 					}
 				};
 				
+				deleteLink.add(new AttributeModifier("title",true,new ResourceModel("deleteCommentTooltip")));
 				commentItem.add(deleteLink);
 				
 				if(!securityManager.canCurrentUserDeleteComment(post,comment) )
@@ -87,6 +89,7 @@ public class PostCommentsPanel extends Panel
 					}
 				};
 				
+				editLink.add(new AttributeModifier("title",true,new ResourceModel("editCommentTooltip")));
 				commentItem.add(editLink);
 				
 				if(!securityManager.canCurrentUserEditComment(post,comment) )

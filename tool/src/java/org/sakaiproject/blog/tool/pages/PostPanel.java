@@ -4,11 +4,13 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.ResourceModel;
 import org.sakaiproject.blog.tool.BlogApplication;
 import org.sakaiproject.blog.api.SakaiProxy;
 import org.sakaiproject.blog.api.BlogSecurityManager;
@@ -53,6 +55,7 @@ public class PostPanel extends Panel
 		};
 		
 		editTitleLink.setVisible(editingMode);
+		editTitleLink.add(new AttributeModifier("title",true,new ResourceModel("editPostTitleTooltip")));
 		
 		add(editTitleLink);
         
@@ -65,6 +68,7 @@ public class PostPanel extends Panel
 			}
 		};
 		
+		commentLink.add(new AttributeModifier("title",true,new ResourceModel("commentOnPostTooltip")));
 		add(commentLink);
 		
 		if(!securityManager.canCurrentUserCommentOnPost(post))
@@ -79,6 +83,7 @@ public class PostPanel extends Panel
 			}
 		};
 		
+		editLink.add(new AttributeModifier("title",true,new ResourceModel("editPostTooltip")));
 		add(editLink);
 		
 		editLink.setVisible(!editingMode);
@@ -96,6 +101,7 @@ public class PostPanel extends Panel
 			}
 		};
 		
+		stopEditingLink.add(new AttributeModifier("title",true,new ResourceModel("stopEditingPostTooltip")));
 		add(stopEditingLink);
 		
 		stopEditingLink.setVisible(editingMode);
@@ -115,6 +121,7 @@ public class PostPanel extends Panel
 			}
 		};
 		
+		deleteLink.add(new AttributeModifier("title",true,new ResourceModel("deletePostTooltip")));
 		add(deleteLink);
 		
 		if(!securityManager.canCurrentUserDeletePost(post) )
@@ -127,6 +134,7 @@ public class PostPanel extends Panel
 		PageParameters pp = new PageParameters();
 		pp.put("postId", post.getId());
 		BookmarkablePageLink postLink = new BookmarkablePageLink("postLink",PostPage.class,pp);
+		postLink.add(new AttributeModifier("title",true,new ResourceModel("viewPostTooltip")));
         
         Label titleLabel = new Label("title",post.getTitle());
         titleLabel.setEscapeModelStrings(false);
@@ -168,6 +176,7 @@ public class PostPanel extends Panel
 		};
 		
 		editShortTextLink.setVisible(editingMode);
+		editShortTextLink.add(new AttributeModifier("title",true,new ResourceModel("editPostAbstractTooltip")));
 		
 		add(editShortTextLink);
 
@@ -190,6 +199,7 @@ public class PostPanel extends Panel
 		};
 				
 		newLink.setVisible(editingMode);
+		newLink.add(new AttributeModifier("title",true,new ResourceModel("addPostElementTooltip")));
 		
 		add(newLink);
 		

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.ComponentTag;
@@ -20,6 +21,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.util.resource.AbstractResourceStream;
 import org.apache.wicket.util.resource.IResourceStream;
@@ -81,6 +83,7 @@ public class PostElementsPanel extends Panel
 					}
 				};
 
+				moveRightLink.add(new AttributeModifier("title",true,new ResourceModel("movePostElementRightTooltip")));
 				elementItem.add(moveRightLink);
 
 				moveRightLink.setVisible(editMode);
@@ -94,6 +97,7 @@ public class PostElementsPanel extends Panel
 					}
 				};
 
+				moveLeftLink.add(new AttributeModifier("title",true,new ResourceModel("movePostElementLeftTooltip")));
 				elementItem.add(moveLeftLink);
 
 				moveLeftLink.setVisible(editMode);
@@ -107,9 +111,23 @@ public class PostElementsPanel extends Panel
 					}
 				};
 
+				moveUpLink.add(new AttributeModifier("title",true,new ResourceModel("movePostElementUpTooltip")));
 				elementItem.add(moveUpLink);
 
 				moveUpLink.setVisible(false);
+				
+				Link moveDownLink = new Link("moveDownLink")
+				{
+					@Override
+					public void onClick()
+					{
+						blogManager.moveDown(post,postElement);
+					}
+				};
+
+				moveDownLink.add(new AttributeModifier("title",true,new ResourceModel("movePostElementDownTooltip")));
+				elementItem.add(moveDownLink);
+				moveDownLink.setVisible(false);
 				
 				Link newLink = new Link("newLink")
 				{
@@ -121,21 +139,10 @@ public class PostElementsPanel extends Panel
 					}
 				};
 				
+				newLink.add(new AttributeModifier("title",true,new ResourceModel("addPostElementTooltip")));
 				newLink.setVisible(editMode);
 
 				elementItem.add(newLink);
-
-				Link moveDownLink = new Link("moveDownLink")
-				{
-					@Override
-					public void onClick()
-					{
-						blogManager.moveDown(post,postElement);
-					}
-				};
-
-				elementItem.add(moveDownLink);
-				moveDownLink.setVisible(false);
 
 				if (editMode)
 				{
@@ -181,6 +188,7 @@ public class PostElementsPanel extends Panel
 					}
 				};
 
+				deleteLink.add(new AttributeModifier("title",true,new ResourceModel("deletePostElementTooltip")));
 				elementItem.add(deleteLink);
 				deleteLink.setVisible(editMode);
 				
@@ -218,6 +226,7 @@ public class PostElementsPanel extends Panel
 					}
 				};
 
+				editLink.add(new AttributeModifier("title",true,new ResourceModel("editPostElementTooltip")));
 				elementItem.add(editLink);
 				editLink.setVisible(editMode);
 

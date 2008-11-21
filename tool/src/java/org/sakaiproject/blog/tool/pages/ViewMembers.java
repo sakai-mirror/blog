@@ -4,11 +4,6 @@ import java.text.DateFormat;
 import java.util.Locale;
 
 import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.ajax.AjaxEventBehavior;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.IAjaxCallDecorator;
-import org.apache.wicket.ajax.calldecorator.AjaxCallDecorator;
-import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.BufferedDynamicImageResource;
@@ -27,15 +22,10 @@ import org.sakaiproject.blog.tool.pages.models.MemberModel;
 
 public class ViewMembers extends BasePage
 {
-	//private String sort;
-	//private String direction;
-	
-	//private ProfilePanel profilePanel;
-	
 	private static final String UNAVAILABLE_IMAGE = "img/no_image.gif";
 	
 	private Label displayNameLabel;
-	//private Label blurbLabel;
+	
 	private NonCachingImage photo;
 
 	public ViewMembers()
@@ -45,9 +35,6 @@ public class ViewMembers extends BasePage
 	
 	public ViewMembers(final String sort,final String direction)
 	{
-		//sort = sortColumn;
-		//direction = dir;
-		
 		if(persistenceManager.getOptions().isLearningLogMode())
 		{
 			if(!sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_READ_OWN))
@@ -140,25 +127,10 @@ public class ViewMembers extends BasePage
 					}
 				};
 				
-				//showPostsLink.add(new OnMouseOverBehaviour());
-				//showPostsLink.add(new AttributeAppender("onMouseOut", new Model("hideProfilePopup(event);"),";"));
-				String portalUrl = sakaiProxy.getPortalUrl();
-				String siteId = sakaiProxy.getCurrentSiteId();
-				String pageId = sakaiProxy.getCurrentPageId();
-				String toolId = sakaiProxy.getCurrentToolId();
+				String url = "?wicket:bookmarkablePage=:org.sakaiproject.blog.tool.pages.ProfilePopupPage&userId="
+							+ member.getUserId();
 				
-				//String url = portalUrl
-				//String url = "/portal"
-					//			+ "/tool/" + toolId
-						//		+ "/home?wicket:bookmarkablePage=:org.sakaiproject.blog.tool.pages.ProfilePopupPage&userId="
-							//	+ member.getUserId();
-				
-								String url = "?wicket:bookmarkablePage=:org.sakaiproject.blog.tool.pages.ProfilePopupPage&userId="
-								+ member.getUserId();
-				
-				//showPostsLink.add(new AttributeModifier("rel", true, new Model(portalUrl"/?wicket:bookmarkablePage=:org.sakaiproject.blog.tool.pages.ProfilePopupPage&userId=" + member.getUserId())));
 				showPostsLink.add(new AttributeModifier("rel", true, new Model(url)));
-				//showPostsLink.add(new AttributeModifier("rel", true, new Model("http://www.java.com")));
 
 				showPostsLink.add(new Label("name", member.getUserDisplayName()));
 
@@ -194,35 +166,7 @@ public class ViewMembers extends BasePage
 		add(nav);
 
 		add(dataView);
-		
-		/*
-		Image indicator = new Image("indicator",AbstractDefaultAjaxBehavior.INDICATOR);
-		indicator.setOutputMarkupId(true);
-		add(indicator);
-		*/
-		
-		//addProfilePanelComponents();
 	}
-	
-	/*
-	private void addProfilePanelComponents()
-	{
-		displayNameLabel = new Label("displayName","");
-		displayNameLabel.setOutputMarkupId(true);
-		add(displayNameLabel);
-		
-		//String blurb = "";
-		
-		//blurbLabel = new Label("profileBlurb","");
-		//blurbLabel.setOutputMarkupId(true);
-		//blurbLabel.setEscapeModelStrings(false);
-		//add(blurbLabel);
-		
-		photo = new NonCachingImage("photo",new ContextRelativeResource(UNAVAILABLE_IMAGE));
-		photo.setOutputMarkupId(true);
-		add(photo);
-	}
-	*/
 	
 	public void setUserId(String userId)
 	{

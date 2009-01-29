@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.validation.validator.StringValidator;
 import org.sakaiproject.blog.tool.BlogApplication;
 import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.blog.api.datamodel.State;
@@ -47,6 +48,7 @@ public class EditPostForm extends Form
 
 		TextField titleField = new TextField("titleField",new PropertyModel(post,"title"));
 		titleField.add(new TitleValidator());
+		titleField.setRequired(false);
 		add(titleField);
 		
 		add(new Label("keywordsLabel",new ResourceModel("keywords")));
@@ -83,12 +85,13 @@ public class EditPostForm extends Form
 		add(new Label("abstractLabel",new ResourceModel("abstract")));
 		add(new FCKEditorPanel("abstractEditor",new PropertyModel(post,"shortText"),"650","100","Basic",cId,true));
 		
+		Button saveButton = new Button("saveButton",new ResourceModel("save"));
+		
+		/*
 		Button saveButton = new Button("saveButton",new ResourceModel("save"))
 		{
 			public void onSubmit()
 			{
-				System.out.println("saveButton.onSubmit()");
-				
 				try
 				{
 					blogManager.createPost(post);
@@ -100,6 +103,7 @@ public class EditPostForm extends Form
 				}
 			}
 		};
+		*/
 		
 		add(saveButton);
 		
@@ -117,5 +121,21 @@ public class EditPostForm extends Form
 		cancelButton.setDefaultFormProcessing(false);
 		
 		add(cancelButton);
+	}
+	
+	public void onSubmit()
+	{
+		try
+		{
+			if(!hasError())
+			{
+				blogManager.createPost(post);
+				setResponsePage(new PostPage(postModel,true));
+			}
+		}
+		catch (Exception e)
+		{
+			logger.error("Caught exception whilst saving post.",e);
+		}
 	}
 }

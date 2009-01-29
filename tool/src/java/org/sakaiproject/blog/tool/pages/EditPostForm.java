@@ -87,24 +87,6 @@ public class EditPostForm extends Form
 		
 		Button saveButton = new Button("saveButton",new ResourceModel("save"));
 		
-		/*
-		Button saveButton = new Button("saveButton",new ResourceModel("save"))
-		{
-			public void onSubmit()
-			{
-				try
-				{
-					blogManager.createPost(post);
-					setResponsePage(new PostPage(postModel,true));
-				}
-				catch (Exception e)
-				{
-					logger.error("Caught exception whilst saving post.",e);
-				}
-			}
-		};
-		*/
-		
 		add(saveButton);
 		
 		Button cancelButton = new Button("cancelButton",new ResourceModel("cancel"))

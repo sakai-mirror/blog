@@ -25,15 +25,15 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/tool-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/user-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/util-api"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-site-api/M2/sakai-site-api-M2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-tool-api/M2/sakai-tool-api-M2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-authz-api/M2/sakai-authz-api-M2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-user-api/M2/sakai-user-api-M2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-util-api/M2/sakai-util-api-M2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-entity-api/M2/sakai-entity-api-M2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-util/M2/sakai-util-M2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-site-api/sakai-2.5.4/sakai-site-api-sakai-2.5.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-tool-api/sakai-2.5.4/sakai-tool-api-sakai-2.5.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-authz-api/sakai-2.5.4/sakai-authz-api-sakai-2.5.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-user-api/sakai-2.5.4/sakai-user-api-sakai-2.5.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-util-api/sakai-2.5.4/sakai-util-api-sakai-2.5.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-entity-api/sakai-2.5.4/sakai-entity-api-sakai-2.5.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-util/sakai-2.5.4/sakai-util-sakai-2.5.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-fileupload/commons-fileupload/1.1.1/commons-fileupload-1.1.1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-db-api/M2/sakai-db-api-M2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-db-api/sakai-2.5.4/sakai-db-api-sakai-2.5.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.8/log4j-1.2.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

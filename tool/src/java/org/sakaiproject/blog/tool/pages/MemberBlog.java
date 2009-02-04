@@ -9,7 +9,6 @@ import org.sakaiproject.api.app.profile.Profile;
 import org.sakaiproject.blog.api.BlogFunctions;
 import org.sakaiproject.blog.api.QueryBean;
 import org.sakaiproject.blog.api.datamodel.State;
-//import org.wicketstuff.rome.FeedResource;
 
 public class MemberBlog extends BasePage
 {

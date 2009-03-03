@@ -8,7 +8,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.BufferedDynamicImageResource;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
@@ -35,6 +34,8 @@ public class ViewMembers extends BasePage
 	
 	public ViewMembers(final String sort,final String direction)
 	{
+		super();
+		
 		if(persistenceManager.getOptions().isLearningLogMode())
 		{
 			if(!sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_READ_OWN))
@@ -55,59 +56,13 @@ public class ViewMembers extends BasePage
 		
 		SiteMembersDataProvider provider = new SiteMembersDataProvider(sort,direction);
 		
-		Link sortByMemberLink = new Link("sortByMemberLink")
-		{
-			public void onClick()
-			{
-				if(direction.equals("descending"))
-					setResponsePage(new ViewMembers("userDisplayName","ascending"));
-				else
-					setResponsePage(new ViewMembers("userDisplayName","descending"));
-				
-			}
-		};
-		sortByMemberLink.add(new Label("memberHeader",memberModel));
-		add(sortByMemberLink);
+		add(new Label("memberHeader",memberModel));
 		
-		Link sortByPostTotalLink = new Link("sortByPostTotalLink")
-		{
-			public void onClick()
-			{
-				if(direction.equals("descending"))
-					setResponsePage(new ViewMembers("numberOfPosts","ascending"));
-				else
-					setResponsePage(new ViewMembers("numberOfPosts","descending"));
-			}
-		};
-		sortByPostTotalLink.add(new Label("postsHeader",postsModel));
-		add(sortByPostTotalLink);
+		add(new Label("postsHeader",postsModel));
 		
-		Link sortByLastPostDateLink = new Link("sortByLastPostDateLink")
-		{
-			public void onClick()
-			{
-				if(direction.equals("descending"))
-					setResponsePage(new ViewMembers("dateOfLastPost","ascending"));
-				else
-					setResponsePage(new ViewMembers("dateOfLastPost","descending"));
-				
-			}
-		};
-		sortByLastPostDateLink.add(new Label("dateOfLastPostHeader",dateModel));
-		add(sortByLastPostDateLink);
+		add(new Label("dateOfLastPostHeader",dateModel));
 		
-		Link sortByLastCommentDateLink = new Link("sortByLastCommentDateLink")
-		{
-			public void onClick()
-			{
-				if(direction.equals("descending"))
-					setResponsePage(new ViewMembers("dateOfLastComment","ascending"));
-				else
-					setResponsePage(new ViewMembers("dateOfLastComment","descending"));
-			}
-		};
-		sortByLastCommentDateLink.add(new Label("dateOfLastCommentHeader",commentModel));
-		add(sortByLastCommentDateLink);
+		add(new Label("dateOfLastCommentHeader",commentModel));
 		
 		DataView dataView = new DataView("rows", provider)
 		{
@@ -127,10 +82,10 @@ public class ViewMembers extends BasePage
 					}
 				};
 				
-				String url = "?wicket:bookmarkablePage=:org.sakaiproject.blog.tool.pages.ProfilePopupPage&userId="
-							+ member.getUserId();
+				//String url = "?wicket:bookmarkablePage=:org.sakaiproject.blog.tool.pages.ProfilePopupPage&userId="
+					//		+ member.getUserId();
 				
-				showPostsLink.add(new AttributeModifier("rel", true, new Model(url)));
+				//showPostsLink.add(new AttributeModifier("rel", true, new Model(url)));
 
 				showPostsLink.add(new Label("name", member.getUserDisplayName()));
 
@@ -159,12 +114,6 @@ public class ViewMembers extends BasePage
 			}
 		};
 		
-		dataView.setItemsPerPage(10);
-
-		PagingNavigator nav = new PagingNavigator("memberNavigator", dataView);
-
-		add(nav);
-
 		add(dataView);
 	}
 	
@@ -202,45 +151,4 @@ public class ViewMembers extends BasePage
 		else
 			photo.setImageResource(new ContextRelativeResource(UNAVAILABLE_IMAGE));
 	}
-	
-	/*
-	private class OnMouseOverBehaviour extends AjaxEventBehavior// implements IAjaxIndicatorAware
-	{
-		public OnMouseOverBehaviour()
-		{
-			super("onMouseOver");
-		}
-		
-		protected void onEvent(AjaxRequestTarget target)
-		{
-			Link link = (Link) getComponent();
-			BlogMember member = (BlogMember) link.getModelObject();
-			setUserId(member.getUserId());
-			target.addComponent(displayNameLabel);
-			//target.addComponent(blurbLabel);
-			target.addComponent(photo);
-		}
-		
-		public IAjaxCallDecorator getAjaxCallDecorator()
-		{
-			return new AjaxCallDecorator()
-			{
-				public CharSequence decorateScript(CharSequence script)
-				{
-					return "moveProfilePopup(event);" + script;
-				}
-			};
-		}
-		
-		protected CharSequence getSuccessScript()
-		{
-			return "showProfilePopup()";
-		}
-
-		public String getAjaxIndicatorMarkupId()
-		{
-			return "indicator";
-		}
-	}
-	*/
 }

@@ -40,6 +40,8 @@ public class BlogApplication extends SakaiWebApplication
 	{
 		return (BlogApplication) Application.get();
 	}
+	
+	public String getConfigurationType() { return Application.DEPLOYMENT; }
 
 	public Class getHomePage()
 	{

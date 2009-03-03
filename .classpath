@@ -36,5 +36,6 @@
 	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-wicket/M2/sakai-wicket-M2.jar" sourcepath="/WORKSPACE/sakai-wicket"/>
 	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-profile-api/M2/sakai-profile-api-M2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/quartz/quartz/1.5.2/quartz-1.5.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/lowagie/itext/2.1.4/itext-2.1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

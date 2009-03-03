@@ -1,10 +1,14 @@
 package org.sakaiproject.blog.tool.pages;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Resource;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.ResourceLink;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
@@ -19,6 +23,7 @@ import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.blog.api.datamodel.State;
 import org.sakaiproject.blog.tool.dataproviders.PostDataProvider;
 import org.sakaiproject.blog.tool.pages.models.PostModel;
+import org.sakaiproject.blog.tool.pdf.PostsPdfResource;
 
 public class PostsPanel extends Panel
 {
@@ -82,6 +87,20 @@ public class PostsPanel extends Panel
 	
 		PostDataProvider provider = new PostDataProvider(query);
 		
+		String filename = "all-posts.pdf";
+		
+		if(query.queryByCreator())
+		{
+			filename = sakaiProxy.getDisplayNameForTheUser(query.getCreator()) + ".pdf";
+			filename = filename.replaceAll(" ", "_");
+		}
+		
+		Resource pdfResource = new PostsPdfResource(filename,sakaiProxy,provider);
+		
+		Link pdfLink = new ResourceLink("pdfLink",pdfResource);
+		pdfLink.add(new AttributeModifier("title",true,new ResourceModel("pdfTooltip")));
+		form.add(pdfLink);
+		
 		// For each post create a post panel
 		DataView posts = new DataView("posts", provider)
 		{
@@ -125,6 +144,7 @@ public class PostsPanel extends Panel
 			showFullContentLabel.setVisible(false);
 			showFullContentCheckbox.setVisible(false);
 			nav.setVisible(false);
+			pdfLink.setVisible(false);
 		}
 	}
 

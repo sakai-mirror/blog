@@ -22,10 +22,12 @@
 <script language="javascript">
 	$(document).ready(function()
 	{
-  		$('a.showPostsLink').cluetip({width: 185
-  										, arrows: true
-  										, cluetipClass: 'rounded'
-  										, dropShadow: false});
+ 		$('a.showPostsLink').cluetip({
+				local: true
+				,width: '320px'
+				,cluetipClass: 'jtip'
+ 				,dropShadow: false
+				});
   										
   		$("#blog_blogger_table").tablesorter({
 	 			cssHeader:'blogSortableTableHeader',
@@ -68,14 +70,12 @@
 		</thead>
 		<tbody>
 		<tr wicket:id="rows">
-		<!--
-			<div wicket:id="profilePopup" class="yaft_profile_popup">
-				<img wicket:id="profilePopupImage" class="yaft_profile_popup_img" width="100px"/>
-				<div wicket:id="profilePopupDispayName" class="yaft_profile_popup_name">[profilePopupDisplayName]</div>
+			<div wicket:id="profilePopup" class="blog_profile_popup">
+				<img wicket:id="profilePopupImage" class="blog_profile_popup_img" width="100px"/>
+				<div wicket:id="profilePopupDisplayName" class="blog_profile_popup_name">[profilePopupDisplayName]</div>
 				<br/>
-				<span wicket:id="profilePopupBio" class="yaft_profile_popup_bio">[profilePopupBio]</span>
+				<span wicket:id="profilePopupBio" class="blog_profile_popup_bio">[profilePopupBio]</span>
 			</div>
-			-->
 			<td><img src="/library/image/silk/user.png" width="16" height="16" alt="User"/>&nbsp;<a href="#" class="showPostsLink" wicket:id="showPostsLink"><span wicket:id="name">Adrian Fish</span></a></td>
 			<td><span wicket:id="postCount">[postCount]</span></td>
 			<td><span wicket:id="dateOfLastPost">[dateOfLastPost]</span></td>

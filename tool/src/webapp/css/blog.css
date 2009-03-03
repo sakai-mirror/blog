@@ -166,3 +166,24 @@ th.blogSortableTableHeaderSortDown {
 #blogBloggerPager{
 	float: right;
 }
+
+.blog_profile_popup{
+	display: none;
+}
+
+.blog_profile_popup_img{
+	float: right;
+	padding-left: 2px;
+}
+
+.blog_profile_popup_name{
+	width: 190px;
+	font-weight: bold;
+	font-size: bigger;
+	float: left;
+	padding-left: 5px;
+}
+
+.blog_profile_popup_name{
+	padding-left: 5px;
+}

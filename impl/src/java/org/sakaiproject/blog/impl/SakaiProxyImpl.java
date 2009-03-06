@@ -1043,4 +1043,9 @@ public class SakaiProxyImpl implements SakaiProxy
 			return false;
 		}
 	}
+	
+	public void postEvent(String event,String reference,boolean modify)
+	{
+		eventTrackingService.post(eventTrackingService.newEvent(event,reference,modify));
+	}
 }

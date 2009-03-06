@@ -101,6 +101,8 @@ public class BlogManagerImpl implements BlogManager// , CoreEntityProvider, Auto
 	public void createPost(Post post) throws Exception
 	{
 		persistenceManager.createPost(post);
+		String reference = BlogManager.REFERENCE_ROOT + "/" + sakaiProxy.getCurrentSiteId() + "/posts/" + post.getId();
+		sakaiProxy.postEvent(BLOG_POST_CREATED,reference,true);
 	}
 
 	public void savePost(Post post) throws Exception
@@ -116,6 +118,8 @@ public class BlogManagerImpl implements BlogManager// , CoreEntityProvider, Auto
 			if (securityManager.canCurrentUserDeletePost(post))
 			{
 				persistenceManager.deletePost(postId);
+				String reference = BlogManager.REFERENCE_ROOT + "/" + sakaiProxy.getCurrentSiteId() + "/posts/" + post.getId();
+				sakaiProxy.postEvent(BLOG_POST_DELETED,reference,true);
 			}
 		}
 		catch (Exception e)

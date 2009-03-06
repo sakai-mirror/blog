@@ -14,6 +14,8 @@ public interface BlogManager extends EntityProducer
 {
 	public static final String ENTITY_PREFIX = "blog";
 	public static final String REFERENCE_ROOT = Entity.SEPARATOR + ENTITY_PREFIX;
+	public static final String BLOG_POST_CREATED = "blog.post.created";
+	public static final String BLOG_POST_DELETED = "blog.post.deleted";
 	
     public Post getPost(String postId) throws Exception;
 

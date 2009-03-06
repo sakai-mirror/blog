@@ -152,4 +152,6 @@ public interface SakaiProxy
 	public String getCurrentPageId();
 	
 	public String getCurrentToolId();
+
+	public void postEvent(String blogPostCreated, String reference, boolean b);
 }

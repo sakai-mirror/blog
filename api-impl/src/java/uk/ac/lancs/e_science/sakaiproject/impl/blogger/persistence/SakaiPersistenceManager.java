@@ -307,13 +307,32 @@ public class SakaiPersistenceManager{
 
     public void deletePost(String postId) throws PersistenceException{
         Connection connection = getConnection();
-        try{
-            Collection sqlStatements;
-            sqlStatements = sqlGenerator.getDeleteStatementsForPost(postId);
+        boolean oldAutoCommitFlag = true;
 
-            executeSQL(sqlStatements, connection);
+        try {
+        	oldAutoCommitFlag = connection.getAutoCommit();
+
+        	try{
+        		Collection sqlStatements = sqlGenerator.getDeleteStatementsForPost(postId);
+
+        		connection.setAutoCommit(false);
+        		executeSQL(sqlStatements, connection);
+        		connection.commit();
+
+        	} catch (SQLException e){
+        		try {
+        			connection.rollback();
+        		}catch (SQLException ee) {
+        			logger.error("Error while rolling back: " + ee);
+        		}
+        	} finally{
+        		connection.setAutoCommit(oldAutoCommitFlag);
+        	}
+
+        } catch (SQLException e) {
+        	logger.error("Error while getting or setting autocommit: " + e);
         } finally{
-            releaseConnection(connection);
+        	releaseConnection(connection);
         }
     }
 
@@ -495,13 +514,8 @@ public class SakaiPersistenceManager{
         try {
             return statement.executeQuery(sql);
         } catch (SQLException e){
+	    try {statement.close();} catch (Exception ee) {};
             throw new PersistenceException(e);
-        } finally {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                // tried
-            }
         }
     }
     

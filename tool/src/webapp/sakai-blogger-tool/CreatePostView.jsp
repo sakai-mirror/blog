@@ -150,7 +150,7 @@ td.td2{
 		        	</h:panelGrid>
 	                <sakai:button_bar>
 	                    <h:commandButton action="#{postCreateController.addImage}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
-	                    <h:commandButton action="#{postCreateController.modifyImage}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyImageButton}"  onclick="javascript:desactivateVerify=true;"/>
+	                    <h:commandButton action="#{postCreateController.modifyImage}" value="#{msgs.modifyInDocument}" rendered="#{postCreateController.showModifyImageButton}"  onclick="javascript:desactivateVerify=true;"/>
 	                </sakai:button_bar>
 				</t:panelTab>
 				<t:panelTab id="tab2" label="#{msgs.links}">
@@ -168,7 +168,7 @@ td.td2{
 	                </h:panelGrid>
 	                <sakai:button_bar>
 	                    <h:commandButton action="#{postCreateController.addLink}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
-	                    <h:commandButton action="#{postCreateController.modifyLink}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyLinkButton}"  onclick="javascript:desactivateVerify=true;"/>
+	                    <h:commandButton action="#{postCreateController.modifyLink}" value="#{msgs.modifyInDocument}" rendered="#{postCreateController.showModifyLinkButton}"  onclick="javascript:desactivateVerify=true;"/>
 	                </sakai:button_bar>
 				</t:panelTab>
 				<t:panelTab id="tab3" label="#{msgs.files}">
@@ -181,7 +181,7 @@ td.td2{
 						<h:outputText value="#{msgs.maxFileSize}"></h:outputText>		                </h:panelGrid>
 	                <sakai:button_bar>
 	                    <h:commandButton action="#{postCreateController.addFile}" value="#{msgs.addToDocument}"  onclick="javascript:desactivateVerify=true;"/>
-	                    <h:commandButton action="#{postCreateController.modifyFile}" value="#{msgs.modifyInDocument}: #{postCreateController.currentElementIndex})" rendered="#{postCreateController.showModifyFileButton}"  onclick="javascript:desactivateVerify=true;"/>
+	                    <h:commandButton action="#{postCreateController.modifyFile}" value="#{msgs.modifyInDocument}" rendered="#{postCreateController.showModifyFileButton}"  onclick="javascript:desactivateVerify=true;"/>
 	                </sakai:button_bar>
 				
 				</t:panelTab>

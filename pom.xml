@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>base</artifactId>
+    <groupId>org.sakaiproject</groupId>
+    <version>M2</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <name>Sakai Blog Project</name>
+  <groupId>org.sakaiproject</groupId>
+  <artifactId>sakai-blog-base</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>components</module>
+    <module>api</module>
+    <module>impl</module>
+    <module>tool</module>
+  </modules>
+<dependencyManagement>
+ <dependencies>
+
+    <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-blog-api</artifactId>
+      <version>${sakai.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-profile-api</artifactId>
+      <version>${sakai.version}</version>
+     </dependency>
+     <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-blog-impl</artifactId>
+      <version>${sakai.version}</version>
+     </dependency>
+    <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-search-api</artifactId>
+      <version>${sakai.version}</version>
+    </dependency>
+
+ </dependencies>
+</dependencyManagement>
+</project>

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html  
+      xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:wicket="http://wicket.sourceforge.net/"  
+      xml:lang="en"  
+      lang="en">
+<body>
+
+<wicket:head>
+	<link rel="stylesheet" type="text/css" href="css/blog.css" />
+	<script type="text/javascript" src="js/blog.js"></script> 
+</wicket:head>
+
+<wicket:extend>
+
+	<div class="navIntraTool">
+		<a wicket:id="viewAllLink"><span wicket:id="viewAllLabel">[viewAllLabel]</span></a>
+		<a wicket:id="viewMembersLink"><span wicket:id="viewMembersLabel">[viewMembersLabel]</span></a>
+		<a wicket:id="myBlogLink"><span wicket:id="viewMyBlogLabel">[viewMyBlogLabel]</span></a>
+		<a wicket:id="newPostLink"><span wicket:id="newPostLabel">[newPostLabel]</span></a>
+		<a wicket:id="permissionsLink"><span wicket:id="permissionsLabel">[permissionsLabel]</span></a>
+		<a wicket:id="optionsLink"><span wicket:id="optionsLabel">[optionsLabel]</span></a>
+		<a wicket:id="preferencesLink"><span wicket:id="preferencesLabel">[preferencesLabel]</span></a>
+		<a wicket:id="searchLink"><span wicket:id="searchLabel">[searchLabel]</span></a>
+		<a wicket:id="recycleBinLink"><span wicket:id="recycleBinLabel">[recycleBinLabel]</span></a>
+	</div>
+       
+		<div id="blogMainContainer">
+			<br />
+			<div style="color: red;font-weight: bold" wicket:id="messageLabel"></div>
+        	<wicket:child/>
+        </div>
+        
+</wicket:extend>
+</body>
+</html>

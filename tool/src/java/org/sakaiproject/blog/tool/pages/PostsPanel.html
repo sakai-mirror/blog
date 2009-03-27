@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html  
+      xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:wicket="http://wicket.sourceforge.net"  
+      xml:lang="en"  
+      lang="en">
+<body>
+<wicket:panel>
+  	<div id="noPostsLabel"><span wicket:id="noPostsLabel">[noPostsLabel]</span></div>
+    <form wicket:id="form">
+    <div id="postsWrapper">
+   		<div id="viewOptions">
+    		<input type="checkbox" wicket:id="showCommentsCheckbox"/>
+   			<span wicket:id="showCommentsLabel">[showCommentsLabel]</span> 
+    		&nbsp;&nbsp;
+    		<input type="checkbox" wicket:id="showFullContentCheckbox"/>
+    		<span wicket:id="showFullContentLabel">[showFullContentLabel]</span>
+    		&nbsp;&nbsp;
+    		<a wicket:id="pdfLink" href="#"><img src="/library/image/silk/page_white_acrobat.png" width="16" height="16"/>&nbsp;Save as PDF</a>
+    	</div> <!-- /viewOptions -->
+    	
+  	 	<div id="postPager"><span wicket:id="postNavigator">[postNavigator]</span></div>
+  	    
+  	 	<div id="posts">
+  	    <table class="tableHeader">
+		<tbody>
+			<tr wicket:id="posts">
+				<td>
+					<div style="width:100%" wicket:id="postPanel">Post Panel Here</div>
+				</td>
+			</tr>
+		</tbody>
+		</table>
+		</div> <!--  /posts -->
+		</div> <!--  /postsWrapper -->
+	</form>
+</wicket:panel>
+</body>
+</html>

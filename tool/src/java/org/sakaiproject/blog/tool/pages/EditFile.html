@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html  
+      xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:wicket="http://wicket.sourceforge.net/"  
+      xml:lang="en"  
+      lang="en">
+<body>
+<wicket:extend>
+<h3><span wicket:id="editFile">[editFile]</span></h3>
+<form wicket:id="form">
+<span wicket:id="nameLabel">[nameLabel]</span>
+<input type="text" wicket:id="nameField"/>
+<input type="file" wicket:id=fileField" size="50"/>
+
+<input type="submit" wicket:id="saveButton" value="Save"/>
+<input type="submit" wicket:id="cancelButton" value="Cancel"/>
+</form>
+</wicket:extend>
+</body>
+</html>

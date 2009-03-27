@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html  
+      xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:wicket="http://wicket.sourceforge.net/"  
+      xml:lang="en"  
+      lang="en">
+<body>
+<wicket:panel>
+<form wicket:id="form">
+	<span wicket:id="postVisibilityLabel">Access:</span>
+	<select wicket:id="visibilities">
+    	<option value="Value 1"/>
+    	<option value="Value 2"/>
+    </select>
+    <input type="checkbox" wicket:id="readOnlyCheckbox"/>
+    <span wicket:id="readOnlyLabel">[readOnlyLabel]</span> 
+    <input type="checkbox" wicket:id="allowCommentsCheckbox"/>
+    <span wicket:id="allowCommentsLabel">[allowCommentsLabel]</span> 
+    </form>
+</wicket:panel>
+</body>
+</html>

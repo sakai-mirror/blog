@@ -492,6 +492,8 @@ public class SakaiPersistenceManager{
                 //we only need recover the content
                 Blob blob = rs.getBlob(3);
                 file.setContent(blob.getBytes(1,(int)blob.length()));
+                //SAK-14611
+                file.setPostId(rs.getString("POST_ID"));
                 return file;
             } catch (SQLException e){
                 throw new PersistenceException();

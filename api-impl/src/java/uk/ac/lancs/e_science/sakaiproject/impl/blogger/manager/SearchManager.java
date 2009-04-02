@@ -43,6 +43,10 @@ public class SearchManager {
 	public Post getPost(String postId, String userId) throws SearchException{
         return securityManager.filterSearch(userId,searchEngine.getPost(postId));
 	}
+	//SAK-14611 do not use. naughty!
+	public Post getPost(String postId) throws SearchException{
+        return searchEngine.getPost(postId);
+	}
 	public Post[] getPosts(String siteId, String userId) throws SearchException{
 		List result = securityManager.filterSearch(userId,searchEngine.getAllPost(siteId));
 		if (result.size()==0)

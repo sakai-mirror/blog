@@ -24,6 +24,7 @@ public class File extends PostElement{
 	private String idFile;
 	private String description;
 	private byte[] content;
+	private String postId;
 	
 	public File(){
 		this.idFile = UIDGenerator.getIdentifier(this); //automatically, we put an oid
@@ -52,6 +53,12 @@ public class File extends PostElement{
 	}
 	public byte[] getContent(){
 		return content;
+	}
+	public void setPostId(String postId) {
+		this.postId = postId;
+	}
+	public String getPostId() {
+		return postId;
 	}
 		
 }

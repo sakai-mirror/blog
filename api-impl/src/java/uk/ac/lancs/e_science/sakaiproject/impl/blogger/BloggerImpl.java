@@ -77,6 +77,15 @@ public class BloggerImpl implements Blogger
 			return null;
 		}
 	}
+	//SAK-14611
+	public Post getPost(String postId){
+		try{
+			return searchManager.getPost(postId);
+		} catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public Post[] getPosts(String siteId, String userId){
 		try{
 			return searchManager.getPosts(siteId,userId);

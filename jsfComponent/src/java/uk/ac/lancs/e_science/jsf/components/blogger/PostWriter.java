@@ -300,7 +300,7 @@ public class PostWriter {
 		Blogger blogger = BloggerManager.getBlogger();
 		File fileInDB = blogger.getFile(file.getIdFile());
 		if (fileInDB!=null){
-			String link = contextPath+"/servletForFiles?fileId="+file.getIdFile()+"&fileDescription="+file.getDescription(); 
+			String link = contextPath+"/servletForFiles?fileId="+file.getIdFile(); 
 			
 			StringBuilder onClick =new StringBuilder();
 			onClick.append("javascript:");

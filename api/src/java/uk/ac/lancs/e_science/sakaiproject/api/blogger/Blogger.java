@@ -37,6 +37,8 @@ public interface Blogger {
 	public void addCommentToPost(Comment comment, String postId, String userId, String siteId);
 	public void deletePost(String postId, String userId);
 	public Post getPost(String postId, String userId);
+	//SAK-14611
+	public Post getPost(String postId);
 	public Post[] getPosts(String siteId, String userId);
 	public Post[] searchPosts(QueryBean query, String siteId, String userId);
 	public Image  getImage(String imageId, int size);

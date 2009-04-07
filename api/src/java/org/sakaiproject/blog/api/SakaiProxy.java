@@ -19,32 +19,18 @@ package org.sakaiproject.blog.api;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Observer;
 import java.util.Set;
 
 import org.sakaiproject.api.app.profile.Profile;
-import org.sakaiproject.api.app.profile.ProfileManager;
-import org.sakaiproject.authz.api.AuthzGroupService;
-import org.sakaiproject.authz.api.FunctionManager;
 import org.sakaiproject.authz.api.SecurityAdvisor;
-import org.sakaiproject.component.api.ServerConfigurationService;
-import org.sakaiproject.content.api.ContentHostingService;
-import org.sakaiproject.db.api.SqlService;
-import org.sakaiproject.entity.api.EntityManager;
-import org.sakaiproject.entity.api.EntityProducer;
-import org.sakaiproject.entity.api.Reference;
-import org.sakaiproject.event.api.EventTrackingService;
-import org.sakaiproject.site.api.SiteService;
-import org.sakaiproject.tool.api.SessionManager;
-import org.sakaiproject.tool.api.ToolManager;
-import org.sakaiproject.blog.api.SakaiProxy;
 import org.sakaiproject.blog.api.datamodel.BlogPermissions;
 import org.sakaiproject.blog.api.datamodel.File;
 import org.sakaiproject.blog.api.datamodel.Image;
 import org.sakaiproject.blog.api.datamodel.Post;
-import org.sakaiproject.user.api.AuthenticationManager;
-import org.sakaiproject.user.api.UserDirectoryService;
-import org.sakaiproject.blog.api.BlogMember;
+import org.sakaiproject.entity.api.EntityProducer;
+import org.sakaiproject.entity.api.Reference;
 
 public interface SakaiProxy
 {
@@ -154,4 +140,11 @@ public interface SakaiProxy
 	public String getCurrentToolId();
 
 	public void postEvent(String blogPostCreated, String reference, boolean b);
+	
+	/**
+	 * Gets the users preferred locale, either from the user's session or Sakai preferences and returns it
+	 * @return
+	 */
+	public Locale getUserPreferredLocale();
+	
 }

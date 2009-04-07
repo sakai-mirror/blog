@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Observer;
 import java.util.Set;
 import java.util.TreeSet;
@@ -34,6 +35,13 @@ import org.sakaiproject.authz.api.FunctionManager;
 import org.sakaiproject.authz.api.Role;
 import org.sakaiproject.authz.api.SecurityAdvisor;
 import org.sakaiproject.authz.api.SecurityService;
+import org.sakaiproject.blog.api.BlogFunctions;
+import org.sakaiproject.blog.api.BlogMember;
+import org.sakaiproject.blog.api.SakaiProxy;
+import org.sakaiproject.blog.api.datamodel.BlogPermissions;
+import org.sakaiproject.blog.api.datamodel.File;
+import org.sakaiproject.blog.api.datamodel.Image;
+import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.component.api.ServerConfigurationService;
 import org.sakaiproject.content.api.ContentHostingService;
 import org.sakaiproject.content.api.ContentResource;
@@ -42,8 +50,8 @@ import org.sakaiproject.db.api.SqlService;
 import org.sakaiproject.email.api.EmailService;
 import org.sakaiproject.entity.api.EntityManager;
 import org.sakaiproject.entity.api.EntityProducer;
-import org.sakaiproject.entity.api.ResourceProperties;
 import org.sakaiproject.entity.api.Reference;
+import org.sakaiproject.entity.api.ResourceProperties;
 import org.sakaiproject.event.api.EventTrackingService;
 import org.sakaiproject.event.cover.NotificationService;
 import org.sakaiproject.exception.IdUnusedException;
@@ -57,18 +65,12 @@ import org.sakaiproject.tool.api.Placement;
 import org.sakaiproject.tool.api.Session;
 import org.sakaiproject.tool.api.SessionManager;
 import org.sakaiproject.tool.api.ToolManager;
-import org.sakaiproject.blog.api.SakaiProxy;
-import org.sakaiproject.blog.api.datamodel.BlogPermissions;
-import org.sakaiproject.blog.api.datamodel.File;
-import org.sakaiproject.blog.api.datamodel.Image;
-import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.user.api.AuthenticationManager;
 import org.sakaiproject.user.api.User;
 import org.sakaiproject.user.api.UserDirectoryService;
 import org.sakaiproject.user.api.UserNotDefinedException;
 import org.sakaiproject.util.BaseResourceProperties;
-import org.sakaiproject.blog.api.BlogFunctions;
-import org.sakaiproject.blog.api.BlogMember;
+import org.sakaiproject.util.ResourceLoader;
 
 public class SakaiProxyImpl implements SakaiProxy
 {
@@ -1047,5 +1049,13 @@ public class SakaiProxyImpl implements SakaiProxy
 	public void postEvent(String event,String reference,boolean modify)
 	{
 		eventTrackingService.post(eventTrackingService.newEvent(event,reference,modify));
+	}
+	
+	/**
+ 	* {@inheritDoc}
+ 	*/
+	public Locale getUserPreferredLocale() {
+		ResourceLoader rl = new ResourceLoader();
+		return rl.getLocale();
 	}
 }

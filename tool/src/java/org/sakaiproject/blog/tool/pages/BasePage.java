@@ -1,5 +1,7 @@
 package org.sakaiproject.blog.tool.pages;
 
+import java.util.Locale;
+
 import org.apache.log4j.Logger;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
@@ -43,6 +45,10 @@ public class BasePage extends SakaiPortletWebPage
 		blogManager = BlogApplication.get().getBlogManager();
 		sakaiProxy = BlogApplication.get().getSakaiProxy();
 		persistenceManager = BlogApplication.get().getPersistenceManager();
+		
+		//set Locale - all pages will inherit this.
+		setUserPreferredLocale();
+		
 		
 		viewAllLink = new Link("viewAllLink")
 		{
@@ -217,5 +223,11 @@ public class BasePage extends SakaiPortletWebPage
 	public String getMessage()
 	{
 		return message;
+	}
+	
+	public void setUserPreferredLocale() {
+		Locale sakaiLocale = sakaiProxy.getUserPreferredLocale();
+		logger.debug("User preferred locale: " + sakaiLocale);
+		getSession().setLocale(sakaiLocale);
 	}
 }

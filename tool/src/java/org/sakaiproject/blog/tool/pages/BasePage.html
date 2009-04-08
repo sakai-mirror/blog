@@ -7,9 +7,6 @@
       lang="en">
 <body>
 
-
-<wicket:extend>
-
 	<div class="navIntraTool">
 		<a wicket:id="viewAllLink"><span wicket:id="viewAllLabel">[viewAllLabel]</span></a>
 		<a wicket:id="viewMembersLink"><span wicket:id="viewMembersLabel">[viewMembersLabel]</span></a>
@@ -22,12 +19,12 @@
 		<a wicket:id="recycleBinLink"><span wicket:id="recycleBinLabel">[recycleBinLabel]</span></a>
 	</div>
        
+	<div class="portletBody">
 		<div id="blogMainContainer">
-			<br />
 			<div style="color: red;font-weight: bold" wicket:id="messageLabel"></div>
-        	<wicket:child/>
-        </div>
+      		<wicket:child/>
+      	</div>
+	</div>
         
-</wicket:extend>
 </body>
 </html>

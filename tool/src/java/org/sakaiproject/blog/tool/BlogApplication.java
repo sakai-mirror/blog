@@ -8,6 +8,7 @@ import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.sakaiproject.blog.api.BlogManager;
 import org.sakaiproject.blog.api.BlogSecurityManager;
 import org.sakaiproject.blog.api.PersistenceManager;
@@ -27,8 +28,10 @@ public class BlogApplication extends WebApplication
 		if(logger.isDebugEnabled()) logger.debug("init()");
 		
 		getMarkupSettings().setStripWicketTags(true);
+		addComponentInstantiationListener(new SpringComponentInjector(this));
+		getResourceSettings().setThrowExceptionOnMissingResource(true);
 
-		mountBookmarkablePage("/home", Dispatcher.class);
+		//mountBookmarkablePage("/home", Dispatcher.class);
 	}
 	
 	protected void onDestroy()

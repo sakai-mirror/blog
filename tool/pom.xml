@@ -30,10 +30,25 @@
 	      	<scope>provided</scope>
 	    </dependency>
 	    <dependency>
-	      <groupId>org.sakaiproject</groupId>
-	      <artifactId>sakai-profile-api</artifactId>
-	      <scope>provided</scope>
+	      	<groupId>org.sakaiproject</groupId>
+	      	<artifactId>sakai-profile-api</artifactId>
+	      	<scope>provided</scope>
 	    </dependency>
+	    <dependency>
+	      	<groupId>org.sakaiproject</groupId>
+	      	<artifactId>sakai-component-api</artifactId>
+	      	<scope>provided</scope>
+	    </dependency>
+	    <dependency>
+			<groupId>org.sakaiproject</groupId>
+			<artifactId>sakai-site-api</artifactId>
+			<scope>provided</scope>
+    	</dependency>
+    	<dependency>
+			<groupId>org.sakaiproject</groupId>
+			<artifactId>sakai-tool-api</artifactId>
+			<scope>provided</scope>
+    	</dependency>
 	    
 	    <!--  external dependencies -->
 	    <dependency>

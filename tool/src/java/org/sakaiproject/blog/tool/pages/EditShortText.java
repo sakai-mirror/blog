@@ -5,10 +5,10 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
-import org.sakaiproject.blog.tool.BlogApplication;
 import org.sakaiproject.blog.api.datamodel.Post;
+import org.sakaiproject.blog.tool.BlogApplication;
+import org.sakaiproject.blog.tool.markup.html.fckeditor.FCKEditorPanel;
 import org.sakaiproject.blog.tool.pages.models.PostModel;
-import org.sakaiproject.wicket.markup.html.fckeditor.FCKEditorPanel;
 
 public class EditShortText extends BasePage
 {

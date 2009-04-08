@@ -7,14 +7,14 @@ import org.apache.wicket.Application;
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
-import org.sakaiproject.blog.api.SakaiProxy;
+import org.apache.wicket.protocol.http.WebApplication;
 import org.sakaiproject.blog.api.BlogManager;
-import org.sakaiproject.blog.api.PersistenceManager;
 import org.sakaiproject.blog.api.BlogSecurityManager;
+import org.sakaiproject.blog.api.PersistenceManager;
+import org.sakaiproject.blog.api.SakaiProxy;
 import org.sakaiproject.blog.tool.pages.Dispatcher;
-import org.sakaiproject.wicket.protocol.http.SakaiWebApplication;
 
-public class BlogApplication extends SakaiWebApplication
+public class BlogApplication extends WebApplication
 {
 	private transient Logger logger = Logger.getLogger(BlogApplication.class);
 
@@ -41,7 +41,7 @@ public class BlogApplication extends SakaiWebApplication
 		return (BlogApplication) Application.get();
 	}
 	
-	public String getConfigurationType() { return Application.DEPLOYMENT; }
+	public String getConfigurationType() { return Application.DEVELOPMENT; }
 
 	public Class getHomePage()
 	{

@@ -2,12 +2,12 @@ package org.sakaiproject.blogadministrator.tool;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.Application;
-import org.sakaiproject.wicket.protocol.http.SakaiWebApplication;
-import org.sakaiproject.blog.api.SakaiProxy;
+import org.apache.wicket.protocol.http.WebApplication;
 import org.sakaiproject.blog.api.BlogManager;
+import org.sakaiproject.blog.api.SakaiProxy;
 import org.sakaiproject.blogadministrator.tool.pages.Main;
 
-public class BlogDataMigratorApplication extends SakaiWebApplication
+public class BlogDataMigratorApplication extends WebApplication
 {
 	private transient Logger logger = Logger.getLogger(BlogDataMigratorApplication.class);
 

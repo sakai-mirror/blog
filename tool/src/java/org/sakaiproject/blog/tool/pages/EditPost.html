@@ -8,56 +8,6 @@
       
 <body>
 
-<wicket:head>
-	<script type="text/javascript" src="/library/editor/FCKeditor/fckeditor.js"></script>
-	<style>
-	td.tabStyle{
-		width:720px;
-	}
-	td.td1{
-		width:80px;
-	}
-	td.td2{
-		width:440px;
-	}
-	</style>
-	<script language="javascript">
-		isChanged =false;
-		tabContentIsChanged = false;
-		buttonPressed="";
-		doSubmit = false;
-		desactivateVerify=false;
-		function verifySave(otherChanges)
-		{
-			var result = false;
-			if (!desactivateVerify)
-			{
-				if (buttonPressed=='SAVE' && tabContentIsChanged)
-				{
-					result=window.confirm("You have changed an element but you do not have add or modify it in the document. Press OK to return to the editor. Press Cancel to ignore this message.");
-				}
-				if (buttonPressed=='CANCEL' && (isChanged || tabContentIsChanged || otherChanges))
-				{
-					result=window.confirm("You have modified the document, but you do not have save the changes. Press OK to return to the editor. Press Cancel to ignore this message.");
-				}
-			}
-			doSubmit = !result;
-			return !result;
-		}
-		function functionOnSubmitForTextArea()
-		{
-			return doSubmit;
-		}
-		function functionOnChangeInAbstract()
-		{
-			isChanged = true;
-		}
-		function functionOnChangeInText()
-		{
-			tabContentIsChanged = true;
-		}
-	</script>
-</wicket:head>
 
 <wicket:extend>
 <span wicket:id="feedback">Feedback Panel</span>

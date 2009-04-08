@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -14,14 +13,13 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
-import org.apache.wicket.validation.validator.StringValidator;
-import org.sakaiproject.blog.tool.BlogApplication;
+import org.sakaiproject.blog.api.BlogManager;
 import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.blog.api.datamodel.State;
-import org.sakaiproject.blog.api.BlogManager;
+import org.sakaiproject.blog.tool.BlogApplication;
+import org.sakaiproject.blog.tool.markup.html.fckeditor.FCKEditorPanel;
 import org.sakaiproject.blog.tool.pages.models.PostModel;
 import org.sakaiproject.blog.tool.pages.validators.TitleValidator;
-import org.sakaiproject.wicket.markup.html.fckeditor.FCKEditorPanel;
 
 public class EditPostForm extends Form
 {

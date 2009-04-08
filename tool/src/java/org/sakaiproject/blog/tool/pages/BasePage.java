@@ -4,18 +4,24 @@ import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
-import org.sakaiproject.blog.tool.BlogApplication;
-import org.sakaiproject.blog.api.SakaiProxy;
+import org.sakaiproject.blog.api.BlogManager;
 import org.sakaiproject.blog.api.BlogSecurityManager;
 import org.sakaiproject.blog.api.PersistenceManager;
-import org.sakaiproject.blog.api.BlogManager;
-import org.sakaiproject.wicket.markup.html.SakaiPortletWebPage;
+import org.sakaiproject.blog.api.SakaiProxy;
+import org.sakaiproject.blog.tool.BlogApplication;
+import org.sakaiproject.component.cover.ServerConfigurationService;
+import org.sakaiproject.site.cover.SiteService;
+import org.sakaiproject.tool.cover.SessionManager;
 
-public class BasePage extends SakaiPortletWebPage
+
+public class BasePage extends WebPage implements IHeaderContributor
 {
 	protected transient BlogManager blogManager;
 	protected transient SakaiProxy sakaiProxy;
@@ -224,6 +230,59 @@ public class BasePage extends SakaiPortletWebPage
 	{
 		return message;
 	}
+	
+	//Style it like a Sakai tool
+	protected static final String HEADSCRIPTS = "/library/js/headscripts.js";
+	protected static final String BODY_ONLOAD_ADDTL="setMainFrameHeight( window.name )";
+	
+	public void renderHead(IHeaderResponse response) {
+		//get Sakai skin
+		String skinRepo = ServerConfigurationService.getString("skin.repo");
+		String toolCSS = getToolSkinCSS(skinRepo);
+		String toolBaseCSS = skinRepo + "/tool_base.css";
+		
+		//Sakai additions
+		response.renderJavascriptReference(HEADSCRIPTS);
+		response.renderCSSReference(toolBaseCSS);
+		response.renderCSSReference(toolCSS);
+		response.renderOnLoadJavascript(BODY_ONLOAD_ADDTL);
+		
+		//for jQuery
+		response.renderJavascriptReference("js/jquery-1.2.5.min.js");
+
+		//for cluetip
+		response.renderCSSReference("css/jquery.cluetip.css");
+		response.renderJavascriptReference("javascript/jquery.dimensions.js");
+		response.renderJavascriptReference("javascript/jquery.hoverIntent.js");
+		response.renderJavascriptReference("javascript/jquery.cluetip.js");
+		
+		//for tablesorter
+		response.renderJavascriptReference("javascript/jquery.tablesorter.min.js");
+		response.renderJavascriptReference("javascript/jquery.tablesorter.pager.js");
+		
+		//Tool additions (at end so we can override if required)
+		response.renderString("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
+		response.renderCSSReference("css/blog.css");
+		response.renderJavascriptReference("js/blog.js");
+		
+	}
+	
+	protected String getToolSkinCSS(String skinRepo) {
+		String skin = null;
+		try {
+			skin = SiteService.findTool(SessionManager.getCurrentToolSession().getPlacementId()).getSkin();			
+		}
+		catch(Exception e) {
+			skin = ServerConfigurationService.getString("skin.default");
+		}
+		
+		if(skin == null) {
+			skin = ServerConfigurationService.getString("skin.default");
+		}
+		
+		return skinRepo + "/" + skin + "/tool.css";
+	}
+	
 	
 	public void setUserPreferredLocale() {
 		Locale sakaiLocale = sakaiProxy.getUserPreferredLocale();

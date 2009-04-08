@@ -6,17 +6,14 @@ import java.io.InputStream;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.WebResource;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.link.ResourceLink;
 import org.apache.wicket.protocol.http.WebResponse;
-import org.apache.wicket.resource.ByteArrayResource;
 import org.apache.wicket.util.resource.AbstractResourceStream;
 import org.apache.wicket.util.resource.IResourceStream;
 import org.apache.wicket.util.resource.ResourceStreamNotFoundException;
-import org.sakaiproject.wicket.markup.html.SakaiPortletWebPage;
+import org.sakaiproject.blog.tool.pages.BasePage;
 
-public class ReportPage extends SakaiPortletWebPage
+public class ReportPage extends BasePage
 {
 	private transient Logger logger = Logger.getLogger(ReportPage.class);
 	

@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.Blogger;
+import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.File;
 import uk.ac.lancs.e_science.sakaiproject.api.blogger.post.Post;
 import uk.ac.lancs.e_science.sakaiproject.impl.blogger.BloggerManager;
 
@@ -52,7 +53,19 @@ public class ServletForFiles extends HttpServlet {
 		Blogger blogger = BloggerManager.getBlogger();
 		uk.ac.lancs.e_science.sakaiproject.api.blogger.post.File file = blogger.getFile(request.getParameter("fileId"));
 		if (file!=null){ 
-			String fileDescription = request.getParameter("fileDescription");
+			//SAK-14611 - get description of file from post rather than request param
+			Post post = blogger.getPost(file.getPostId());
+			
+			String fileDescription = "";
+			for(File testFile : post.getFiles())
+			{
+				if(testFile.getIdFile().equals(file.getIdFile()))
+				{
+					fileDescription = testFile.getDescription();
+					break;
+				}
+			}
+			
 			//set the headers into the request. "application/octet-stream means that this is a binary file
 			response.setContentType("application/octet-stream");
 			response.setHeader("Content-Disposition","attachment;filename="+fileDescription);

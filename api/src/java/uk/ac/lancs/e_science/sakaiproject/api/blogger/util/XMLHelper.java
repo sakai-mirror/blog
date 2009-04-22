@@ -395,12 +395,14 @@ public class XMLHelper {
 	 * tuvieran el item establecido.
 	 */
 	public static List ordenaListaDeDocumento(List listaAOrdenar, String item) {
+	    // FIXME this code appears to be using a map to sort a list, this is poor practice, use Collections.sort()
 		SortedMap mapOrdenado = new TreeMap();
 		Iterator it = listaAOrdenar.iterator();
 		while (it.hasNext()) {
 			String documento = (String)it.next();
 			List listaClave = dameTextosDeLaEtiqueta(item, documento);
-			if (listaClave!=null || listaClave.isEmpty()) {
+			if (listaClave != null || listaClave.isEmpty()) {
+			    // FIXME this code ONLY executes when the list is empty, this appears to be an error
 				SortedSet setOrdenadaDeClaves= new TreeSet(listaClave);
 				String primeraClave = (String)setOrdenadaDeClaves.first();
 				mapOrdenado.put(primeraClave, documento);			

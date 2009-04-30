@@ -194,6 +194,7 @@ public class SakaiPersistenceManager{
     					}           	
     					executeSQL(sqlGenerator.getInsertStatementsForFiles((File[])filesToInsert.toArray(new File[0]),post.getOID(),connection),connection);
     				}
+    				connection.commit();
     			}
     			catch (Exception e)
     			{
@@ -218,6 +219,7 @@ public class SakaiPersistenceManager{
     				}
 
     				logger.error("Caught an exception whilst inserting post. Message: " + e.getMessage());
+    				logger.error("Caught an exception whilst inserting post.",e);
     			}
     			finally
     			{

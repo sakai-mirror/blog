@@ -42,7 +42,7 @@ public class PostsPanel extends Panel
 		this(id,query,5,0);
 	}
 	
-	public PostsPanel(String id,QueryBean query,int pageSize,int currentPage)
+	public PostsPanel(String id,final QueryBean query,int pageSize,int currentPage)
 	{
 		super(id);
 		
@@ -87,19 +87,20 @@ public class PostsPanel extends Panel
 	
 		PostDataProvider provider = new PostDataProvider(query);
 		
-		String filename = "all-posts.pdf";
-		
-		if(query.queryByCreator())
+		Link printLink = new Link("printLink")
 		{
-			filename = sakaiProxy.getDisplayNameForTheUser(query.getCreator()) + ".pdf";
-			filename = filename.replaceAll(" ", "_");
-		}
+			@Override
+			public void onClick()
+			{
+				setResponsePage(new PrintablePostsPage(query.getCreator()));
+			}
+		};
 		
-		Resource pdfResource = new PostsPdfResource(filename,sakaiProxy,provider);
+		printLink.add(new AttributeModifier("title",true,new ResourceModel("printTooltip")));
+		form.add(printLink);
 		
-		Link pdfLink = new ResourceLink("pdfLink",pdfResource);
-		pdfLink.add(new AttributeModifier("title",true,new ResourceModel("pdfTooltip")));
-		form.add(pdfLink);
+		if("".equals(query.getCreator()))
+			printLink.setVisible(false);
 		
 		// For each post create a post panel
 		DataView posts = new DataView("posts", provider)
@@ -144,7 +145,7 @@ public class PostsPanel extends Panel
 			showFullContentLabel.setVisible(false);
 			showFullContentCheckbox.setVisible(false);
 			nav.setVisible(false);
-			pdfLink.setVisible(false);
+			printLink.setVisible(false);
 		}
 	}
 

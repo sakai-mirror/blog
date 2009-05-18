@@ -107,7 +107,9 @@ public class ViewMembers extends BasePage
 						profilePopup.add(new Image("profilePopupImage",new ContextRelativeResource(UNAVAILABLE_IMAGE)));
 					}
 				
-					profilePopup.add(new Label("profilePopupBio",profile.getOtherInformation()));
+					Label bioLabel = new Label("profilePopupBio",profile.getOtherInformation());
+					bioLabel.setEscapeModelStrings(false);
+					profilePopup.add(bioLabel);
 				}
 				
 				profilePopup.add(new Label("profilePopupDisplayName",sakaiProxy.getDisplayNameForTheUser(member.getUserId())));

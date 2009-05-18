@@ -2,8 +2,10 @@ package org.sakaiproject.blog.tool.pdf;
 
 import java.awt.Toolkit;
 import java.io.ByteArrayOutputStream;
+import java.io.StringReader;
 import java.net.URL;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -16,16 +18,20 @@ import org.sakaiproject.blog.api.SakaiProxy;
 import org.sakaiproject.blog.api.datamodel.LinkRule;
 import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.blog.api.datamodel.PostElement;
+import org.sakaiproject.blog.api.datamodel.State;
 import org.sakaiproject.blog.tool.BlogApplication;
 import org.sakaiproject.blog.tool.dataproviders.PostDataProvider;
 
 import com.lowagie.text.Anchor;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
+import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.html.simpleparser.HTMLWorker;
+import com.lowagie.text.html.simpleparser.StyleSheet;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -71,6 +77,7 @@ public class PostsPdfResource extends DynamicWebResource
 				try
 				{
 					pdf = new Document();
+					//HTMLWorker htmlWorker = new HTMLWorker(pdf);
 					baos = new ByteArrayOutputStream(1000);
 					
 					Rectangle pageDimensions = new Rectangle(841.89f, 595.276f);
@@ -98,6 +105,15 @@ public class PostsPdfResource extends DynamicWebResource
 					{
 						Post post = (Post) i.next();
 						
+						if(post.isRecycled())
+							continue;
+						
+						if(post.isPrivate()
+							&& !post.getCreatorId().equals(sakaiProxy.getCurrentUserId()))
+						{
+							continue;
+						}
+						
 						Paragraph titlePara = new Paragraph();
 						titlePara.add(new Chunk(post.getTitle(),titleFont));
 						pdf.add(titlePara);
@@ -123,12 +139,18 @@ public class PostsPdfResource extends DynamicWebResource
 						
 						pdf.add(Chunk.NEWLINE);
 						
-						Paragraph abstractParagraph = new Paragraph();
+						//Paragraph abstractParagraph = new Paragraph();
+						//String shortText
+						//	= post.getShortText().replaceAll("</?[ \\w\"=]*/?>","");
 						String shortText
-							= post.getShortText().replaceAll("</?[ \\w\"=]*/?>","");
-						//logger.debug("Short Text: " + shortText);
-						abstractParagraph.add(new Chunk(shortText,abstractFont));
-						pdf.add(abstractParagraph);
+							= post.getShortText();
+						ArrayList list = HTMLWorker.parseToList(new StringReader(shortText),new StyleSheet());
+						for(Iterator j = list.iterator();j.hasNext();)
+						{
+							//abstractParagraph.add(new Chunk(shortText,abstractFont));
+							Object o = j.next();
+							pdf.add((Element) o);
+						}
 						
 						pdf.add(Chunk.NEWLINE);
 						

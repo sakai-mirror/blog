@@ -104,7 +104,8 @@ public class SakaiProxyImpl implements SakaiProxy
 	
 	private EmailService emailService;
 	
-	private String fromAddress = "unknown@unknown.org";
+	/** Inject this in your components.xml */
+	private String fromAddress = "sakai-blog@sakai.lancs.ac.uk";
 	
 	public void init() {}
 	

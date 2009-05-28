@@ -613,11 +613,6 @@ public class SakaiProxyImpl implements SakaiProxy
 		}
 	}
 
-	public Profile getUserProfileById(String userId)
-	{
-		return profileManager.getUserProfileById(userId);
-	}
-
 	public void setProfileManager(ProfileManager profileManager)
 	{
 		this.profileManager = profileManager;

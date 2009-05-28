@@ -102,8 +102,6 @@ public interface SakaiProxy
 
 	public void deleteResources(String[] resourceIds);
 
-	public Profile getUserProfileById(String userId);
-
 	public void deleteFolderForPost(String postId);
 
 	public String getResourceUrl(String resourceId);

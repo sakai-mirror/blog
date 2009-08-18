@@ -23,7 +23,6 @@ import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.blog.api.datamodel.State;
 import org.sakaiproject.blog.tool.dataproviders.PostDataProvider;
 import org.sakaiproject.blog.tool.pages.models.PostModel;
-import org.sakaiproject.blog.tool.pdf.PostsPdfResource;
 
 public class PostsPanel extends Panel
 {

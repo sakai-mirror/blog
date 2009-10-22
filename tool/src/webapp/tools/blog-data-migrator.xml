@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<registration>
+
+   <tool id="blog-data-migrator"
+       title="Blog Data Migrator"
+       description="Blog data migration tool. Migrates blog and learning log data from 2.4.x  and 2.5.x databases to 2.6.x">
+   </tool>
+</registration> 

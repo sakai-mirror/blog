@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- The id of this bean needs to match the param 'applicationBean' under your web.xml -->
+	<bean id="blogApplication" class="org.sakaiproject.blog.tool.BlogApplication">
+        <property name="blogManager">
+            <ref bean="org.sakaiproject.blog.api.BlogManager"/>
+        </property>
+    </bean>
+
+    <bean id="blogDataMigratorApplication" class="org.sakaiproject.blogadministrator.tool.BlogDataMigratorApplication">
+    <property name="blogManager">
+        <ref bean="org.sakaiproject.blog.api.BlogManager"/>
+    </property>
+    </bean>
+
+    
+</beans>

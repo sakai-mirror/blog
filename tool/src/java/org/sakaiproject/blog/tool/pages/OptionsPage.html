@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html  
+      xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:wicket="http://wicket.sourceforge.net/"  
+      xml:lang="en"  
+      lang="en">
+<body>
+<wicket:extend>
+<h3><span wicket:id="optionsLabel">[optionsLabel]</span></h3>
+<br />
+<form wicket:id="form">
+	<span wicket:id="modeLabel">[modeLabel]</span>
+	<br />
+	<div wicket:id="modes">
+    	<input type="radio" wicket:id="blog"/>
+    	<span wicket:id="blogModeLabel">[blogModeLabel]</span>
+    	<br />
+    	<input type="radio" id="learningLog" wicket:id="learningLog"/>
+    	<span wicket:id="learningLogModeLabel">[learningLogModeLabel]</span>
+    </div>
+    
+    <br />
+    
+    <div style="clear: left;">
+    <div style="margin: 3px;">
+    <br />
+	<input type="submit" wicket:id="saveButton" value="Save"/>
+	<input type="submit" wicket:id="cancelButton" value="Cancel"/>
+	</div>
+	</div>
+</form>
+</wicket:extend>
+</body>
+</html>

@@ -4,8 +4,7 @@
   <parent>
     <artifactId>sakai-blog-base</artifactId>
     <groupId>org.sakaiproject</groupId>
-    <version>M2</version>
-    <relativePath>../pom.xml</relativePath>
+    <version>2.7.0-SNAPSHOT</version>
   </parent>
   <name>sakai-blog-pack</name>
   <groupId>org.sakaiproject</groupId>

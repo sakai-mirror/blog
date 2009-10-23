@@ -4,8 +4,7 @@
   <parent>
     <artifactId>base</artifactId>
     <groupId>org.sakaiproject</groupId>
-    <version>M2</version>
-    <relativePath>../pom.xml</relativePath>
+    <version>2.7.0-SNAPSHOT</version>
   </parent>
   <name>Sakai Blog Project</name>
   <groupId>org.sakaiproject</groupId>
@@ -17,30 +16,9 @@
     <module>impl</module>
     <module>tool</module>
   </modules>
-<dependencyManagement>
- <dependencies>
 
-    <dependency>
-      <groupId>org.sakaiproject</groupId>
-      <artifactId>sakai-blog-api</artifactId>
-      <version>${sakai.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.sakaiproject</groupId>
-      <artifactId>sakai-profile-api</artifactId>
-      <version>${sakai.version}</version>
-     </dependency>
-     <dependency>
-      <groupId>org.sakaiproject</groupId>
-      <artifactId>sakai-blog-impl</artifactId>
-      <version>${sakai.version}</version>
-     </dependency>
-    <dependency>
-      <groupId>org.sakaiproject</groupId>
-      <artifactId>sakai-search-api</artifactId>
-      <version>${sakai.version}</version>
-    </dependency>
+  <properties>
+	<wicket.version>1.3.6</wicket.version>
+  </properties>
 
- </dependencies>
-</dependencyManagement>
 </project>

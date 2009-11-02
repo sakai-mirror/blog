@@ -48,13 +48,6 @@ public class BlogSecurityManagerImpl implements BlogSecurityManager
 		//if(sakaiProxy.isOnGateway() && post.isPublic() && post.isCommentable())
 			//return true;
     	
-    	// Tutors can always comment in learning log mode
-		if(persistenceManager.getOptions().isLearningLogMode()
-				&& sakaiProxy.isCurrentUserTutor())
-		{
-			return true;
-		}
-		
 		// If the post is comment-able and the current user has blog.comment.create
 		if(post.isCommentable() && sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_COMMENT_CREATE))
 			return true;
@@ -70,10 +63,6 @@ public class BlogSecurityManagerImpl implements BlogSecurityManager
 	{
 		if(sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_DELETE_ANY))
 			return true;
-		
-		// Once a post is ready it can't be deleted, except by a user with blog.post.delete.any
-		if(persistenceManager.getOptions().isLearningLogMode() && post.isReady())
-			return false;
 		
 		String currentUser = sakaiProxy.getCurrentUserId();
 		
@@ -92,9 +81,6 @@ public class BlogSecurityManagerImpl implements BlogSecurityManager
 		// This acts as an override
 		if(sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_UPDATE_ANY))
 			return true;
-		
-		if(persistenceManager.getOptions().isLearningLogMode() && post.isReady())
-			return false;
 		
 		// If it's public and not marked read only, yes.
 		if(post.isPublic() && !post.isReadOnly())
@@ -244,14 +230,6 @@ public class BlogSecurityManagerImpl implements BlogSecurityManager
 
     public boolean canCurrentUserSearch()
 	{
-		if(persistenceManager.getOptions().isLearningLogMode())
-		{
-			if(sakaiProxy.isCurrentUserTutor() || sakaiProxy.isCurrentUserMaintainer())
-				return true;
-		}
-		else
-			return true;
-		
-		return false;
+		return true;
 	}
 }

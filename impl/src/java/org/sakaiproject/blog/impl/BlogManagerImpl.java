@@ -14,7 +14,6 @@ import org.sakaiproject.blog.api.PersistenceManager;
 import org.sakaiproject.blog.api.QueryBean;
 import org.sakaiproject.blog.api.SakaiProxy;
 import org.sakaiproject.blog.api.XmlDefs;
-import org.sakaiproject.blog.api.datamodel.BlogOptions;
 import org.sakaiproject.blog.api.datamodel.Comment;
 import org.sakaiproject.blog.api.datamodel.File;
 import org.sakaiproject.blog.api.datamodel.Image;
@@ -360,12 +359,7 @@ public class BlogManagerImpl implements BlogManager// , CoreEntityProvider, Auto
 			Post currentPost = persistenceManager.getPost(post.getId());
 			if (currentPost.isPrivate() && post.isReady())
 			{
-				Set<String> users = new TreeSet<String>();
-
-				if (persistenceManager.getOptions().isLearningLogMode())
-					users = sakaiProxy.getTutors();
-				else
-					users = persistenceManager.getNewPostEmailSubscribers();
+				Set<String> users = persistenceManager.getNewPostEmailSubscribers();
 				
 				String portalUrl = sakaiProxy.getPortalUrl();
 				String siteId = sakaiProxy.getCurrentSiteId();

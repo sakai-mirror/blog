@@ -31,7 +31,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.sakaiproject.blog.api.QueryBean;
 import org.sakaiproject.blog.api.sql.ISQLGenerator;
-import org.sakaiproject.blog.api.datamodel.BlogOptions;
 import org.sakaiproject.blog.api.datamodel.Comment;
 import org.sakaiproject.blog.api.datamodel.File;
 import org.sakaiproject.blog.api.datamodel.Image;
@@ -873,30 +872,6 @@ public class SQLGenerator implements ISQLGenerator
 		return "UPDATE " + TABLE_POST + " SET " + VISIBILITY + " = '" + post.getVisibility() + "' WHERE " + POST_ID + " = '" + post.getId() + "'";
 	}
 
-	public String getSaveOptionsStatement(BlogOptions options,Connection connection) throws Exception
-	{
-		String mode = (options.isLearningLogMode()) ? Modes.LEARNING_LOG : Modes.BLOG;
-		
-		String sql =  "UPDATE " + TABLE_OPTIONS + " SET " + BLOGMODE + " = '" + mode + "' WHERE "
-						+ SITE_ID + " = '" + options.getSiteId() + "'";
-		
-		Statement st = connection.createStatement();
-		ResultSet rs = st.executeQuery("SELECT * FROM " + TABLE_OPTIONS + " WHERE " + SITE_ID + " = '" + options.getSiteId() + "'");
-		
-		if(!rs.next())
-			sql = "INSERT INTO " + TABLE_OPTIONS + " VALUES('" + options.getSiteId() + "','" + mode + "')";
-		
-		rs.close();
-		st.close();
-		
-		return sql;
-	}
-
-	public String getSelectOptionsStatement(String placementId)
-	{
-		return "SELECT * FROM " + TABLE_OPTIONS + " WHERE " + SITE_ID + " = '" + placementId + "'";
-	}
-	
 	public String getSelectPreferencesStatement(String userId,String placementId)
 	{
 		return "SELECT * FROM " + TABLE_PREFERENCES + " WHERE " + USER_ID + " = '" + userId + "' AND " + SITE_ID + " = '" + placementId + "'";

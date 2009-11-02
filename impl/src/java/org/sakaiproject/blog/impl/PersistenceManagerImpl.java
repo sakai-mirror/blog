@@ -14,7 +14,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.sakaiproject.blog.api.*;
-import org.sakaiproject.blog.api.datamodel.BlogOptions;
 import org.sakaiproject.blog.api.datamodel.Comment;
 import org.sakaiproject.blog.api.datamodel.File;
 import org.sakaiproject.blog.api.datamodel.Image;
@@ -1333,52 +1332,6 @@ public class PersistenceManagerImpl implements PersistenceManager
 		{
 			connection = getConnection();
 			String statement = sqlGenerator.getSaveVisibilityStatement(post);
-			executeSQL(statement, connection);
-		}
-		finally
-		{
-			releaseConnection(connection);
-		}
-	}
-
-	public BlogOptions getOptions()
-	{
-		String placementId = sakaiProxy.getCurrentSiteId();
-
-		BlogOptions settings = new BlogOptions();
-		settings.setSiteId(placementId);
-
-		Connection connection = null;
-		try
-		{
-			connection = getConnection();
-			String statement = sqlGenerator.getSelectOptionsStatement(sakaiProxy.getCurrentSiteId());
-			ResultSet rs = executeQuerySQL(statement, connection);
-
-			if (rs.next())
-				settings.setMode(rs.getString(ISQLGenerator.BLOGMODE));
-
-			rs.close();
-		}
-		catch (Exception e)
-		{
-			logger.error("Caught exception whilst retrieving options", e);
-		}
-		finally
-		{
-			releaseConnection(connection);
-		}
-
-		return settings;
-	}
-
-	public void saveOptions(BlogOptions options) throws Exception
-	{
-		Connection connection = null;
-		try
-		{
-			connection = getConnection();
-			String statement = sqlGenerator.getSaveOptionsStatement(options, connection);
 			executeSQL(statement, connection);
 		}
 		finally

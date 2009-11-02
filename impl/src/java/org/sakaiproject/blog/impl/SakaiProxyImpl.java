@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Observer;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.sakaiproject.api.app.profile.Profile;
@@ -995,54 +994,15 @@ public class SakaiProxyImpl implements SakaiProxy
 	{
 		return securityService;
 	}
-
-	public Set<String> getTutors()
-	{
-		Set<String> tutors = new TreeSet<String>();
-		
-		try
-		{
-			Set<String> users = getSiteUsers();
-			AuthzGroup realm = getAuthzGroupOfCurrentSite();
-			for(String user : users)
-			{
-				String role = authzGroupService.getUserRole(user, realm.getId());
-				if(role.equalsIgnoreCase("Tutor"))
-					tutors.add(user);
-			}
-		}
-		catch(Exception e)
-		{
-			logger.error("Caught exception whilst getting tutors",e);
-		}
-		
-		return tutors;
-	}
-
-	/**
-	 * Is the current user in the Tutor role?
-	 */
-	public boolean isCurrentUserTutor()
-	{
-		try
-		{
-			AuthzGroup realm = getAuthzGroupOfCurrentSite();
-			Role role = realm.getUserRole(getCurrentUserId());
-		
-			if(role.getId().equalsIgnoreCase("tutor"))
-				return true;
-			else
-				return false;
-		}
-		catch(Exception e)
-		{
-			logger.error("Caught exception whilst checking for tutor role. Returning false ...",e);
-			return false;
-		}
-	}
 	
 	public void postEvent(String event,String reference,boolean modify)
 	{
 		eventTrackingService.post(eventTrackingService.newEvent(event,reference,modify));
+	}
+	
+	public ToolConfiguration getCurrentTool()
+	{
+		return siteService.findTool(getCurrentToolId());
+		
 	}
 }

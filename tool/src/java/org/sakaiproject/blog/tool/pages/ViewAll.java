@@ -17,8 +17,6 @@ public class ViewAll extends BasePage
 	
 	public ViewAll(int pageSize,int currentPage)
 	{
-		super();
-		
 		if(logger.isDebugEnabled()) logger.debug("ViewAll(" + pageSize + "," + currentPage + ")");
 		
 		viewAllLink.setVisible(false);

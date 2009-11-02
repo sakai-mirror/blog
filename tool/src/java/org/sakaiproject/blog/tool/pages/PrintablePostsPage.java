@@ -33,19 +33,6 @@ public class PrintablePostsPage extends BasePage
 		
 		this.userId = userId;
 		
-		if(persistenceManager.getOptions().isLearningLogMode())
-		{
-			if(sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_READ_OWN))
-			{
-				viewAllLink.setVisible(false);
-				viewMembersLink.setVisible(false);
-				myBlogLink.setVisible(false);
-			}
-		}
-		
-		if(sakaiProxy.isOnGateway())
-			viewMembersLink.setVisible(false);
-		
 		if(userId == null)
 			userId = sakaiProxy.getCurrentUserId();
 		
@@ -85,11 +72,7 @@ public class PrintablePostsPage extends BasePage
 		
 		QueryBean query = new QueryBean();
 		query.setCreator(userId);
-		
-		if(sakaiProxy.isOnGateway())
-			query.setVisibilities(new String[] { State.PUBLIC });
-		else
-			query.setSiteId(sakaiProxy.getCurrentSiteId());
+		query.setSiteId(sakaiProxy.getCurrentSiteId());
 		
 		add(new PrintablePostsPanel("printablePostsPanel",query));
 	}

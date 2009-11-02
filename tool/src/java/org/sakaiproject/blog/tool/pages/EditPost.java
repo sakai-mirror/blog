@@ -18,9 +18,6 @@ public class EditPost extends BasePage
 		String sId = sakaiProxy.getCurrentSiteId();
 		post.setSiteId(sId);
 		post.setCreatorId(sakaiProxy.getCurrentUserId());
-		
-		if(persistenceManager.getOptions().isLearningLogMode())
-			post.setCommentable(true);
 	}
 	
 	public EditPost(Post post)

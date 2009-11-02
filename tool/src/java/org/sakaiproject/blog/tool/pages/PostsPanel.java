@@ -18,7 +18,6 @@ import org.sakaiproject.blog.tool.BlogApplication;
 import org.sakaiproject.blog.api.QueryBean;
 import org.sakaiproject.blog.api.SakaiProxy;
 import org.sakaiproject.blog.api.datamodel.Post;
-import org.sakaiproject.blog.api.datamodel.State;
 import org.sakaiproject.blog.tool.dataproviders.PostDataProvider;
 import org.sakaiproject.blog.tool.pages.models.PostModel;
 
@@ -76,10 +75,7 @@ public class PostsPanel extends Panel
 		
 		if(query != null)
 		{
-			if(sakaiProxy.isOnGateway())
-				query.setVisibilities(new String[] {State.PUBLIC});
-			else
-				query.setSiteId(sakaiProxy.getCurrentSiteId());
+			query.setSiteId(sakaiProxy.getCurrentSiteId());
 		}
 	
 		PostDataProvider provider = new PostDataProvider(query);

@@ -42,8 +42,6 @@ public class PostAccessPanel extends Panel
 		
 		List<String> temp = Arrays.asList(new String[] {State.PRIVATE,State.READY});
 		List<String> model = new ArrayList<String>(temp);
-		if(!BlogApplication.get().getPersistenceManager().getOptions().isLearningLogMode())
-			model.add(State.PUBLIC);
 		
 		DropDownChoice ddc = new DropDownChoice("visibilities", new PropertyModel(post,"visibility"), model)
 		{
@@ -95,14 +93,5 @@ public class PostAccessPanel extends Panel
 		form.add(allowCommentsLabel);
 		
 		add(form);
-		
-		PersistenceManager pm = BlogApplication.get().getPersistenceManager();
-		if(pm.getOptions().isLearningLogMode())
-		{
-			readOnlyLabel.setVisible(false);
-			readOnlyCheckbox.setVisible(false);
-			allowCommentsLabel.setVisible(false);
-			allowCommentsCheckbox.setVisible(false);
-		}
 	}
 }

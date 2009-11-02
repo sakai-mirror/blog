@@ -8,11 +8,16 @@
 <body>
 
 <wicket:head>
+	<script type="text/javascript" src="js/jquery-1.2.5.min.js"></script> 
+	<script type="text/javascript" src="js/jquery.dimensions.js"></script> 
+	<script type="text/javascript" src="js/jquery.hoverIntent.js"></script> 
+	<script type="text/javascript" src="js/jquery.cluetip.js"></script> 
+	<script type="text/javascript" language="JavaScript" src="js/jquery.tablesorter.min.js"></script>
+	<script type="text/javascript" language="JavaScript" src="js/jquery.tablesorter.pager.js"></script>
+	<script type="text/javascript" src="/library/editor/FCKeditor/fckeditor.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/jquery.cluetip.css" />
 	<link rel="stylesheet" type="text/css" href="css/blog.css" />
-	<script type="text/javascript" src="js/blog.js"></script> 
 </wicket:head>
-
-<wicket:extend>
 
 	<div class="navIntraTool">
 		<a wicket:id="viewAllLink"><span wicket:id="viewAllLabel">[viewAllLabel]</span></a>
@@ -20,18 +25,18 @@
 		<a wicket:id="myBlogLink"><span wicket:id="viewMyBlogLabel">[viewMyBlogLabel]</span></a>
 		<a wicket:id="newPostLink"><span wicket:id="newPostLabel">[newPostLabel]</span></a>
 		<a wicket:id="permissionsLink"><span wicket:id="permissionsLabel">[permissionsLabel]</span></a>
-		<a wicket:id="optionsLink"><span wicket:id="optionsLabel">[optionsLabel]</span></a>
 		<a wicket:id="preferencesLink"><span wicket:id="preferencesLabel">[preferencesLabel]</span></a>
 		<a wicket:id="searchLink"><span wicket:id="searchLabel">[searchLabel]</span></a>
 		<a wicket:id="recycleBinLink"><span wicket:id="recycleBinLabel">[recycleBinLabel]</span></a>
 	</div>
        
+	<div class="portletBody">
 		<div id="blogMainContainer">
 			<br />
 			<div style="color: red;font-weight: bold" wicket:id="messageLabel"></div>
         	<wicket:child/>
         </div>
+	</div>
         
-</wicket:extend>
 </body>
 </html>

@@ -16,7 +16,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.resource.ContextRelativeResource;
 import org.sakaiproject.api.app.profile.Profile;
-import org.sakaiproject.blog.api.BlogFunctions;
 import org.sakaiproject.blog.api.BlogMember;
 import org.sakaiproject.blog.tool.dataproviders.SiteMembersDataProvider;
 import org.sakaiproject.blog.tool.pages.models.MemberModel;
@@ -38,14 +37,6 @@ public class ViewMembers extends BasePage
 	{
 		super();
 		
-		if(persistenceManager.getOptions().isLearningLogMode())
-		{
-			if(!sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_READ_OWN))
-			{
-				viewAllLink.setVisible(false);
-				myBlogLink.setVisible(false);
-			}
-		}
 		viewMembersLink.setVisible(false);
 		newPostLink.setVisible(false);
 		

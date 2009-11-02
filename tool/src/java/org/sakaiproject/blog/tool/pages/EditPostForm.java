@@ -14,7 +14,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
-import org.apache.wicket.validation.validator.StringValidator;
 import org.sakaiproject.blog.tool.BlogApplication;
 import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.blog.api.datamodel.State;
@@ -59,8 +58,6 @@ public class EditPostForm extends Form
 		
 		List<String> temp = Arrays.asList(new String[] {State.PRIVATE,State.READY});
 		List<String> model = new ArrayList<String>(temp);
-		if(!BlogApplication.get().getPersistenceManager().getOptions().isLearningLogMode())
-			model.add(State.PUBLIC);
 		
 		add(new DropDownChoice("visibilities", new PropertyModel(post,"visibility"), model));
 		
@@ -74,14 +71,6 @@ public class EditPostForm extends Form
 		Label allowCommentsLabel = new Label("allowCommentsLabel",new ResourceModel("allowComments"));
 		add(allowCommentsLabel);
 		
-		if(BlogApplication.get().getPersistenceManager().getOptions().isLearningLogMode())
-		{
-			readOnlyCheckbox.setVisible(false);
-			readOnlyLabel.setVisible(false);
-			allowCommentsCheckbox.setVisible(false);
-			allowCommentsLabel.setVisible(false);
-		}
-		
 		add(new Label("abstractLabel",new ResourceModel("abstract")));
 		add(new FCKEditorPanel("abstractEditor",new PropertyModel(post,"shortText"),"650","100","Basic",cId,true));
 		
@@ -93,10 +82,7 @@ public class EditPostForm extends Form
 		{
 			public void onSubmit()
 			{
-				if(BlogApplication.get().getPersistenceManager().getOptions().isLearningLogMode())
-					setResponsePage(new MemberBlog());
-				else
-					setResponsePage(new ViewAll());
+				setResponsePage(new ViewAll());
 			}
 		};
 		

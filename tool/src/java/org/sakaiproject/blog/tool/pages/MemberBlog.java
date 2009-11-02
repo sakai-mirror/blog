@@ -6,9 +6,7 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.resource.BufferedDynamicImageResource;
 import org.apache.wicket.model.Model;
 import org.sakaiproject.api.app.profile.Profile;
-import org.sakaiproject.blog.api.BlogFunctions;
 import org.sakaiproject.blog.api.QueryBean;
-import org.sakaiproject.blog.api.datamodel.State;
 
 public class MemberBlog extends BasePage
 {
@@ -32,19 +30,6 @@ public class MemberBlog extends BasePage
 		super();
 		
 		this.userId = id;
-		
-		if(persistenceManager.getOptions().isLearningLogMode())
-		{
-			if(sakaiProxy.isAllowedFunction(BlogFunctions.BLOG_POST_READ_OWN))
-			{
-				viewAllLink.setVisible(false);
-				viewMembersLink.setVisible(false);
-				myBlogLink.setVisible(false);
-			}
-		}
-		
-		if(sakaiProxy.isOnGateway())
-			viewMembersLink.setVisible(false);
 		
 		if(userId == null)
 			userId = sakaiProxy.getCurrentUserId();
@@ -87,11 +72,7 @@ public class MemberBlog extends BasePage
 		
 		QueryBean query = new QueryBean();
 		query.setCreator(userId);
-		
-		if(sakaiProxy.isOnGateway())
-			query.setVisibilities(new String[] { State.PUBLIC });
-		else
-			query.setSiteId(sakaiProxy.getCurrentSiteId());
+		query.setSiteId(sakaiProxy.getCurrentSiteId());
 		
 		add(new PostsPanel("postsPanel",query));
 	}

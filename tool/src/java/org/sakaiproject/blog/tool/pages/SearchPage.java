@@ -45,12 +45,7 @@ public class SearchPage extends BasePage
 			protected void onSubmit()
 			{
 				if(query != null)
-				{
-					if(sakaiProxy.isOnGateway())
-						query.setVisibilities(new String[] {State.PUBLIC});
-					else
-						query.setSiteId(sakaiProxy.getCurrentSiteId());
-				}
+					query.setSiteId(sakaiProxy.getCurrentSiteId());
 				
 				setResponsePage(new SearchResultsPage(query));
 			}

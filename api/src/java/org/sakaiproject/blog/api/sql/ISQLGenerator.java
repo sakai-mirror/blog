@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.sakaiproject.blog.api.QueryBean;
-import org.sakaiproject.blog.api.datamodel.BlogOptions;
 import org.sakaiproject.blog.api.datamodel.Comment;
 import org.sakaiproject.blog.api.datamodel.Post;
 import org.sakaiproject.blog.api.datamodel.PostElement;
@@ -169,10 +168,6 @@ public interface ISQLGenerator
 
 	public abstract String getSaveVisibilityStatement(Post post);
 
-	public abstract String getSaveOptionsStatement(BlogOptions options,Connection connection) throws Exception;
-
-	public abstract String getSelectOptionsStatement(String placementId);
-	
 	public abstract List<String> getInsertStatementsForPostElement(Post post, Connection connection) throws Exception;
 
 	public abstract String getRecycleStatementForPost(String postId, Connection connection);

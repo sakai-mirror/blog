@@ -23,27 +23,15 @@ import java.util.Observer;
 import java.util.Set;
 
 import org.sakaiproject.api.app.profile.Profile;
-import org.sakaiproject.api.app.profile.ProfileManager;
-import org.sakaiproject.authz.api.AuthzGroupService;
-import org.sakaiproject.authz.api.FunctionManager;
 import org.sakaiproject.authz.api.SecurityAdvisor;
-import org.sakaiproject.component.api.ServerConfigurationService;
-import org.sakaiproject.content.api.ContentHostingService;
-import org.sakaiproject.db.api.SqlService;
-import org.sakaiproject.entity.api.EntityManager;
 import org.sakaiproject.entity.api.EntityProducer;
 import org.sakaiproject.entity.api.Reference;
-import org.sakaiproject.event.api.EventTrackingService;
-import org.sakaiproject.site.api.SiteService;
-import org.sakaiproject.tool.api.SessionManager;
-import org.sakaiproject.tool.api.ToolManager;
+import org.sakaiproject.site.api.ToolConfiguration;
 import org.sakaiproject.blog.api.SakaiProxy;
 import org.sakaiproject.blog.api.datamodel.BlogPermissions;
 import org.sakaiproject.blog.api.datamodel.File;
 import org.sakaiproject.blog.api.datamodel.Image;
 import org.sakaiproject.blog.api.datamodel.Post;
-import org.sakaiproject.user.api.AuthenticationManager;
-import org.sakaiproject.user.api.UserDirectoryService;
 import org.sakaiproject.blog.api.BlogMember;
 
 public interface SakaiProxy
@@ -106,8 +94,6 @@ public interface SakaiProxy
 
 	public String getResourceUrl(String resourceId);
 
-	public boolean isOnGateway();
-
 	public Profile getProfile(String userId);
 
 	public void registerFunction(String function);
@@ -140,16 +126,11 @@ public interface SakaiProxy
 
 	public void registerSecurityAdvisor(SecurityAdvisor securityAdvisor);
 
-	/**
-	 * Returns the user ids of users in the Tutor role
-	 */
-	public Set<String> getTutors();
-
-	public boolean isCurrentUserTutor();
-
 	public String getCurrentPageId();
 	
 	public String getCurrentToolId();
 
 	public void postEvent(String blogPostCreated, String reference, boolean b);
+
+	public ToolConfiguration getCurrentTool();
 }

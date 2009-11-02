@@ -3,7 +3,6 @@ package org.sakaiproject.blog.api;
 import java.util.List;
 import java.util.Set;
 
-import org.sakaiproject.blog.api.datamodel.BlogOptions;
 import org.sakaiproject.blog.api.datamodel.Comment;
 import org.sakaiproject.blog.api.datamodel.File;
 import org.sakaiproject.blog.api.datamodel.Image;
@@ -76,10 +75,6 @@ public interface PersistenceManager
 	public void saveAllowComments(Post post) throws Exception;
 
 	public void saveVisibility(Post post) throws Exception;
-
-	public BlogOptions getOptions();
-
-	public void saveOptions(BlogOptions options) throws Exception;
 
 	public Preferences getPreferences();
 

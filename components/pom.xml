@@ -20,13 +20,7 @@
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-blog-impl</artifactId>
-      <version>${sakai.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.sakaiproject</groupId>
-          <artifactId>sakai-blog-api</artifactId>
-        </exclusion>
-      </exclusions>
+	  <version>${sakai.version}</version>
     </dependency>
   </dependencies>
   <build/>

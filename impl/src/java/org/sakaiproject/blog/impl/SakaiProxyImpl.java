@@ -1044,4 +1044,9 @@ public class SakaiProxyImpl implements SakaiProxy
 	{
 		eventTrackingService.post(eventTrackingService.newEvent(event,reference,modify));
 	}
+	
+	public ToolConfiguration getCurrentTool()
+	{
+		return siteService.findTool(getCurrentToolId());
+	}
 }

@@ -63,10 +63,17 @@
     </dependency>
     <dependency>
       <groupId>org.sakaiproject</groupId>
-      <artifactId>sakai-wicket</artifactId>
-      <version>${sakai.version}</version>
+      <artifactId>sakai-site-api</artifactId>
+	  <version>${sakai.version}</version>
+      <scope>provided</scope>
     </dependency>
-    <!--
+
+    <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-tool-api</artifactId>
+	  <version>${sakai.version}</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket</artifactId>
@@ -92,7 +99,6 @@
       <artifactId>wicket-spring-annot</artifactId>
       <version>${sakai.wicket.version}</version>
     </dependency>
-    -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>

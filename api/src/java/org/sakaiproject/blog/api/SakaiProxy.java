@@ -35,6 +35,7 @@ import org.sakaiproject.entity.api.EntityProducer;
 import org.sakaiproject.entity.api.Reference;
 import org.sakaiproject.event.api.EventTrackingService;
 import org.sakaiproject.site.api.SiteService;
+import org.sakaiproject.site.api.ToolConfiguration;
 import org.sakaiproject.tool.api.SessionManager;
 import org.sakaiproject.tool.api.ToolManager;
 import org.sakaiproject.blog.api.SakaiProxy;
@@ -152,4 +153,6 @@ public interface SakaiProxy
 	public String getCurrentToolId();
 
 	public void postEvent(String blogPostCreated, String reference, boolean b);
+	
+	public ToolConfiguration getCurrentTool();
 }

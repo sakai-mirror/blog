@@ -9,12 +9,5 @@
             <ref bean="org.sakaiproject.blog.api.BlogManager"/>
         </property>
     </bean>
-
-    <bean id="blogDataMigratorApplication" class="org.sakaiproject.blogadministrator.tool.BlogDataMigratorApplication">
-    <property name="blogManager">
-        <ref bean="org.sakaiproject.blog.api.BlogManager"/>
-    </property>
-    </bean>
-
     
 </beans>

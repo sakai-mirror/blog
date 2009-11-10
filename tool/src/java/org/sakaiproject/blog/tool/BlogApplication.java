@@ -1,20 +1,15 @@
 package org.sakaiproject.blog.tool;
 
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.apache.wicket.Application;
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
+import org.apache.wicket.protocol.http.WebApplication;
 import org.sakaiproject.blog.api.SakaiProxy;
 import org.sakaiproject.blog.api.BlogManager;
 import org.sakaiproject.blog.api.PersistenceManager;
 import org.sakaiproject.blog.api.BlogSecurityManager;
 import org.sakaiproject.blog.tool.pages.Dispatcher;
-import org.sakaiproject.wicket.protocol.http.SakaiWebApplication;
 
-public class BlogApplication extends SakaiWebApplication
+public class BlogApplication extends WebApplication
 {
 	private transient Logger logger = Logger.getLogger(BlogApplication.class);
 
@@ -22,8 +17,6 @@ public class BlogApplication extends SakaiWebApplication
 
 	protected void init()
 	{
-		super.init();
-		
 		if(logger.isDebugEnabled()) logger.debug("init()");
 		
 		getMarkupSettings().setStripWicketTags(true);
@@ -43,23 +36,9 @@ public class BlogApplication extends SakaiWebApplication
 	
 	public String getConfigurationType() { return Application.DEPLOYMENT; }
 
-	public Class getHomePage()
+	public Class<Dispatcher> getHomePage()
 	{
 		return Dispatcher.class;
-	}
-	
-	public RequestCycle newRequestCycle(Request request,Response response)
-	{
-		logger.debug("URL: " + request.getURL());
-		
-		Map params = request.getParameterMap();
-		
-		for(Object key : params.keySet())
-		{
-			logger.debug(key + ":" + params.get(key));
-		}
-		
-		return super.newRequestCycle(request, response);
 	}
 
 	public SakaiProxy getSakaiProxy()

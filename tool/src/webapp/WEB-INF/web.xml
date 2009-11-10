@@ -35,31 +35,12 @@
 		<load-on-startup>1</load-on-startup>        
      </servlet>
 
-    <servlet>
-        <servlet-name>blog-data-migrator</servlet-name>
-        <servlet-class>org.apache.wicket.protocol.http.WicketServlet</servlet-class>
-        <init-param>
-            <param-name>applicationFactoryClassName</param-name>
-            <param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
-        </init-param>
-        <init-param>
-            <param-name>applicationBean</param-name>
-            <param-value>blogDataMigratorApplication</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-     </servlet>
-
       <!-- Wicket likes to have a url-pattern mapping even though Sakai doesn't use it. -->
 	<servlet-mapping>
 		<servlet-name>blogger</servlet-name>
 		<url-pattern>/sakai-blog-tool/*</url-pattern>		
 	</servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>blog-data-migrator</servlet-name>
-        <url-pattern>/sakai-blog-data-migrator-tool/*</url-pattern>
-    </servlet-mapping>
-	
     <listener>
         <listener-class>org.sakaiproject.util.ToolListener</listener-class>
     </listener>  

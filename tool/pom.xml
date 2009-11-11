@@ -63,13 +63,10 @@
       <groupId>org.sakaiproject.kernel</groupId>
       <artifactId>sakai-component-manager</artifactId>
     </dependency>
-<!--
-      This has been relocated to sakai-kernel-util
-      org.sakaiproject.kernel.utilsakai-entity-util-->
     <dependency>
-      <groupId>org.sakaiproject</groupId>
-      <artifactId>sakai-jsf-sun-ri-tool</artifactId>
-      <version>${sakai.version}</version>
+      <groupId>org.sakaiproject.jsf</groupId>
+      <artifactId>jsf-tool-sun</artifactId>
+      <version>${sakai.jsf.version}</version>
       <type>pom</type>
     </dependency>
     <dependency>

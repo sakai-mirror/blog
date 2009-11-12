@@ -220,13 +220,12 @@ public class SakaiProxyImpl implements SakaiProxy
 		try
 		{
 			Site site = siteService.getSite(getCurrentSiteId());
-			Set<User> users = site.getUsers();
-			for (User sakaiUser : users)
+			Set<String> users = site.getUsers();
+			for (String sakaiUserId : users)
 			{
-				if (!isMaintainer(sakaiUser.getId()))
+				if (!isMaintainer(sakaiUserId))
 				{
-					BlogMember member = new BlogMember(sakaiUser);
-																								// this
+					BlogMember member = new BlogMember(userDirectoryService.getUser(sakaiUserId));
 					result.add(member);
 				}
 			}

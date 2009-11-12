@@ -1,34 +1,36 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>sakai-blog-base</artifactId>
-    <groupId>org.sakaiproject</groupId>
-    <version>M2</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
-  <name>sakai-blog-pack</name>
-  <groupId>org.sakaiproject</groupId>
-  <artifactId>sakai-blog-pack</artifactId>
-  <description>
-	Deployment of components 
-  </description>
-  <packaging>sakai-component</packaging>
-  <properties>
-    <deploy.target>components</deploy.target>
-  </properties>
-  <dependencies>
-    <dependency>
-      <groupId>org.sakaiproject</groupId>
-      <artifactId>sakai-blog-impl</artifactId>
-      <version>${sakai.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.sakaiproject</groupId>
-          <artifactId>sakai-blog-api</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-  </dependencies>
-  <build/>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+  	<modelVersion>4.0.0</modelVersion>
+  
+  	<name>Blog Component Pack</name>
+  	<groupId>org.sakaiproject.blog</groupId>
+  	<artifactId>blog-pack</artifactId>
+  	<description>Deployment of components</description>
+  
+  	<parent>
+    	<artifactId>blog</artifactId>
+    	<groupId>org.sakaiproject.blog</groupId>
+    	<version>1.0-SNAPSHOT</version>
+  	</parent>
+  	
+  	<packaging>sakai-component</packaging>
+  	<properties>
+    	<deploy.target>components</deploy.target>
+  	</properties>
+  	<dependencies>
+    	<dependency>
+      		<groupId>org.sakaiproject.blog</groupId>
+      		<artifactId>blog-impl</artifactId>
+      		<version>${project.version}</version>
+      		<exclusions>
+        		<exclusion>
+          			<groupId>org.sakaiproject.blog</groupId>
+          			<artifactId>blog-api</artifactId>
+        		</exclusion>
+      		</exclusions>
+    	</dependency>
+  	</dependencies>
 </project>

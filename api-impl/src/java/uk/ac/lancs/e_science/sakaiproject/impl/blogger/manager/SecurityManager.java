@@ -54,14 +54,21 @@ public class SecurityManager
 	{
 		Post post = persistenceManager.getPost(postId);
 
+		/* 
+		This will allow a maintainer to delete another person's post, but PostViewerController#getActivateDeleteCommand only allows currentUser to do it anyway so the button isn't visible.
+		This method has been adjusted to suit.
+		
 		int visibility = post.getState().getVisibility();
-
-		if ((visibility == State.PRIVATE || visibility == State.TUTOR) && !post.getCreator().getId().equals(userId))
-		{
-			return false;
+		if (((visibility == State.TUTOR || visibility == State.SITE || visibility == State.PUBLIC) && SakaiProxy.isMaintainer(userId)) || post.getCreator().getId().equals(userId)) {
+			return true;
+		}
+		*/
+	
+		if (SakaiProxy.getCurrentUserId().equals(post.getCreator().getId())) {
+			return true; //only the creator can delete the post
 		}
 
-		return true;
+		return false;
 	}
 
 	public boolean isAllowedToComment(String userId, String postId) throws PersistenceException

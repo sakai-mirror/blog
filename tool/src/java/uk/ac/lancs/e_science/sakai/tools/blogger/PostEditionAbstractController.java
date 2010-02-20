@@ -175,7 +175,7 @@ public class PostEditionAbstractController extends BloggerController implements 
 			StringTokenizer st = new StringTokenizer(keywords, ",");
 			while (st.hasMoreTokens())
 			{
-				String token = st.nextToken();
+				String token = st.nextToken().trim();
 				post.addKeyword(token);
 			}
 		}

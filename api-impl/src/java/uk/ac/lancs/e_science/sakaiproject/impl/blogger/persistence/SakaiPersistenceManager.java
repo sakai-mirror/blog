@@ -42,9 +42,12 @@ import uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence.sql.util.SQLG
 import org.apache.log4j.Logger;
 
 public class SakaiPersistenceManager{
+	
 	private Logger logger = Logger.getLogger(SakaiPersistenceManager.class);
-    private SqlService sqlService;
-    ISQLGenerator sqlGenerator;
+	private SqlService sqlService;
+	ISQLGenerator sqlGenerator;
+	private Statement statement;
+    
     public SakaiPersistenceManager() throws PersistenceException{
         sqlService = org.sakaiproject.db.cover.SqlService.getInstance();
         String vendor = sqlService.getVendor();
@@ -341,11 +344,12 @@ public class SakaiPersistenceManager{
     public List getPosts(QueryBean query, String siteId) throws PersistenceException{
         Connection connection = getConnection();
         try{
-            String statement = sqlGenerator.getSelectStatementForQuery(query, siteId);
-            ResultSet rs = executeQuerySQL(statement, connection);
+            String sql = sqlGenerator.getSelectStatementForQuery(query, siteId);
+            ResultSet rs = executeQuerySQL(sql, connection);
             List result = transformResultSetInPostCollection(rs, false, false);
             return result;
         } finally{
+        	closeStatement();
             releaseConnection(connection);
         }
     }
@@ -362,6 +366,7 @@ public class SakaiPersistenceManager{
             	throw new PersistenceException("getPost: there are more than one post with id:"+postId);
             return (Post)result.get(0);
         } finally{
+        	closeStatement();
             releaseConnection(connection);
         }
     }
@@ -373,6 +378,7 @@ public class SakaiPersistenceManager{
             List result = transformResultSetInPostCollection(rs, false, false);
             return result;
         } finally{
+        	closeStatement();
             releaseConnection(connection);
         }
 
@@ -389,6 +395,7 @@ public class SakaiPersistenceManager{
             }
 
         } finally{
+        	closeStatement();
             releaseConnection(connection);
         }
 
@@ -414,6 +421,7 @@ public class SakaiPersistenceManager{
             }
 
         } finally{
+        	closeStatement();
             releaseConnection(connection);
         }
     }
@@ -453,6 +461,7 @@ public class SakaiPersistenceManager{
             }
 
         } finally{
+        	closeStatement();
             releaseConnection(connection);
         }
     }
@@ -477,6 +486,7 @@ public class SakaiPersistenceManager{
             }
 
         } finally{
+        	closeStatement();
             releaseConnection(connection);
         }
     }
@@ -502,26 +512,32 @@ public class SakaiPersistenceManager{
             }
 
         } finally{
+        	closeStatement();
             releaseConnection(connection);
         }
     }
 
     private ResultSet executeQuerySQL(String sql, Connection connection) throws PersistenceException{
     	
-    	Statement statement;
+    	statement = null;
         try {
             statement = connection.createStatement();
-        } catch (SQLException e) {
-            throw new PersistenceException(e);
-        }
-        
-        try {
             return statement.executeQuery(sql);
         } catch (SQLException e){
-	    try {statement.close();} catch (Exception ee) {};
-            throw new PersistenceException(e);
+        	throw new PersistenceException(e);
+        } 
+        //Do not close the Statement here or it will close the ResultSet as well
+    }
+    
+    private void closeStatement() throws PersistenceException {
+    	try {
+    		statement.close();
+        } catch (Exception e) {
+        	throw new PersistenceException(e);
         }
     }
+    
+
     
     private void executeSQL(String sql, Connection connection) throws PersistenceException{
     	Collection sqlList = new ArrayList();

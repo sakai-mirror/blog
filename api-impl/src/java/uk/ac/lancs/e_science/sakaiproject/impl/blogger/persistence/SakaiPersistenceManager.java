@@ -606,11 +606,11 @@ public class SakaiPersistenceManager{
                 	// the XML. The creator id in the xml may well be the sakai eid
                 	// which is undesirable. We really want the id from the
                 	// IDCREATOR field.
-                	String creatorId = rs.getString(ISQLGenerator.IDCREATOR);
+                	String creatorId = rs.getString(ISQLGenerator.IDCREATOR).replaceAll(SQLGenerator.APOSTROFE,"'");
                 	post.setCreator(new Creator(creatorId));
                 	
                 	String title = rs.getString(ISQLGenerator.TITLE);
-                	post.setTitle(title);
+                	post.setTitle(title.replaceAll(SQLGenerator.APOSTROFE,"'"));
                 	
                 	long date = rs.getLong(ISQLGenerator.DATE);
                 	post.setDate(date);

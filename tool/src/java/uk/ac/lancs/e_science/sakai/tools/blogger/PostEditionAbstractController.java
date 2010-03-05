@@ -367,6 +367,10 @@ public class PostEditionAbstractController extends BloggerController implements 
 		resetCurrentElementIndex();
 		if (editedLinkDescription != null && editedLinkExpression != null)
 		{
+			
+			editedLinkDescription = FormattedText.processFormattedText(editedLinkDescription, new StringBuilder(), true, false);
+			editedLinkExpression = FormattedText.processFormattedText(editedLinkExpression, new StringBuilder(), true, false);
+			
 			post.addElement(new LinkRule(editedLinkDescription, editedLinkExpression));
 			editedLinkDescription = null;
 			editedLinkExpression = null;
@@ -380,6 +384,10 @@ public class PostEditionAbstractController extends BloggerController implements 
 	{
 		if (editedLinkDescription != null && editedLinkExpression != null)
 		{
+			
+			editedLinkDescription = FormattedText.processFormattedText(editedLinkDescription, new StringBuilder(), true, false);
+			editedLinkExpression = FormattedText.processFormattedText(editedLinkExpression, new StringBuilder(), true, false);
+			
 			post.replaceElement(new LinkRule(editedLinkDescription, editedLinkExpression), currentElementIndex);
 			editedLinkDescription = null;
 			editedLinkExpression = null;

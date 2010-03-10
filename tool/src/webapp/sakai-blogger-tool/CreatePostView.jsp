@@ -61,13 +61,13 @@ td.td2{
 		if (!desactivateVerify)
 		{
 			if (buttonPressed=='SAVE' && tabContentIsChanged){
-				result=window.confirm("You have changed an element but you do not have add or modify it in the document. Press OK to return to the editor. Press Cancel to ignore this message.");
+				result=window.confirm('<h:outputText value="#{msgs.confirm_save}"/>');
 			}
 			if (buttonPressed=='PREVIEW' && tabContentIsChanged){
-				result=window.confirm("You have changed an element but you do not have add or modify it in the document. Press OK to return to the editor. Press Cancel to ignore this message.");
+				result=window.confirm('<h:outputText value="#{msgs.confirm_preview}"/>');
 			}
 			if (buttonPressed=='CANCEL' && (isChanged || tabContentIsChanged || otherChanges)){
-				result=window.confirm("You have modified the document, but you do not have save the changes. Press OK to return to the editor. Press Cancel to ignore this message.");
+				result=window.confirm('<h:outputText value="#{msgs.confirm_cancel}"/>');
 			}
 		}
 		doSubmit = !result;

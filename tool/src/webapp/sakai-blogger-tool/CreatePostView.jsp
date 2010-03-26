@@ -99,18 +99,18 @@ td.td2{
 	        <f:verbatim><div style="height: 20px;"></div></f:verbatim>
 				<h:panelGrid columns="2">
 					<h:panelGrid columns="2" columnClasses="td1,td2">
-						<h:outputText value="#{msgs.postTitle} *:" />
+						<h:outputLabel value="#{msgs.postTitle} *:" for="idTitle" />
 						<h:inputText id="idTitle"
 							value="#{postCreateController.post.title}" size="71"
 							required="true" onkeypress="javascript:isChanged=true;">
 							<f:validator validatorId="PostTitleValidator" />
 						</h:inputText>
-						<h:outputText value="#{msgs.keywords}:" />
-						<h:inputText size="71" value="#{postCreateController.keywords}"
+						<h:outputLabel value="#{msgs.keywords}:" for="keyWords"/>
+						<h:inputText id="keyWords" size="71" value="#{postCreateController.keywords}"
 							style="color:#CCCCCC"
 							onkeyup="javascript:checkInputOnKeyUp(this,'#{postCreateController.keywordsMessage}');"
 							onkeypress="javascript:checkInputOnKeyPress(this,'#{postCreateController.keywordsMessage}');isChanged=true;" />
-						<h:outputText value="#{msgs.postVisibility}:" />
+						<h:outputLabel value="#{msgs.postVisibility}:" for="selectVisibility"/>
 						<h:selectOneMenu id="selectVisibility"
 							value="#{postCreateController.post.state.visibility}"
 							onchange="javascript: isChanged=true;">
@@ -118,21 +118,20 @@ td.td2{
 							<f:converter converterId="VisibilityCode" />
 						</h:selectOneMenu>
 
-						<h:outputText value="#{msgs.readOnly}:" />
+						<h:outputLabel value="#{msgs.readOnly}:" for="readOnlyCheckBox"/>
 						<h:selectBooleanCheckbox id="readOnlyCheckBox"
 							value="#{postCreateController.post.state.readOnly}"></h:selectBooleanCheckbox>
 
-						<h:outputText value="#{msgs.allowComments}:"
+						<h:outputLabel value="#{msgs.allowComments}:" for="allowCommentsCheckBox"
 							id="allowCommentsLabel" />
 						<h:selectBooleanCheckbox id="allowCommentsCheckBox"
 							value="#{postCreateController.post.state.allowComments}"></h:selectBooleanCheckbox>
-						<h:outputText value="#{msgs.abstract}:" />
-						<sakai:inputRichText value="#{postCreateController.shortText}"
+						<h:outputLabel value="#{msgs.abstract}:" for="shortTextBox"/>
+						<sakai:inputRichText id="shortTextBox" value="#{postCreateController.shortText}"
 							cols="120" rows="3" textareaOnly="true" />
 						<%-- <blogger:rich_text_area  onChange="functionOnChangeInAbstract" onSubmit="functionOnSubmitForTextArea" height="50" width="448" value="#{postCreateController.shortText}" toolbarButtonRows="0"/>--%>
 					</h:panelGrid>
 				</h:panelGrid>
-
 
 				<t:panelTabbedPane id="tabbedPane" bgcolor="#DDDFE4" tabContentStyleClass="tabStyle" >
 				<t:panelTab id="tab0" label="#{msgs.text}">
@@ -164,12 +163,12 @@ td.td2{
 				</t:panelTab>
 				<t:panelTab id="tab2" label="#{msgs.links}">
 					<h:panelGrid columns="2">
-						<h:outputText value="#{msgs.description}:"></h:outputText>
+						<h:outputLabel value="#{msgs.description}:" for="idLinkDescription" />
 		    	        <h:panelGrid columns="2">
 		                	<h:inputText id="idLinkDescription" value="#{postCreateController.linkDescription}" size="50" onkeypress="javascript: tabContentIsChanged=true;"/>
 		    	            <h:outputText value=""></h:outputText>
 		    	        </h:panelGrid>
-		    	        <h:outputText value="URL:"></h:outputText>
+		    	        <h:outputLabel value="URL:"for="idLinkExpression"  />
 						<h:panelGrid columns="2">
 	    	            	<h:inputText id="idLinkExpression" value="#{postCreateController.linkExpression}" size="50" onkeypress="javascript: tabContentIsChanged=true;"/>
 		    	            <h:outputText value="#{msgs.exampleURL}"></h:outputText>
@@ -198,9 +197,9 @@ td.td2{
 			
 
                <sakai:button_bar>
-                   <h:commandButton action="#{postCreateController.doPreview}" value="#{msgs.preview}" onclick="javascript:buttonPressed='PREVIEW'; " />
-                   <h:commandButton action="#{postCreateController.doSave}" value="#{msgs.save}" onclick="javascript:buttonPressed='SAVE';"/>
-                   <h:commandButton action="main" value="#{msgs.cancel}" immediate="true" onclick="javascript:buttonPressed='CANCEL';"/>
+                   <h:commandButton action="#{postCreateController.doPreview}" value="#{msgs.preview}" onclick="javascript:buttonPressed='PREVIEW'; " accesskey="v" />
+                   <h:commandButton action="#{postCreateController.doSave}" value="#{msgs.save}" onclick="javascript:buttonPressed='SAVE';" accesskey="s"/>
+                   <h:commandButton action="main" value="#{msgs.cancel}" immediate="true" onclick="javascript:buttonPressed='CANCEL';" accesskey="x"/>
                </sakai:button_bar>
 		    <sakai:group_box title="#{msgs.currentStructure}:">
 				<blogger:editPost post="#{postCreateController.post}" controller="#{postCreateController}"></blogger:editPost>

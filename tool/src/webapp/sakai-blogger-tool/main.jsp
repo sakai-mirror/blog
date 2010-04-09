@@ -57,6 +57,7 @@
                      accesskeys="true"
                      immediate="true" />
         <sakai:group_box title="#{msgs.search}">
+           	<h:outputLabel for="idSearch" styleClass="skip"><h:outputText value="#{msgs.search}"/></h:outputLabel>
            	<h:inputText id="idSearch" value="#{query.queryString}" size="30"  />
   	      	<h:commandButton  action="#{postListViewerController.doSearch}"  value="#{msgs.search}"/>
       	</sakai:group_box>                    

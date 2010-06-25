@@ -115,11 +115,12 @@ public class PostListViewerController extends BloggerController {
     }
     
     private void loadAllPostsOfTheSelectedMember(){
-    	String userEid;
+    	String userId;
     	
-   		userEid = selectedMember.getUserEid();
+   		//userEid = selectedMember.getUserEid();
+   		userId = selectedMember.getUserId();
    		QueryBean query = new QueryBean();
-   		query.setUser(selectedMember.getUserEid());
+   		query.setUser(userId);
    		
    		Post[] posts = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurrentUserId());
     	if (posts!=null)
@@ -153,7 +154,7 @@ public class PostListViewerController extends BloggerController {
     }     
     public String doShowMyBlogger(){
         selectedMember = new Member();
-        selectedMember.setUserEid(SakaiProxy.getCurrentUserId());
+        selectedMember.setUserId(SakaiProxy.getCurrentUserId());
         selectedMember.setUserDisplayId(SakaiProxy.getDiplayNameForTheUser(SakaiProxy.getCurrentUserId()));
         lastView = "userBlog";
         reloadPosts();
@@ -196,7 +197,7 @@ public class PostListViewerController extends BloggerController {
     public String doSearchInMemberBlog(){
 
         QueryBean query = (QueryBean) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("query");
-        query.setUser(selectedMember.getUserEid());
+        query.setUser(selectedMember.getUserId());
         Post[] result = blogger.searchPosts(query, SakaiProxy.getCurrentSiteId(), SakaiProxy.getCurrentUserId());
         if (result==null)
         	postList = new ArrayList(); //empty list

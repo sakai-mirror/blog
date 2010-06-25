@@ -57,26 +57,18 @@ public class SakaiProxy {
     		return userId; //this can happen if the user does not longer exist in the system
     	}
     }
-    public static String getEmailForTheUser(String userEid){
-    	try{
-    		User sakaiUser = UserDirectoryService.getInstance().getUserByEid(userEid);
-    		return sakaiUser.getEmail();
-    	} catch (Exception e){
-    		return ""; //this can happen if the user does not longer exist in the system
-    	}
-    	
-    }
+    
     public static String getPageId(){
 		Placement placement = toolManager.getCurrentPlacement();
 		
 		return ((ToolConfiguration) placement).getPageId();
     	
     }
-    public static boolean isMaintainer(String userEid){
+    public static boolean isMaintainer(String userId){
     	try{
     		Site site = siteService.getSite(getCurrentSiteId());
     		AuthzGroup realm = authzGroupService.getAuthzGroup(site.getReference());
-    		User sakaiUser = UserDirectoryService.getInstance().getUserByEid(userEid);
+    		User sakaiUser = UserDirectoryService.getInstance().getUser(userId);
     		Role r = realm.getUserRole(sakaiUser.getId());
     		if(r.getId().equals(realm.getMaintainRole())) // This bit could be wrong
     		{
@@ -92,27 +84,6 @@ public class SakaiProxy {
     	}
     }
     
-    public static List<Member> getNonMaintainerSiteMembers(){
-		ArrayList<Member> result = new ArrayList<Member>();
-    	try{
-    		Site site = siteService.getSite(getCurrentSiteId());
-    		Set<org.sakaiproject.authz.api.Member> members = site.getMembers();
-    		for (org.sakaiproject.authz.api.Member sakaiMember: members){
-    			if (!isMaintainer(sakaiMember.getUserEid())){
-    				Member member = new Member();
-    				member.setUserEid(sakaiMember.getUserEid());
-    				member.setUserDisplayId(getDiplayNameForTheUser(sakaiMember.getUserEid())); //I dont know why but the Member for sakai doesn't contains the displayId. For this reason I am doing this
-    				result.add(member);
-    			}
-    		}
-    		return result;
-    	} catch (Exception e){
-    		e.printStackTrace();
-    		return result;
-    	}
-    	
-    }
-    
     public static List<Member> getSiteMembers(){
 		ArrayList<Member> result = new ArrayList<Member>();
     	try{
@@ -120,8 +91,8 @@ public class SakaiProxy {
     		Set<org.sakaiproject.authz.api.Member> members = site.getMembers();
     		for (org.sakaiproject.authz.api.Member sakaiMember: members){
     				Member member = new Member();
-    				member.setUserEid(sakaiMember.getUserEid());
-    				member.setUserDisplayId(getDiplayNameForTheUser(sakaiMember.getUserEid())); //I dont know why but the Member for sakai doesn't contains the displayId. For this reason I am doing this
+    				member.setUserId(sakaiMember.getUserId());
+    				member.setUserDisplayId(getDiplayNameForTheUser(sakaiMember.getUserId())); //I dont know why but the Member for sakai doesn't contains the displayId. For this reason I am doing this
     				result.add(member);
    			}
     		return result;
@@ -132,28 +103,7 @@ public class SakaiProxy {
     	
     }    
     
-    public static List<String> getEidMaintainerSiteMembers(){
-		ArrayList<String> result = new ArrayList<String>();
-    	try{
-    		Site site = siteService.getSite(getCurrentSiteId());
-    		Set<Member> members = site.getMembers();
-    		for (Member member: members){
-    			if (isMaintainer(member.getUserEid()) && !member.getUserEid().equals("admin"))
-    				result.add(member.getUserEid());
-    			
-    		}
-    		return result;
-    	} catch (Exception e){
-    		e.printStackTrace();
-    		return result;
-    	}   	
-    }
-    
     public static boolean isCurrentUserMaintainer(){
     	return isMaintainer(getCurrentUserId());
     }
-    
- 
-
-    
 }

@@ -27,38 +27,9 @@ import uk.ac.lancs.e_science.sakaiproject.api.blogger.SakaiProxy;
 
 
 public class SakaiBean extends BloggerController{
-    public SakaiBean(){
-    	
-    }
-    public boolean isGatewaySite(){
-    	System.out.println(SakaiProxy.getCurrentSiteId());
-    	if (SakaiProxy.getCurrentSiteId().equals("!Gateway")){
-    		return true;
-    	}
-    	return false;
-    }
-    public String getSite(){
-    	return SakaiProxy.getCurrentSiteId();
-    }    
-    public List<Member> getNonMaintainerSiteMembers(){
-    	List<Member> result = SakaiProxy.getNonMaintainerSiteMembers();
-    	Collections.sort(result, new MemberComparator());
-    	return result; 
-    }
     public List<Member> getSiteMembers(){
     	List<Member> result = SakaiProxy.getSiteMembers();
     	Collections.sort(result, new MemberComparator());
     	return result; 
-    }    
-    
-    public String getCurrentUserEid(){
-    	return SakaiProxy.getCurrentUserId();
-    }
-    public boolean isCurrentUserMaintainer(){
-    	return SakaiProxy.isCurrentUserMaintainer();
-    }
-    public boolean getNotCurrentUserMaintainer(){
-    	boolean result = !SakaiProxy.isCurrentUserMaintainer(); 
-    	return result;
     }    
 }

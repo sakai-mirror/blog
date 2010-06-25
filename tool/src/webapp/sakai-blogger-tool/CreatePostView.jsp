@@ -96,36 +96,45 @@ td.td2{
             <sakai:messages />
 			<f:verbatim><div style="height: 20px;"></div></f:verbatim>
             <h:outputText styleClass="spanPageTitle" value="#{msgs.postEditor}" />
-	        <f:verbatim><div style="height: 20px;"></div></f:verbatim>              
-               <h:panelGrid columns="2">
-                <h:panelGrid columns="2"  columnClasses="td1,td2">
-	                <h:outputText value="#{msgs.postTitle} *:"/>
-		            <h:inputText id="idTitle" value="#{postCreateController.post.title}" size="71" required="true" onkeypress="javascript:isChanged=true;">
-		            	<f:validator validatorId="PostTitleValidator"/>
-		            </h:inputText>
-        	        <h:outputText value="#{msgs.keywords}:"/>
-            	    <h:inputText size="71" value="#{postCreateController.keywords}" style="color:#CCCCCC" onkeyup="javascript:checkInputOnKeyUp(this,'#{postCreateController.keywordsMessage}');" onkeypress="javascript:checkInputOnKeyPress(this,'#{postCreateController.keywordsMessage}');isChanged=true;"/>
-	                <h:outputText value="#{msgs.abstract}:"/>
-              			<sakai:inputRichText value="#{postCreateController.shortText}" cols="120" rows="3" textareaOnly="true"/>
-    	            <%-- <blogger:rich_text_area  onChange="functionOnChangeInAbstract" onSubmit="functionOnSubmitForTextArea" height="50" width="448" value="#{postCreateController.shortText}" toolbarButtonRows="0"/>--%>
-                </h:panelGrid>                
-                <h:panelGrid columns="2">
-		                <h:outputText value="#{msgs.postVisibility}:"/>
-        		        <h:selectOneMenu id="selectVisibility" value ="#{postCreateController.post.state.visibility}" onchange="javascript: isChanged=true;">
-	            	        <f:selectItems value="#{postCreateController.visibilityList}"/>
-    	            	    <f:converter converterId="VisibilityCode"/>
-        		        </h:selectOneMenu>
+	        <f:verbatim><div style="height: 20px;"></div></f:verbatim>
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="2" columnClasses="td1,td2">
+						<h:outputText value="#{msgs.postTitle} *:" />
+						<h:inputText id="idTitle"
+							value="#{postCreateController.post.title}" size="71"
+							required="true" onkeypress="javascript:isChanged=true;">
+							<f:validator validatorId="PostTitleValidator" />
+						</h:inputText>
+						<h:outputText value="#{msgs.keywords}:" />
+						<h:inputText size="71" value="#{postCreateController.keywords}"
+							style="color:#CCCCCC"
+							onkeyup="javascript:checkInputOnKeyUp(this,'#{postCreateController.keywordsMessage}');"
+							onkeypress="javascript:checkInputOnKeyPress(this,'#{postCreateController.keywordsMessage}');isChanged=true;" />
+						<h:outputText value="#{msgs.postVisibility}:" />
+						<h:selectOneMenu id="selectVisibility"
+							value="#{postCreateController.post.state.visibility}"
+							onchange="javascript: isChanged=true;">
+							<f:selectItems value="#{postCreateController.visibilityList}" />
+							<f:converter converterId="VisibilityCode" />
+						</h:selectOneMenu>
 
-		                <h:outputText value="#{msgs.readOnly}:"/>
-		                <h:selectBooleanCheckbox id="readOnlyCheckBox" value ="#{postCreateController.post.state.readOnly}"></h:selectBooleanCheckbox>
+						<h:outputText value="#{msgs.readOnly}:" />
+						<h:selectBooleanCheckbox id="readOnlyCheckBox"
+							value="#{postCreateController.post.state.readOnly}"></h:selectBooleanCheckbox>
 
-		                <h:outputText value="#{msgs.allowComments}:" id="allowCommentsLabel"/>
-		                <h:selectBooleanCheckbox id="allowCommentsCheckBox"  value ="#{postCreateController.post.state.allowComments}" ></h:selectBooleanCheckbox>
-                </h:panelGrid>                
-               </h:panelGrid>                
-               
-               
-			<t:panelTabbedPane id="tabbedPane" bgcolor="#DDDFE4" tabContentStyleClass="tabStyle" >
+						<h:outputText value="#{msgs.allowComments}:"
+							id="allowCommentsLabel" />
+						<h:selectBooleanCheckbox id="allowCommentsCheckBox"
+							value="#{postCreateController.post.state.allowComments}"></h:selectBooleanCheckbox>
+						<h:outputText value="#{msgs.abstract}:" />
+						<sakai:inputRichText value="#{postCreateController.shortText}"
+							cols="120" rows="3" textareaOnly="true" />
+						<%-- <blogger:rich_text_area  onChange="functionOnChangeInAbstract" onSubmit="functionOnSubmitForTextArea" height="50" width="448" value="#{postCreateController.shortText}" toolbarButtonRows="0"/>--%>
+					</h:panelGrid>
+				</h:panelGrid>
+
+
+				<t:panelTabbedPane id="tabbedPane" bgcolor="#DDDFE4" tabContentStyleClass="tabStyle" >
 				<t:panelTab id="tab0" label="#{msgs.text}">
               			<%-- <blogger:rich_text_area onChange="functionOnChangeInText"  onSubmit="functionOnSubmitForTextArea" rows="15" columns="92" value="#{postCreateController.editingText}" toolbarButtonRows="1"/> --%>
               			<sakai:inputRichText id="main_text" value="#{postCreateController.editingText}" rows="10" cols="127"/>

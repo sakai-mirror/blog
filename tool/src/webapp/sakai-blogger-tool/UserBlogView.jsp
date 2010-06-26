@@ -41,12 +41,15 @@
            <f:verbatim><div style="height: 20px;"></div></f:verbatim>
            <h:outputText styleClass="spanPageTitle" value="#{msgs.bloggerOf}: #{postListViewerController.selectedMemberId}" />
            <f:verbatim><div style="height: 20px;"></div></f:verbatim>
-
-           <h:selectBooleanCheckbox value="#{postListViewerController.showComments}" immediate="true" onchange="this.form.submit();" />
-           <h:outputText value="#{msgs.showComments}" /> 
+           <h:selectBooleanCheckbox id="showComments" value="#{postListViewerController.showComments}" immediate="true" onchange="this.form.submit();" />
+			<h:outputLabel for="showComments">
+				<h:outputText value="#{msgs.showComments}"/>
+			</h:outputLabel>
            <f:verbatim>&nbsp;&nbsp;</f:verbatim>
-           <h:selectBooleanCheckbox value="#{postListViewerController.showFullContent}" immediate="true"  onchange="this.form.submit();"/>
-           <h:outputText value="#{msgs.showFullContent}" />
+           <h:selectBooleanCheckbox id="showFullContent" value="#{postListViewerController.showFullContent}" immediate="true"  onchange="this.form.submit();"/>
+			<h:outputLabel for="showFullContent">
+				<h:outputText value="#{msgs.showFullContent}"/>
+			</h:outputLabel>
            <f:verbatim><div style="height: 10px;"></div></f:verbatim>
        	   <sakai:pager 
                      totalItems="#{postListViewerController.pagerTotalItems}"

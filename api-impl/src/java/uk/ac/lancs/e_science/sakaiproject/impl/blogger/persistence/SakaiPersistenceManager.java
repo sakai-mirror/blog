@@ -18,6 +18,7 @@
 package uk.ac.lancs.e_science.sakaiproject.impl.blogger.persistence;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -540,9 +541,7 @@ public class SakaiPersistenceManager{
 
     
     private void executeSQL(String sql, Connection connection) throws PersistenceException{
-    	Collection sqlList = new ArrayList();
-    	sqlList.add(sql);
-    	executeSQL(sqlList, connection);
+    	executeSQL(Collections.singleton(sql), connection);
     }
 
     private void executeSQL(Collection sql, Connection connection) throws PersistenceException
@@ -669,19 +668,35 @@ public class SakaiPersistenceManager{
 
     public void initRepository() throws PersistenceException{
     	
-    	if(!SakaiProxy.isAutoDDL())
+    	if(!SakaiProxy.isAutoDDL()) {
     		return;
+    	}
     	
-        Connection connection = getConnection();
-        try{
-            Collection statements = sqlGenerator.getCreateStatementsForPost();
-            executeSQL(statements,connection);
-        }  catch (Exception e){
-        	logger.error("Failed to initRepository",e);
+        Collection<String> statements = sqlGenerator.getCreateStatementsForPost();
+        if(statements.isEmpty()){
+        	logger.warn("No statements found for creating database.");
+        	return;
         }
-        finally{
-            releaseConnection(connection);
+        
+        //get a connection
+        Connection connection = null;
+		try {
+			connection = getConnection();
+		}  catch (Exception e){
+			logger.error("Failed to get connection",e);
+			return;
+		}
+
+		//try each statement, if any fails, that table must already exist, so continue to next
+        for (String statement: statements) {
+        	logger.info("Initialising table: " + statement);
+    		try {
+    			executeSQL(statement, connection);
+    		} catch (PersistenceException pe) {
+    			logger.error("Not initialising table as it looks like it's already been done");
+    		}	
         }
+        releaseConnection(connection);
 
     }
 

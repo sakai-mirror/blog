@@ -28,10 +28,10 @@ public class State {
 
     private int visibility;
     private boolean readOnly=true;
-    private boolean allowComments=false;
+    private boolean allowComments=true;
 
     public State(){
-        visibility = PRIVATE;
+        visibility = SITE;
     }
 
     public boolean isPrivate(){

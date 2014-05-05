@@ -50,9 +50,9 @@
 				<blogger:ouputPost post="#{postViewerController.post}"></blogger:ouputPost>
                 <br/>
                 <sakai:button_bar>
-                    <sakai:button_bar_item action="#{postViewerController.doEditPost}"rendered="#{postViewerController.activateEditCommand}" value="#{msgs.edit}"/>
+                    <sakai:button_bar_item action="#{postViewerController.doEditPost}" rendered="#{postViewerController.activateEditCommand}" value="#{msgs.edit}"/>
                     <sakai:button_bar_item action="#{postViewerController.doConfirmDeletePost}" rendered="#{postViewerController.activateDeleteCommand}" value="#{msgs.delete}"/>
-                    <sakai:button_bar_item action="#{postViewerController.doAddComment}"rendered="#{postViewerController.activetAddCommentCommand}" value="#{msgs.addComment}"/>
+                    <sakai:button_bar_item action="#{postViewerController.doAddComment}" rendered="#{postViewerController.activetAddCommentCommand}" value="#{msgs.addComment}"/>
                 </sakai:button_bar>
 
         </sakai:view_content>
